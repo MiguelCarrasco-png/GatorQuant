@@ -117,10 +117,10 @@ A solar blackout never delays a settlement *decision*. The referee is at the pri
 
 Callisto Foundry (Jupiter, long) accepts a firm offer from Ceres Iron Works (Ceres, short).
 
-1. **Open.** Jupiter Branch locks Callisto's maximum loss ($30,000) on the Jupiter ledger and sends LOCK (contract ID, legs = margin and number of contracts). Ceres, the referee and deciding Branch, applies §4. Ceres Iron's margin is already reserved by its offer. On commit, Ceres records the position. **Position open** = the COMMIT record at Ceres, because both margins are then encumbered. Jupiter learns of it when COMMIT arrives, but the Jupiter lock is **not** released: from now on, only a SETTLE ends it.
+1. **Open.** Jupiter Branch locks Callisto's maximum loss ($75,000) on the Jupiter ledger and sends LOCK (contract ID, legs = margin and number of contracts). Ceres, the referee and deciding Branch, applies §4. Ceres Iron's margin is already reserved by its offer. On commit, Ceres records the position. **Position open** = the COMMIT record at Ceres, because both margins are then encumbered. Jupiter learns of it when COMMIT arrives, but the Jupiter lock is **not** released: from now on, only a SETTLE ends it.
 2. **Settle.** At the settling print, Ceres computes the clipped payoff Y and records it.
-   - **Short wins Y.** Ceres credits Ceres Iron Y at once, as a claim backed by the Jupiter lock, so it is spendable at the print instant. Ceres also returns Ceres Iron's own margin. SETTLE tells Jupiter: release Y to Ceres Branch's inter-Branch account at Jupiter, return $30,000 − Y to Callisto.
-   - **Long wins Y.** Ceres moves Y from Ceres Iron's margin to Jupiter Branch's inter-Branch account at Ceres and returns the rest of Ceres Iron's margin. SETTLE tells Jupiter: return $30,000 to Callisto and credit Callisto Y as a claim on Jupiter Branch. Callisto can spend it when SETTLE arrives.
+   - **Short wins Y.** Ceres credits Ceres Iron Y at once, as a claim backed by the Jupiter lock, so it is spendable at the print instant. Ceres also returns Ceres Iron's own margin. SETTLE tells Jupiter: release Y to Ceres Branch's inter-Branch account at Jupiter, return $75,000 − Y to Callisto.
+   - **Long wins Y.** Ceres moves Y from Ceres Iron's margin to Jupiter Branch's inter-Branch account at Ceres and returns the rest of Ceres Iron's margin. SETTLE tells Jupiter: return $75,000 to Callisto and credit Callisto Y as a claim on Jupiter Branch. Callisto can spend it when SETTLE arrives.
 3. **Loss.** Ceres sends SETTLE once. If Jupiter still holds the lock after the settling print plus R_e, Jupiter resubmits its LOCK, and Ceres answers with the recorded SETTLE. This is the same pull rule as §1.
 
 ## 7. What this does not decide
