@@ -5,6 +5,8 @@ title: MultiPlanetary Exchange — GQH 2026 submission
 
 # Map: MultiPlanetary Exchange — GQH 2026 submission
 
+> **Moved to GitHub (2026-10-03).** The live map is issue #1 at https://github.com/MiguelCarrasco-png/GatorQuant/issues/1; tickets are its sub-issues. This file and `plan/tickets/` are a frozen snapshot from before the port. Issue numbers: `plan/issue_numbers.json`.
+
 ## Destination
 
 Two submitted PDFs built in LaTeX/Overleaf by **Sun 2026-10-04 09:00 ET** (hard deadline 10:00): a **design paper (≤12 pp)** and an **evidence appendix (≤12 pp, S1–S3 + E1–E5, claiming Tier 3 on E4 and E5)**, every number in both generated from one codebase so balances agree everywhere.

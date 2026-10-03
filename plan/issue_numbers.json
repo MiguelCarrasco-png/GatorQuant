@@ -1,0 +1,16 @@
+{
+ "00-destination": 2,
+ "01-future-terms": 3,
+ "02-value-move-protocol": 4,
+ "03-institutions-quota": 5,
+ "04-scenario-plan": 6,
+ "05-s2-incident": 7,
+ "06-sim-engine": 8,
+ "07-e4-scan": 9,
+ "08-e5-epochs": 10,
+ "09-deployment-research": 11,
+ "10-primer": 12,
+ "11-latex-skeleton": 13,
+ "12-write-paper": 14,
+ "MAP": 1
+}
