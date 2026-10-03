@@ -51,16 +51,17 @@ def fmt_h(t):
 # ======================================================================== geometry with cache
 
 class Geometry:
-    def __init__(self, maintenance=True):
+    def __init__(self, maintenance=True, offset=0.0):
         self.maint = DEFAULT_MAINT if maintenance else {}
+        self.offset = offset                 # E5: scenario hour h is model time offset + h (orbital phase never reset)
         self._c = {}
 
     def flight(self, a, b, te):
         key = (a, b, round(te, 9))
         r = self._c.get(key)
         if r is None:
-            ta, d, blk = light_time(a, b, te)
-            r = (float(ta - te), float(d), bool(blk))
+            ta, d, blk = light_time(a, b, te + self.offset)
+            r = (float(ta - (te + self.offset)), float(d), bool(blk))
             self._c[key] = r
         return r
 
@@ -106,6 +107,22 @@ class Geometry:
             tot += step
             cur += step
         return tot
+
+    def route_stalled(self, route, t, limit=24.0, step=0.25):
+        """True if a geometric closure would hold a packet on route or its reverse more than `limit` hours at some
+        hop, launching at t. Spec: nothing waits in a queue behind such a closure. Maintenance (one-time, 24 h) is
+        waited out, never re-routed around."""
+        for path in (route, list(reversed(route))):
+            cur = t
+            for k in range(len(path) - 1):
+                a, b = path[k], path[k + 1]
+                te = cur + SEC
+                while self.flight(a, b, te)[2]:
+                    te += step
+                    if te - cur > limit:
+                        return True
+                cur = te + self.flight(a, b, te)[0] + SEC
+        return False
 
     def route_open(self, route, t0, t1, step=0.25):
         """True if every hop of route (and its reverse) can launch throughout [t0, t1] (geometry and maintenance)."""
@@ -320,6 +337,7 @@ class Session:
         self.rx_times = {a: [], b: []}
         self.max_unacked = 0
         self.established_at = None
+        self.retired = None                            # time a replacement session took over this pair
 
     def path(self, frm):
         return self.route if frm == self.a else list(reversed(self.route))
@@ -329,8 +347,8 @@ class Session:
 
 
 class Sim:
-    def __init__(self, maintenance=True, incident=None, opening=(), branches=()):
-        self.geo = Geometry(maintenance)
+    def __init__(self, maintenance=True, incident=None, opening=(), branches=(), offset=0.0):
+        self.geo = Geometry(maintenance, offset)
         self.incident = incident
         self.q = []
         self.ctr = itertools.count()
@@ -464,13 +482,17 @@ class Sim:
         self.ev(t, to, "receipt", pid=pkt.pid, link=f"{frm}->{to}")
 
     # ---- endpoint layer
-    def open_session(self, t, a, b, route):
+    def open_session(self, t, a, b, route, know=None, state="No financial state (h < 0)"):
+        old = self.sessions.get((a, b))
+        if old is not None:
+            old.retired = t
         s = Session(self, a, b, route)
         self.sessions[(a, b)] = self.sessions[(b, a)] = s
+        s.opened = t
         s.state[a] = "syn-sent"
         self._ep_send(t, s, a, "SYN", attempt=1, quota=True, label=f"SYN {a}-{b}")
-        self.row(t, f"{a} Branch", f"Plans to trade with {b}; knows geometry and maintenance",
-                 f"Sends SYN toward {b}", self._route_txt(route), "", "No financial state (h < 0)")
+        self.row(t, f"{a} Branch", know or f"Plans to trade with {b}; knows geometry and maintenance",
+                 f"Sends SYN toward {b}", self._route_txt(route), "", state)
         return s
 
     def _route_txt(self, route):

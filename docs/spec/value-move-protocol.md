@@ -106,6 +106,8 @@ If none of these applies, commit. Either way, record the decision durably first,
 - Pin a session's route by foresight: choose a route that is open for the next 24 h, not simply the fastest one now.
 - Never launch on a link whose reverse direction closes within one R_h.
 - Closures at Mars, Jupiter, Saturn and Ceres can outlast the 30-day packet lifetime. Nothing waits in a queue behind such a closure. The initiator re-routes or resubmits on a fresh session.
+  - **Threshold:** before each send, a Branch checks its pinned route (both directions). If a known *geometric* closure would hold the packet more than 24 h at any hop, it opens a fresh session on the route pinned by foresight for the next 24 h (1 SYN quota) and sends there. Records wait for the SYN-ACK. Scheduled maintenance (one-time, 24 h) is waited out, never re-routed around.
+  - Cost at the E5 difficult epoch (h 816,143): one extra handshake. SETTLE arrives 3.15 h later than an open route would allow. Queueing behind the closure instead would hold it 1,238 h (see *E5 shifted epochs*, issue 10).
 
 A solar blackout never delays a settlement *decision*. The referee is at the print's settlement and sees the settling print locally. A blackout only delays SETTLE reaching the remote side, and the pull rule (§6.3) covers that.
 

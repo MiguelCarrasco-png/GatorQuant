@@ -284,16 +284,17 @@ class HubMember(Branch):
 # ======================================================================== the world (one run)
 
 class World:
-    def __init__(self, name, maintenance=True, incident=None, relocate=None):
+    def __init__(self, name, maintenance=True, incident=None, relocate=None, offset=0.0):
         self.name = name
         self.opening = [(o, relocate if (relocate and o == "Terra Capital") else s, u, a) for o, s, u, a in OPENING]
         self.sim = Sim(maintenance=maintenance, incident=incident, opening=[(o, s, u, a) for o, s, u, a in self.opening],
-                       branches=BRANCHES)
+                       branches=BRANCHES, offset=offset)
         self.apps = {}
         self.marks = {}
         self.position = None
         self.deal_ctr = {}
         self.sessions = []
+        self.reroute = True
 
     def branch_of(self, owner):
         return next(s for o, s, _, _ in self.opening if o == owner)
@@ -302,6 +303,16 @@ class World:
         self.sim.row(t, actor, know, action, packet, arrival, state)
 
     def send(self, t, frm, to, records, label, know="", action="", state="", resub=False):
+        s = self.sim.sessions[(frm, to)]
+        if self.reroute and self.sim.geo.route_stalled(s.path(frm), t):
+            # Protocol route rule: never queue behind a known closure longer than 24 h; re-pin by foresight and
+            # handshake a fresh session (1 SYN quota). Records wait for SYN-ACK in the new session's outbox.
+            route = self.sim.geo.pin_route(frm, to, t, t + 24.0)
+            self.sessions.append((frm, to, route))
+            self.marks.setdefault("reroutes", []).append(t)
+            self.sim.open_session(t, frm, to, route,
+                                  know=f"Pinned route {self.sim._route_txt(s.path(frm))} is closed by geometry for "
+                                       f"more than 24 h (known in advance)", state="unchanged (re-route)")
         r = dict(t=t, actor=f"{frm} Branch" if frm != "Mars" or not isinstance(self.apps.get("Mars"), Hub) else "Mars hub",
                  know=know, action=action, packet="", arrival="", state=state)
         pkt = self.sim.send_data(t, frm, to, records, label)
@@ -458,7 +469,7 @@ class World:
 
         def keepalive(t):
             s = self.sim.sessions[(J, C)]
-            last = s.last_rx[J] if s.last_rx[J] is not None else OPEN_SESSIONS_H
+            last = s.last_rx[J] if s.last_rx[J] is not None else s.opened
             if self.apps[J].locks.get(deal, {}).get("state") in ("locked", "pledged") and t - last >= KEEPALIVE_IDLE:
                 self.send(t, J, C, [dict(type="KEEPALIVE")], "KEEPALIVE", know="Session idle 120 h",
                           action="Sends keep-alive", state="unchanged")
@@ -494,10 +505,11 @@ RUNS = ["VM", "FR", "FF", "FR-cap", "S2", "VM@Ceres", "VM@Venus", "VM@Uranus",
         "Hub-VM", "Hub-VM@Ceres", "Hub-VM@Venus", "Hub-VM@Uranus"]
 
 
-def execute(run):
-    w = make(run)
+def execute(run, w=None, out=OUT):
+    """One run: w defaults to make(run); E5 passes a pre-built shifted-epoch World and its own output folder."""
+    w = w or make(run)
     sim = w.sim
-    sim.run(until=1000.0)
+    sim.run(until=w.end + 1000.0)
     end = max(w.end, max(w.marks.get("spendable", 0), w.marks.get("release", 0), w.marks.get("commit", 0)))
     end = float(int(end) + 1) if end > w.end else w.end
     sim.ledger.advance(end)
@@ -548,8 +560,8 @@ def execute(run):
     res["capital_eff"] = res["peak_usd"] / res["value_settled"]
     res["comm_eff"] = res["launches_total"] / res["completed_tx"]
     res["utilization"] = res["peak_usd"] / 500_000
-    OUT.mkdir(parents=True, exist_ok=True)
-    with open(OUT / f"{run}_events.csv", "w", newline="") as f:
+    out.mkdir(parents=True, exist_ok=True)
+    with open(out / f"{run}_events.csv", "w", newline="") as f:
         keys = ["t", "actor", "what", "kind", "link", "pid", "n", "flight", "d", "p_loss", "arrival", "failed",
                 "attempt", "seq", "label"]
         wr = csv.DictWriter(f, fieldnames=keys, extrasaction="ignore")
@@ -557,7 +569,7 @@ def execute(run):
         for e in sorted(sim.log, key=lambda e: e["t"]):
             wr.writerow(e)
     res["trace"] = sorted(sim.trace, key=lambda r: r["t"])
-    (OUT / f"{run}.json").write_text(json.dumps(res, indent=1, default=str))
+    (out / f"{run}.json").write_text(json.dumps(res, indent=1, default=str))
     return res
 
 

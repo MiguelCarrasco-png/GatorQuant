@@ -1,0 +1,474 @@
+{
+ "+1 y": {
+  "offset": 8766.0,
+  "runs": {
+   "VM": {
+    "route": [
+     "Earth",
+     "Relay A",
+     "Neptune"
+    ],
+    "pair": "Earth-Neptune",
+    "T0": 4.806873435236242,
+    "T0_back": 4.806796644241161,
+    "avail": 1.0,
+    "closed": [],
+    "end": 9.614195442742888,
+    "reroutes": [],
+    "sessions": [
+     {
+      "a": "Earth",
+      "b": "Neptune",
+      "route": [
+       "Earth",
+       "Relay A",
+       "Neptune"
+      ]
+     }
+    ],
+    "launches": 28,
+    "originated": 3,
+    "usd_h": 240347.94162412776,
+    "peak": 25000.0,
+    "payoff": null,
+    "open": null
+   },
+   "FR": {
+    "route": [
+     "Jupiter",
+     "Relay A",
+     "Ceres"
+    ],
+    "pair": "Jupiter-Ceres",
+    "T0": 0.8309718300732252,
+    "T0_back": 0.83095763703733,
+    "avail": 1.0,
+    "closed": [],
+    "end": 288.82509457858987,
+    "reroutes": [],
+    "sessions": [
+     {
+      "a": "Jupiter",
+      "b": "Ceres",
+      "route": [
+       "Jupiter",
+       "Relay A",
+       "Ceres"
+      ]
+     }
+    ],
+    "launches": 124,
+    "originated": 15,
+    "usd_h": 43261861.26006091,
+    "peak": 150000.0,
+    "payoff": {
+     "price": 123,
+     "clipped": 123,
+     "to_long": 57500.0
+    },
+    "open": 0.8312496018828986
+   },
+   "FF": {
+    "route": [
+     "Jupiter",
+     "Relay A",
+     "Ceres"
+    ],
+    "pair": "Jupiter-Ceres",
+    "T0": 0.8309718300732252,
+    "T0_back": 0.83095763703733,
+    "avail": 1.0,
+    "closed": [],
+    "end": 288.82509457858987,
+    "reroutes": [],
+    "sessions": [
+     {
+      "a": "Jupiter",
+      "b": "Ceres",
+      "route": [
+       "Jupiter",
+       "Relay A",
+       "Ceres"
+      ]
+     }
+    ],
+    "launches": 124,
+    "originated": 15,
+    "usd_h": 43261861.26006091,
+    "peak": 150000.0,
+    "payoff": {
+     "price": 77,
+     "clipped": 77,
+     "to_long": -57500.0
+    },
+    "open": 0.8312496018828986
+   }
+  },
+  "date": "2027-09-22 06:00"
+ },
+ "+10 y": {
+  "offset": 87660.0,
+  "runs": {
+   "VM": {
+    "route": [
+     "Earth",
+     "Relay A",
+     "Neptune"
+    ],
+    "pair": "Earth-Neptune",
+    "T0": 4.326919670138353,
+    "T0_back": 4.326761626167184,
+    "avail": 1.0,
+    "closed": [],
+    "end": 8.654122001554091,
+    "reroutes": [],
+    "sessions": [
+     {
+      "a": "Earth",
+      "b": "Neptune",
+      "route": [
+       "Earth",
+       "Relay A",
+       "Neptune"
+      ]
+     }
+    ],
+    "launches": 28,
+    "originated": 3,
+    "usd_h": 216346.10559440783,
+    "peak": 25000.0,
+    "payoff": null,
+    "open": null
+   },
+   "FR": {
+    "route": [
+     "Jupiter",
+     "Relay A",
+     "Ceres"
+    ],
+    "pair": "Jupiter-Ceres",
+    "T0": 0.755110634790811,
+    "T0_back": 0.7550613801811898,
+    "avail": 1.0,
+    "closed": [],
+    "end": 288.76228261941515,
+    "reroutes": [],
+    "sessions": [
+     {
+      "a": "Jupiter",
+      "b": "Ceres",
+      "route": [
+       "Jupiter",
+       "Relay A",
+       "Ceres"
+      ]
+     }
+    ],
+    "launches": 124,
+    "originated": 15,
+    "usd_h": 43257150.3631228,
+    "peak": 150000.0,
+    "payoff": {
+     "price": 123,
+     "clipped": 123,
+     "to_long": 57500.0
+    },
+    "open": 0.7553884190005353
+   },
+   "FF": {
+    "route": [
+     "Jupiter",
+     "Relay A",
+     "Ceres"
+    ],
+    "pair": "Jupiter-Ceres",
+    "T0": 0.755110634790811,
+    "T0_back": 0.7550613801811898,
+    "avail": 1.0,
+    "closed": [],
+    "end": 288.76228261941515,
+    "reroutes": [],
+    "sessions": [
+     {
+      "a": "Jupiter",
+      "b": "Ceres",
+      "route": [
+       "Jupiter",
+       "Relay A",
+       "Ceres"
+      ]
+     }
+    ],
+    "launches": 124,
+    "originated": 15,
+    "usd_h": 43257150.3631228,
+    "peak": 150000.0,
+    "payoff": {
+     "price": 77,
+     "clipped": 77,
+     "to_long": -57500.0
+    },
+    "open": 0.7553884190005353
+   }
+  },
+  "date": "2036-09-21 12:00"
+ },
+ "+100 y": {
+  "offset": 876600.0,
+  "runs": {
+   "VM": {
+    "route": [
+     "Earth",
+     "Relay B",
+     "Neptune"
+    ],
+    "pair": "Earth-Neptune",
+    "T0": 4.625545396682186,
+    "T0_back": 4.625035008977478,
+    "avail": 1.0,
+    "closed": [],
+    "end": 9.250599350842853,
+    "reroutes": [],
+    "sessions": [
+     {
+      "a": "Earth",
+      "b": "Neptune",
+      "route": [
+       "Earth",
+       "Relay B",
+       "Neptune"
+      ]
+     }
+    ],
+    "launches": 28,
+    "originated": 3,
+    "usd_h": 231258.03932662687,
+    "peak": 25000.0,
+    "payoff": null,
+    "open": null
+   },
+   "FR": {
+    "route": [
+     "Jupiter",
+     "Relay A",
+     "Ceres"
+    ],
+    "pair": "Jupiter-Ceres",
+    "T0": 1.4570086109250164,
+    "T0_back": 1.4570084643581263,
+    "avail": 1.0,
+    "closed": [],
+    "end": 289.46239105283394,
+    "reroutes": [],
+    "sessions": [
+     {
+      "a": "Jupiter",
+      "b": "Ceres",
+      "route": [
+       "Jupiter",
+       "Relay A",
+       "Ceres"
+      ]
+     }
+    ],
+    "launches": 124,
+    "originated": 15,
+    "usd_h": 43309658.495629214,
+    "peak": 150000.0,
+    "payoff": {
+     "price": 123,
+     "clipped": 123,
+     "to_long": 57500.0
+    },
+    "open": 1.457286393708653
+   },
+   "FF": {
+    "route": [
+     "Jupiter",
+     "Relay A",
+     "Ceres"
+    ],
+    "pair": "Jupiter-Ceres",
+    "T0": 1.4570086109250164,
+    "T0_back": 1.4570084643581263,
+    "avail": 1.0,
+    "closed": [],
+    "end": 289.46239105283394,
+    "reroutes": [],
+    "sessions": [
+     {
+      "a": "Jupiter",
+      "b": "Ceres",
+      "route": [
+       "Jupiter",
+       "Relay A",
+       "Ceres"
+      ]
+     }
+    ],
+    "launches": 124,
+    "originated": 15,
+    "usd_h": 43309658.495629214,
+    "peak": 150000.0,
+    "payoff": {
+     "price": 77,
+     "clipped": 77,
+     "to_long": -57500.0
+    },
+    "open": 1.457286393708653
+   }
+  },
+  "date": "2126-09-23 00:00"
+ },
+ "hard": {
+  "offset": 816143.0,
+  "runs": {
+   "VM": {
+    "route": [
+     "Earth",
+     "Relay A",
+     "Neptune"
+    ],
+    "pair": "Earth-Neptune",
+    "T0": 4.457783255123844,
+    "T0_back": 4.457981651046624,
+    "avail": 1.0,
+    "closed": [],
+    "end": 8.916551206789185,
+    "reroutes": [],
+    "sessions": [
+     {
+      "a": "Earth",
+      "b": "Neptune",
+      "route": [
+       "Earth",
+       "Relay A",
+       "Neptune"
+      ]
+     }
+    ],
+    "launches": 28,
+    "originated": 3,
+    "usd_h": 222906.83572528517,
+    "peak": 25000.0,
+    "payoff": null,
+    "open": null
+   },
+   "FR": {
+    "route": [
+     "Jupiter",
+     "Relay A",
+     "Ceres"
+    ],
+    "pair": "Jupiter-Ceres",
+    "T0": 1.529040996663583,
+    "T0_back": 1.5290921837820983,
+    "avail": 0.9632792485055508,
+    "closed": [
+     [
+      282.0,
+      null
+     ]
+    ],
+    "end": 292.6772944792466,
+    "reroutes": [
+     288.0002777777778
+    ],
+    "sessions": [
+     {
+      "a": "Jupiter",
+      "b": "Ceres",
+      "route": [
+       "Jupiter",
+       "Relay A",
+       "Ceres"
+      ]
+     },
+     {
+      "a": "Ceres",
+      "b": "Jupiter",
+      "route": [
+       "Ceres",
+       "Relay B",
+       "Jupiter"
+      ]
+     }
+    ],
+    "launches": 136,
+    "originated": 16,
+    "usd_h": 43550776.25261016,
+    "peak": 150000.0,
+    "payoff": {
+     "price": 123,
+     "clipped": 123,
+     "to_long": 57500.0
+    },
+    "open": 1.5293187731607922
+   },
+   "FF": {
+    "route": [
+     "Jupiter",
+     "Relay A",
+     "Ceres"
+    ],
+    "pair": "Jupiter-Ceres",
+    "T0": 1.529040996663583,
+    "T0_back": 1.5290921837820983,
+    "avail": 0.9632792485055508,
+    "closed": [
+     [
+      282.0,
+      null
+     ]
+    ],
+    "end": 292.6772944792466,
+    "reroutes": [
+     288.0002777777778
+    ],
+    "sessions": [
+     {
+      "a": "Jupiter",
+      "b": "Ceres",
+      "route": [
+       "Jupiter",
+       "Relay A",
+       "Ceres"
+      ]
+     },
+     {
+      "a": "Ceres",
+      "b": "Jupiter",
+      "route": [
+       "Ceres",
+       "Relay B",
+       "Jupiter"
+      ]
+     }
+    ],
+    "launches": 136,
+    "originated": 16,
+    "usd_h": 43550776.25261016,
+    "peak": 150000.0,
+    "payoff": {
+     "price": 77,
+     "clipped": 77,
+     "to_long": -57500.0
+    },
+    "open": 1.5293187731607922
+   }
+  },
+  "naive_FR": {
+   "spendable": 1527.8693882053217,
+   "launches": 514,
+   "originated": 54
+  },
+  "closure": [
+   281.82472859998234,
+   1524.0930412999587,
+   1242.2683127,
+   "Jupiter->Relay A"
+  ],
+  "nominal_spendable": 289.52757060374444,
+  "date": "2119-10-30 23:00"
+ }
+}

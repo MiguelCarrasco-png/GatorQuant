@@ -1,0 +1,852 @@
+{
+ "run": "E5hard-VM",
+ "end": 48.0,
+ "marks": {
+  "lock": 0.0002777777777777778,
+  "commit": 4.458061047337122,
+  "release": 8.916551206789185
+ },
+ "sessions": [
+  {
+   "a": "Earth",
+   "b": "Neptune",
+   "route": [
+    "Earth",
+    "Relay A",
+    "Neptune"
+   ]
+  }
+ ],
+ "launches_total": 28,
+ "launches_failed": 0,
+ "launches_by_kind": {
+  "SYN": 2,
+  "SYNACK": 2,
+  "ACK": 2,
+  "DATA": 4,
+  "DACK": 4,
+  "RCPT": 14
+ },
+ "originated": 3,
+ "originated_list": [
+  [
+   -72.0,
+   "Earth",
+   "SYN Earth-Neptune"
+  ],
+  [
+   0.0002777777777777778,
+   "Earth",
+   "LOCK EAR-1"
+  ],
+  [
+   4.458061047337122,
+   "Neptune",
+   "COMMIT EAR-1"
+  ]
+ ],
+ "quota_peak_system": 2,
+ "quota_peak_branch": {
+  "Earth": 1,
+  "Neptune": 1
+ },
+ "queue_peak": 3,
+ "max_unacked": 1,
+ "peak_usd": 25000.0,
+ "peak_usd_at": 0.0002777777777777778,
+ "peak_ares": 200.0,
+ "asset_hours": {
+  "USD": 222906.83572528517,
+  "ARES": 891.5566539118688
+ },
+ "checks": 4,
+ "final": [
+  {
+   "branch": "Mercury",
+   "owner": "Helios Traders",
+   "asset": "USD",
+   "kind": "own",
+   "bal": 40000.0,
+   "enc": {}
+  },
+  {
+   "branch": "Mercury",
+   "owner": "Helios Traders",
+   "asset": "ARES",
+   "kind": "own",
+   "bal": 1000.0,
+   "enc": {}
+  },
+  {
+   "branch": "Earth",
+   "owner": "Terra Capital",
+   "asset": "USD",
+   "kind": "own",
+   "bal": 125000.0,
+   "enc": {}
+  },
+  {
+   "branch": "Earth",
+   "owner": "Neptune Branch",
+   "asset": "USD",
+   "kind": "own",
+   "bal": 25000.0,
+   "enc": {}
+  },
+  {
+   "branch": "Earth",
+   "owner": "Terra Capital",
+   "asset": "ARES",
+   "kind": "claim",
+   "bal": 200.0,
+   "enc": {}
+  },
+  {
+   "branch": "Mars",
+   "owner": "Ares Habitat Treasury",
+   "asset": "USD",
+   "kind": "own",
+   "bal": 40000.0,
+   "enc": {}
+  },
+  {
+   "branch": "Mars",
+   "owner": "Ares Habitat Treasury",
+   "asset": "ARES",
+   "kind": "own",
+   "bal": 3000.0,
+   "enc": {}
+  },
+  {
+   "branch": "Ceres",
+   "owner": "Ceres Iron Works",
+   "asset": "USD",
+   "kind": "own",
+   "bal": 85000.0,
+   "enc": {}
+  },
+  {
+   "branch": "Jupiter",
+   "owner": "Callisto Foundry",
+   "asset": "USD",
+   "kind": "own",
+   "bal": 85000.0,
+   "enc": {}
+  },
+  {
+   "branch": "Neptune",
+   "owner": "Triton Fund",
+   "asset": "USD",
+   "kind": "own",
+   "bal": 100000.0,
+   "enc": {}
+  },
+  {
+   "branch": "Neptune",
+   "owner": "Triton Fund",
+   "asset": "ARES",
+   "kind": "own",
+   "bal": 800.0,
+   "enc": {}
+  },
+  {
+   "branch": "Neptune",
+   "owner": "Earth Branch",
+   "asset": "ARES",
+   "kind": "own",
+   "bal": 200.0,
+   "enc": {}
+  },
+  {
+   "branch": "Neptune",
+   "owner": "Triton Fund",
+   "asset": "USD",
+   "kind": "claim",
+   "bal": 25000.0,
+   "enc": {}
+  }
+ ],
+ "hops": [
+  {
+   "link": "Earth->Relay A",
+   "d": 3.7981126481200116,
+   "p": 0.0731488082141305
+  },
+  {
+   "link": "Relay A->Earth",
+   "d": 3.7982283747934784,
+   "p": 0.07315095343975242
+  },
+  {
+   "link": "Relay A->Neptune",
+   "d": 28.32745292047628,
+   "p": 0.43251959474602875
+  },
+  {
+   "link": "Neptune->Relay A",
+   "d": 28.329900839823228,
+   "p": 0.43254737699119694
+  },
+  {
+   "link": "Neptune->Relay A",
+   "d": 28.329900924156988,
+   "p": 0.4325473779483051
+  },
+  {
+   "link": "Relay A->Neptune",
+   "d": 28.32983600847429,
+   "p": 0.4325466412163398
+  },
+  {
+   "link": "Relay A->Earth",
+   "d": 3.798891623329247,
+   "p": 0.07316324798366902
+  },
+  {
+   "link": "Earth->Relay A",
+   "d": 3.798866572093042,
+   "p": 0.07316278361542472
+  },
+  {
+   "link": "Earth->Relay A",
+   "d": 3.798866595303811,
+   "p": 0.07316278404567678
+  },
+  {
+   "link": "Relay A->Earth",
+   "d": 3.798979492458411,
+   "p": 0.0731648767890033
+  },
+  {
+   "link": "Relay A->Neptune",
+   "d": 28.330156175521584,
+   "p": 0.43255027480203334
+  },
+  {
+   "link": "Neptune->Relay A",
+   "d": 28.332607503535037,
+   "p": 0.43257809422823446
+  },
+  {
+   "link": "Earth->Relay A",
+   "d": 3.8036597093162237,
+   "p": 0.07325162851613232
+  },
+  {
+   "link": "Relay A->Earth",
+   "d": 3.8037524663232087,
+   "p": 0.07325334776264092
+  },
+  {
+   "link": "Relay A->Neptune",
+   "d": 28.34939982818818,
+   "p": 0.4327686288883854
+  },
+  {
+   "link": "Neptune->Relay A",
+   "d": 28.351875175995602,
+   "p": 0.4327967100918878
+  },
+  {
+   "link": "Neptune->Relay A",
+   "d": 28.351875261205393,
+   "p": 0.43279671105851325
+  },
+  {
+   "link": "Neptune->Relay A",
+   "d": 28.35187534641523,
+   "p": 0.43279671202513925
+  },
+  {
+   "link": "Relay A->Neptune",
+   "d": 28.35180956912412,
+   "p": 0.4327959658427326
+  },
+  {
+   "link": "Relay A->Earth",
+   "d": 3.804279951564649,
+   "p": 0.07326312461470164
+  },
+  {
+   "link": "Relay A->Neptune",
+   "d": 28.35180965433099,
+   "p": 0.4327959668093262
+  },
+  {
+   "link": "Relay A->Earth",
+   "d": 3.804279969940805,
+   "p": 0.07326312495529885
+  },
+  {
+   "link": "Earth->Relay A",
+   "d": 3.8042597244748917,
+   "p": 0.07326274971082658
+  },
+  {
+   "link": "Earth->Relay A",
+   "d": 3.8042597428687865,
+   "p": 0.07326275005175276
+  },
+  {
+   "link": "Earth->Relay A",
+   "d": 3.8042597612626627,
+   "p": 0.07326275039267849
+  },
+  {
+   "link": "Relay A->Earth",
+   "d": 3.804349640053974,
+   "p": 0.07326441627165847
+  },
+  {
+   "link": "Relay A->Neptune",
+   "d": 28.352133520009563,
+   "p": 0.43279964075580957
+  },
+  {
+   "link": "Neptune->Relay A",
+   "d": 28.354612245492117,
+   "p": 0.43282775873851964
+  }
+ ],
+ "max_wait": 0.0005555555555556858,
+ "last_packet": 17.30577397582224,
+ "rx_gaps": {
+  "Earth on Earth-Neptune": 72.00788182147569,
+  "Neptune on Earth-Neptune": 63.09466251118626
+ },
+ "snaps": [
+  [
+   0.0,
+   [
+    {
+     "branch": "Mercury",
+     "owner": "Helios Traders",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 40000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Mercury",
+     "owner": "Helios Traders",
+     "asset": "ARES",
+     "kind": "own",
+     "bal": 1000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Earth",
+     "owner": "Terra Capital",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 150000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Mars",
+     "owner": "Ares Habitat Treasury",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 40000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Mars",
+     "owner": "Ares Habitat Treasury",
+     "asset": "ARES",
+     "kind": "own",
+     "bal": 3000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Ceres",
+     "owner": "Ceres Iron Works",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 85000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Jupiter",
+     "owner": "Callisto Foundry",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 85000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Neptune",
+     "owner": "Triton Fund",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 100000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Neptune",
+     "owner": "Triton Fund",
+     "asset": "ARES",
+     "kind": "own",
+     "bal": 1000.0,
+     "enc": {}
+    }
+   ]
+  ],
+  [
+   0.0002777777777777778,
+   [
+    {
+     "branch": "Mercury",
+     "owner": "Helios Traders",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 40000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Mercury",
+     "owner": "Helios Traders",
+     "asset": "ARES",
+     "kind": "own",
+     "bal": 1000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Earth",
+     "owner": "Terra Capital",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 150000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Mars",
+     "owner": "Ares Habitat Treasury",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 40000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Mars",
+     "owner": "Ares Habitat Treasury",
+     "asset": "ARES",
+     "kind": "own",
+     "bal": 3000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Ceres",
+     "owner": "Ceres Iron Works",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 85000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Jupiter",
+     "owner": "Callisto Foundry",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 85000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Neptune",
+     "owner": "Triton Fund",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 100000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Neptune",
+     "owner": "Triton Fund",
+     "asset": "ARES",
+     "kind": "own",
+     "bal": 1000.0,
+     "enc": {
+      "O-1": 200.0
+     }
+    }
+   ]
+  ],
+  [
+   0.0002777777777777778,
+   [
+    {
+     "branch": "Mercury",
+     "owner": "Helios Traders",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 40000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Mercury",
+     "owner": "Helios Traders",
+     "asset": "ARES",
+     "kind": "own",
+     "bal": 1000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Earth",
+     "owner": "Terra Capital",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 150000.0,
+     "enc": {
+      "EAR-1": 25000.0
+     }
+    },
+    {
+     "branch": "Mars",
+     "owner": "Ares Habitat Treasury",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 40000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Mars",
+     "owner": "Ares Habitat Treasury",
+     "asset": "ARES",
+     "kind": "own",
+     "bal": 3000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Ceres",
+     "owner": "Ceres Iron Works",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 85000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Jupiter",
+     "owner": "Callisto Foundry",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 85000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Neptune",
+     "owner": "Triton Fund",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 100000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Neptune",
+     "owner": "Triton Fund",
+     "asset": "ARES",
+     "kind": "own",
+     "bal": 1000.0,
+     "enc": {
+      "O-1": 200.0
+     }
+    }
+   ]
+  ],
+  [
+   4.458061047337122,
+   [
+    {
+     "branch": "Mercury",
+     "owner": "Helios Traders",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 40000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Mercury",
+     "owner": "Helios Traders",
+     "asset": "ARES",
+     "kind": "own",
+     "bal": 1000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Earth",
+     "owner": "Terra Capital",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 150000.0,
+     "enc": {
+      "EAR-1": 25000.0
+     }
+    },
+    {
+     "branch": "Mars",
+     "owner": "Ares Habitat Treasury",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 40000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Mars",
+     "owner": "Ares Habitat Treasury",
+     "asset": "ARES",
+     "kind": "own",
+     "bal": 3000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Ceres",
+     "owner": "Ceres Iron Works",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 85000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Jupiter",
+     "owner": "Callisto Foundry",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 85000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Neptune",
+     "owner": "Triton Fund",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 100000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Neptune",
+     "owner": "Triton Fund",
+     "asset": "ARES",
+     "kind": "own",
+     "bal": 800.0,
+     "enc": {}
+    },
+    {
+     "branch": "Neptune",
+     "owner": "Earth Branch",
+     "asset": "ARES",
+     "kind": "own",
+     "bal": 200.0,
+     "enc": {}
+    },
+    {
+     "branch": "Neptune",
+     "owner": "Triton Fund",
+     "asset": "USD",
+     "kind": "claim",
+     "bal": 25000.0,
+     "enc": {}
+    }
+   ]
+  ],
+  [
+   8.916551206789185,
+   [
+    {
+     "branch": "Mercury",
+     "owner": "Helios Traders",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 40000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Mercury",
+     "owner": "Helios Traders",
+     "asset": "ARES",
+     "kind": "own",
+     "bal": 1000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Earth",
+     "owner": "Terra Capital",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 125000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Earth",
+     "owner": "Neptune Branch",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 25000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Earth",
+     "owner": "Terra Capital",
+     "asset": "ARES",
+     "kind": "claim",
+     "bal": 200.0,
+     "enc": {}
+    },
+    {
+     "branch": "Mars",
+     "owner": "Ares Habitat Treasury",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 40000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Mars",
+     "owner": "Ares Habitat Treasury",
+     "asset": "ARES",
+     "kind": "own",
+     "bal": 3000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Ceres",
+     "owner": "Ceres Iron Works",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 85000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Jupiter",
+     "owner": "Callisto Foundry",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 85000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Neptune",
+     "owner": "Triton Fund",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 100000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Neptune",
+     "owner": "Triton Fund",
+     "asset": "ARES",
+     "kind": "own",
+     "bal": 800.0,
+     "enc": {}
+    },
+    {
+     "branch": "Neptune",
+     "owner": "Earth Branch",
+     "asset": "ARES",
+     "kind": "own",
+     "bal": 200.0,
+     "enc": {}
+    },
+    {
+     "branch": "Neptune",
+     "owner": "Triton Fund",
+     "asset": "USD",
+     "kind": "claim",
+     "bal": 25000.0,
+     "enc": {}
+    }
+   ]
+  ]
+ ],
+ "opening": [
+  [
+   "Terra Capital",
+   "Earth",
+   150000,
+   0
+  ],
+  [
+   "Ares Habitat Treasury",
+   "Mars",
+   40000,
+   3000
+  ],
+  [
+   "Ceres Iron Works",
+   "Ceres",
+   85000,
+   0
+  ],
+  [
+   "Callisto Foundry",
+   "Jupiter",
+   85000,
+   0
+  ],
+  [
+   "Triton Fund",
+   "Neptune",
+   100000,
+   1000
+  ],
+  [
+   "Helios Traders",
+   "Mercury",
+   40000,
+   1000
+  ]
+ ],
+ "complete": 8.916551206789185,
+ "value_settled": 25000,
+ "completed_tx": 1,
+ "exposure": "none beyond the locked price: DvP, each side's asset is locked until the other is committed",
+ "capital_eff": 1.0,
+ "comm_eff": 28.0,
+ "utilization": 0.05,
+ "trace": [
+  {
+   "t": -72.0,
+   "actor": "Earth Branch",
+   "know": "Plans to trade with Neptune; knows geometry and maintenance",
+   "action": "Sends SYN toward Neptune",
+   "packet": "Earth $\\to$ A $\\to$ Neptune",
+   "arrival": "",
+   "state": "No financial state (h < 0)"
+  },
+  {
+   "t": 0.0002777777777777778,
+   "actor": "Neptune Branch",
+   "know": "Triton's offer arrives by local access (1 s)",
+   "action": "Posts firm offer O-1: sell 200 Ares at \\$125, expiry h 24",
+   "packet": "local",
+   "arrival": "",
+   "state": "Triton 200 Ares reserved for O-1"
+  },
+  {
+   "t": 0.0002777777777777778,
+   "actor": "Earth Branch",
+   "know": "Terra's acceptance of O-1 (terms as advertised); free balance covers it; knows nothing of Neptune's state",
+   "action": "Locks \\$25{,}000; sends LOCK EAR-1",
+   "packet": "BB Earth $\\to$ A $\\to$ Neptune; Earth$\\to$A h 0.0006; A$\\to$Neptune h 0.5284",
+   "arrival": "h 4.4581",
+   "state": "Terra \\$25{,}000 locked for EAR-1"
+  },
+  {
+   "t": 4.458061047337122,
+   "actor": "Neptune Branch",
+   "know": "Holds Triton Fund's firm offer O-1; LOCK terms match; before expiry h 24",
+   "action": "Commits EAR-1; records it durably, then replies",
+   "packet": "BB Neptune $\\to$ A $\\to$ Earth; Neptune$\\to$A h 4.4586; A$\\to$Earth h 8.3892",
+   "arrival": "h 8.9166",
+   "state": "200 Ares $\\to$ Earth Branch's account here. Triton Fund credited \\$25{,}000, spendable now (claim on Neptune Branch backed by the lock at Earth)"
+  },
+  {
+   "t": 8.916551206789185,
+   "actor": "Earth Branch",
+   "know": "COMMIT EAR-1 arrived",
+   "action": "Releases the lock",
+   "packet": "",
+   "arrival": "",
+   "state": "\\$25{,}000 $\\to$ Neptune Branch's account here. Terra Capital credited 200 Ares, spendable now (claim on Earth Branch backed by its holding at Neptune). Trade complete."
+  }
+ ]
+}
