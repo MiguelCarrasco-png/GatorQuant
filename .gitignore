@@ -5,3 +5,7 @@ __pycache__/
 *.log
 *.out
 *.synctex.gz
+
+# Local agent setup (not shared)
+CLAUDE.md
+docs/agents/
