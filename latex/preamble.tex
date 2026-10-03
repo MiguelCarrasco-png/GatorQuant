@@ -1,0 +1,32 @@
+% Shared preamble for paper.tex and appendix.tex.
+% Brief s.8: type at least 10 pt, margins at least 1 inch. Do not shrink either.
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,tabularx,multirow}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{enumitem}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage[hidelinks]{hyperref}
+\setlist{nosep,leftmargin=*}
+\setlength{\parskip}{0.3em}
+\setlength{\parindent}{0pt}
+
+% Generated tables and number macros live in generated/, written by code/*.py.
+% \gen{file} inputs one; a missing file prints a red box instead of breaking the build.
+\newcommand{\gen}[1]{\IfFileExists{generated/#1}{\input{generated/#1}}{\fbox{\color{red}missing generated/\detokenize{#1}}}}
+% \genmacros{file} loads a macro file silently if present (numbers used in prose).
+\newcommand{\genmacros}[1]{\IfFileExists{generated/#1}{\input{generated/#1}}{}}
+
+% Placeholder for text still to be written. Search for \pending before submitting: none may remain.
+\newcommand{\pending}[1]{{\color{red}[\textbf{PENDING:} #1]}}
+
+% Labels the brief asks for (s.1, s.8, s.10): every rule implemented or extension; every conditional claim labelled.
+\newcommand{\implemented}{\textmd{\textsc{[implemented]}}}
+\newcommand{\extension}{\textmd{\textsc{[extension]}}}
+\newcommand{\conditional}{\textmd{\textsc{[conditional, no-loss]}}}
+
+\genmacros{e4_macros.tex}

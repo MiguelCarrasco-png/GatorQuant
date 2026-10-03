@@ -9,3 +9,9 @@ __pycache__/
 # Local agent setup (not shared)
 CLAUDE.md
 docs/agents/
+
+# LaTeX build output (rebuild locally or on Overleaf)
+latex/*.pdf
+*.toc
+*.fls
+*.fdb_latexmk
