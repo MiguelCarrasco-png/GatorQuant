@@ -13,7 +13,7 @@ A Branch's book of record. Every NeoDollar and share sits on exactly one home le
 _Avoid_: database, chain
 
 **Lock**:
-A ledger state in which an asset is reserved for one named deal and cannot be spent or locked again. Only the deal's commit or decline ends it, never a timer.
+A ledger state in which an asset is reserved for one named deal and cannot be spent or locked again. Only the deal's commit, decline, or settle ends it, never a timer.
 _Avoid_: hold, freeze (in the paper)
 
 **Commit**:
@@ -21,6 +21,29 @@ The counterparty Branch's decision that a cross-planet deal is final. Its client
 
 **Release**:
 The initiator Branch turning a locked asset into the counterparty Branch's property when the commit arrives.
+
+**Firm offer**:
+A client's standing offer, posted at its own Branch with an expiry hour, whose assets that Branch reserves until the offer fills, is withdrawn, or expires. A cross-planet deal always accepts a firm offer.
+
+**Initiator Branch**:
+The Branch of the client who accepts a firm offer. It locks its client's side and keeps asking until the deal is decided.
+_Avoid_: sender, requester
+
+**Deciding Branch**:
+The Branch holding the firm offer. It alone commits or declines, once, on the first arrival of the lock, and repeats that same answer to every later copy.
+_Avoid_: counterparty (when the role matters), responder
+
+**Decline**:
+The deciding Branch's recorded refusal of a deal, for one of a closed list of reasons. It ends the initiator's lock and returns the asset to its owner.
+
+**Abort**:
+An initiator client's request to cancel a deal. It only asks; the deal ends as whatever the deciding Branch records — a decline if it was still undecided, otherwise the commit already made.
+
+**Deal ID**:
+The never-reused name of one cross-planet deal: the initiator Branch plus that Branch's running deal count.
+
+**Settle**:
+The referee Branch's instruction, sent once the settling print is known, telling the margin-holding Branch how much of a pledged lock to release to the referee and how much to return or credit to its client.
 
 **Inter-Branch account**:
 A balance one Branch holds on another Branch's ledger. It is a claim, not new money: it nets to zero across the system.
@@ -56,6 +79,8 @@ _Avoid_: halt, suspension (those mean stopping existing service)
 - Each **Settlement** has exactly one **Branch**; each **Branch** keeps one **Home ledger**.
 - A cross-planet deal touches exactly two **Home ledgers**: **Lock** at the initiator, **Commit** at the counterparty, **Release** at the initiator.
 - Each price contract has exactly one **Referee Branch**, located where its **Official print** is published.
+- A remote side's margin is a **Lock** at that side's own Branch, controlled by the **Referee Branch**; only a **Settle** ends it.
+- Only the side holding an open **Lock** ever resends; the **Deciding Branch** or **Referee Branch** only answers.
 
 ## Flagged ambiguities
 
