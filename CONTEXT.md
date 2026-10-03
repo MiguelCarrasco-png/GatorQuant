@@ -33,8 +33,23 @@ _Avoid_: clearinghouse, CCP
 **Official print**:
 One signed price observation released by a price source, locally, at its single settlement, at a scheduled hour. A contract names which prints count.
 
+**Settling print**:
+The single official print a contract names as the one that fixes its payoff. Its publication is the contract's **maturity**.
+_Avoid_: final mark, closing price
+
+**Interim print**:
+Any official print before the settling print. Information only: it creates no ledger entry and moves no money.
+_Avoid_: mark (implies a payment)
+
 **Capped future**:
-A cash-settled future whose settlement price is clipped to entry ± a cap, so each side's maximum loss is known and fully locked at opening.
+A cash-settled future whose settlement price is clipped to entry ± a cap, so each side's maximum loss is known and fully locked at opening. Positions are held to maturity; there is no early close-out.
+
+**Clip**:
+Forcing the settling print into the band entry ± cap before computing the payoff.
+
+**Freeze**:
+The period before a settling print in which the referee Branch accepts no new positions. Existing positions are unaffected.
+_Avoid_: halt, suspension (those mean stopping existing service)
 
 ## Relationships
 
