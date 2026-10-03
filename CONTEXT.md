@@ -74,6 +74,22 @@ Forcing the settling print into the band entry ± cap before computing the payof
 The period before a settling print in which the referee Branch accepts no new positions. Existing positions are unaffected.
 _Avoid_: halt, suspension (those mean stopping existing service)
 
+**Price Board**:
+The institution that signs and releases a contract's official prints at its one settlement. It holds no money and never uses the backbone; a Branch forwards its prints to other Branches.
+_Avoid_: oracle, feed
+
+**Quota slice**:
+A Branch's fixed share of the system-wide backbone quota, which it enforces by itself because no Branch can see the system-wide count.
+
+**Recovery reserve**:
+The part of a quota slice that only resubmissions and replacement handshakes may use, so new trade can never prevent a lock holder from resending.
+
+**Pre-opened session**:
+A backbone session handshaken before hour 0, so the first deal at hour 0 skips the handshake round trip.
+
+**Keep-alive**:
+A one-record message the lock holder sends on an idle session so it does not expire before the deal is decided or settled.
+
 ## Relationships
 
 - Each **Settlement** has exactly one **Branch**; each **Branch** keeps one **Home ledger**.

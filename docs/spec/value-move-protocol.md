@@ -125,6 +125,6 @@ Callisto Foundry (Jupiter, long) accepts a firm offer from Ceres Iron Works (Cer
 
 ## 7. What this does not decide
 
-- Sessions per Branch pair, and the quota budget → *Institutions chartered and backbone quota budget*.
+- Sessions per Branch pair, the quota budget and interim-print forwarding → *Institutions chartered and backbone quota budget* (issue 5, resolved: per-Branch 66/24 h slices with 10 for recovery; each run opens its trade pair at h −72 on a foresight-pinned route; keep-alive at 120 h idle; Ceres Branch forwards interim prints to Jupiter over the backbone).
 - Contract size, cap, print schedule → *Ceres Iron future — exact terms, margin rule, price paths*.
 - Using an inter-Branch balance in a later deal (e.g. Triton paying someone at Earth) is a new deal under this same protocol. Fees and replenishment are still unmapped (fog).
