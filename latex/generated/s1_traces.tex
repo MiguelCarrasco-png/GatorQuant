@@ -1,0 +1,72 @@
+\par\noindent\textbf{VM: Terra Capital (Earth) buys 200 Ares from Triton Fund (Neptune)}\par
+\small
+\begin{xltabular}{\linewidth}{>{\raggedright\arraybackslash}p{1.15cm}>{\raggedright\arraybackslash}p{1.35cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{2.9cm}>{\raggedright\arraybackslash}p{1.15cm}>{\raggedright\arraybackslash}X}
+\toprule
+Time (h) & Actor & Local knowledge & Action & Packet (BB = backbone) & Arrival & Financial state after\\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\mbox{$-72.0000$} & Earth Br. & Plans to trade with Neptune; knows geometry and maintenance & Sends SYN toward Neptune & Earth $\to$ A $\to$ Neptune &  & No financial state (h < 0)\\
+\mbox{0.0003} & Neptune Br. & Triton's offer arrives by local access (1 s) & Posts firm offer O-1: sell 200 Ares at \$125, expiry h 24 & local &  & Triton 200 Ares reserved for O-1\\
+\mbox{0.0003} & Earth Br. & Terra's acceptance of O-1 (terms as advertised); free balance covers it; knows nothing of Neptune's state & Locks \$25{,}000; sends LOCK EAR-1 & BB Earth $\to$ A $\to$ Neptune; Earth$\to$A h 0.0006; A$\to$Neptune h 0.3138 & 4.1751 & Terra \$25{,}000 locked for EAR-1\\
+\mbox{4.1751} & Neptune Br. & Holds Triton Fund's firm offer O-1; LOCK terms match; before expiry h 24 & Commits EAR-1; records it durably, then replies & BB Neptune $\to$ A $\to$ Earth; Neptune$\to$A h 4.1756; A$\to$Earth h 8.0378 & 8.3499 & 200 Ares $\to$ Earth Branch's account here. Triton Fund credited \$25{,}000, spendable now (claim on Neptune Branch backed by the lock at Earth)\\
+\mbox{8.3499} & Earth Br. & COMMIT EAR-1 arrived & Releases the lock &  &  & \$25{,}000 $\to$ Neptune Branch's account here. Terra Capital credited 200 Ares, spendable now (claim on Earth Branch backed by its holding at Neptune). Trade complete.\\
+\end{xltabular}
+\normalsize
+
+\medskip
+\par\noindent\textbf{FR: Ceres Iron future, rising path (settles 123)}\par
+\small
+\begin{xltabular}{\linewidth}{>{\raggedright\arraybackslash}p{1.15cm}>{\raggedright\arraybackslash}p{1.35cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{2.9cm}>{\raggedright\arraybackslash}p{1.15cm}>{\raggedright\arraybackslash}X}
+\toprule
+Time (h) & Actor & Local knowledge & Action & Packet (BB = backbone) & Arrival & Financial state after\\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\mbox{$-72.0000$} & Jupiter Br. & Plans to trade with Ceres; knows geometry and maintenance & Sends SYN toward Ceres & Jupiter $\to$ B $\to$ Ceres &  & No financial state (h < 0)\\
+\mbox{0.0000} & Ceres Iron Price Board & Ceres Iron price & Releases print h 0 = 100 locally & local &  & entry price fixed at 100\\
+\mbox{0.0003} & Ceres Br. & Ceres Iron Works' order by local access; h 0 print = 100 = entry & Posts firm offer O-F: short 25 at 100, expiry h 24 & local &  & Ceres Iron Works \$75{,}000 reserved (max loss)\\
+\mbox{0.0003} & Jupiter Br. & Callisto's order (long 25, entry = h 0 print); free balance covers the max loss & Locks \$75{,}000 at home; sends LOCK JUP-1 & BB Jupiter $\to$ B $\to$ Ceres; Jupiter$\to$B h 0.0006; B$\to$Ceres h 0.3470 & 0.6886 & Callisto \$75{,}000 locked (pledge at home)\\
+\mbox{0.6886} & Ceres Br. & Holds Ceres Iron Works' offer (short 25 at entry 100); LOCK matches; before freeze & Records the position; replies COMMIT & BB Ceres $\to$ B $\to$ Jupiter; Ceres$\to$B h 0.6891; B$\to$Jupiter h 1.0313 & 1.3772 & Position open: long 25 Callisto Foundry / short Ceres Iron Works. Margins locked: \$75{,}000 at Jupiter (pledged to Ceres) + \$75{,}000 here = \$150{,}000\\
+\mbox{1.3772} & Jupiter Br. & COMMIT arrived: position recorded at Ceres & Keeps the lock as a pledge; only a SETTLE ends it &  &  & Callisto Foundry \$75{,}000 pledged to Ceres (unchanged)\\
+\mbox{24.0003} & Ceres Br. & Interim prints h 24, 48, \ldots, 216 by local access & Forwards each to Jupiter (9 packets; information only) & BB Ceres $\to$ B $\to$ Jupiter, one per print & +0.6884 to +0.6889 & unchanged; Callisto gets each by local access\\
+\mbox{240.0003} & Ceres Br. & Interim print h 240 = 124 by local access & Forwards it to Jupiter (information only) & BB Ceres $\to$ B $\to$ Jupiter; Ceres$\to$B h 264.0000; B$\to$Jupiter h 264.3406 & 264.6888 & unchanged\\
+\mbox{264.0003} & Ceres Br. & Interim print h 264 = 124 by local access & Forwards it to Jupiter (information only) & BB Ceres $\to$ B $\to$ Jupiter; Ceres$\to$B h 264.0006; B$\to$Jupiter h 264.3411 & 264.6894 & unchanged\\
+\mbox{264.6888} & Jupiter Br. & Interim print h 240 = 124 (information only) & Hands it to Callisto by local access &  &  & unchanged\\
+\mbox{264.6894} & Jupiter Br. & Interim print h 264 = 124 (information only) & Hands it to Callisto by local access &  &  & unchanged\\
+\mbox{288.0003} & Ceres Br. & Settling print h 288 = 123 by local access; clipped to 123 & Records the payoff (discharge); sends SETTLE once & BB Ceres $\to$ B $\to$ Jupiter; Ceres$\to$B h 288.0006; B$\to$Jupiter h 288.3410 & 288.6895 & \$57{,}500 of Ceres Iron Works' margin $\to$ Jupiter Branch's account here; \$17{,}500 released to Ceres Iron Works\\
+\mbox{288.6895} & Jupiter Br. & SETTLE arrived: settling print 123, clipped 123 & Applies SETTLE &  &  & \$75{,}000 pledge returned to Callisto Foundry; plus \$57{,}500 credited (claim on Jupiter Branch backed by its holding at Ceres). All spendable. Pledge ended.\\
+\end{xltabular}
+\normalsize
+
+\medskip
+\par\noindent\textbf{FF: falling path (settles 77). Identical to FR before h 288 except the interim print values}\par
+\small
+\begin{xltabular}{\linewidth}{>{\raggedright\arraybackslash}p{1.15cm}>{\raggedright\arraybackslash}p{1.35cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{2.9cm}>{\raggedright\arraybackslash}p{1.15cm}>{\raggedright\arraybackslash}X}
+\toprule
+Time (h) & Actor & Local knowledge & Action & Packet (BB = backbone) & Arrival & Financial state after\\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\mbox{288.0003} & Ceres Br. & Settling print h 288 = 77 by local access; clipped to 77 & Records the payoff (discharge); sends SETTLE once & BB Ceres $\to$ B $\to$ Jupiter; Ceres$\to$B h 288.0006; B$\to$Jupiter h 288.3410 & 288.6895 & Payoff \$57{,}500 to Ceres Iron Works: credited now, spendable (claim backed by Callisto's pledge at Jupiter); its own \$75{,}000 margin released\\
+\mbox{288.6895} & Jupiter Br. & SETTLE arrived: settling print 77, clipped 77 & Applies SETTLE &  &  & \$57{,}500 of the pledge $\to$ Ceres Branch's account here; \$17{,}500 back to Callisto Foundry, spendable. Pledge ended.\\
+\end{xltabular}
+\normalsize
+
+\medskip
+\par\noindent\textbf{FR-cap: settling print 140, clipped to 130 (the cap binds)}\par
+\small
+\begin{xltabular}{\linewidth}{>{\raggedright\arraybackslash}p{1.15cm}>{\raggedright\arraybackslash}p{1.35cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{2.9cm}>{\raggedright\arraybackslash}p{1.15cm}>{\raggedright\arraybackslash}X}
+\toprule
+Time (h) & Actor & Local knowledge & Action & Packet (BB = backbone) & Arrival & Financial state after\\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\mbox{288.0003} & Ceres Br. & Settling print h 288 = 140 by local access; clipped to 130 & Records the payoff (discharge); sends SETTLE once & BB Ceres $\to$ B $\to$ Jupiter; Ceres$\to$B h 288.0006; B$\to$Jupiter h 288.3410 & 288.6895 & \$75{,}000 of Ceres Iron Works' margin $\to$ Jupiter Branch's account here; \$0 released to Ceres Iron Works\\
+\mbox{288.6895} & Jupiter Br. & SETTLE arrived: settling print 140, clipped 130 & Applies SETTLE &  &  & \$75{,}000 pledge returned to Callisto Foundry; plus \$75{,}000 credited (claim on Jupiter Branch backed by its holding at Ceres). All spendable. Pledge ended.\\
+\end{xltabular}
+\normalsize

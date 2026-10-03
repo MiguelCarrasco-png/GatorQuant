@@ -1,0 +1,55 @@
+\par\noindent\textbf{S2: FF plus a 72 h isolation of Ceres, h 286--358 (from h 288)}\par
+\small
+\begin{xltabular}{\linewidth}{>{\raggedright\arraybackslash}p{1.15cm}>{\raggedright\arraybackslash}p{1.35cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{2.9cm}>{\raggedright\arraybackslash}p{1.15cm}>{\raggedright\arraybackslash}X}
+\toprule
+Time (h) & Actor & Local knowledge & Action & Packet (BB = backbone) & Arrival & Financial state after\\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\mbox{288.0003} & Ceres Br. & Settling print h 288 = 77 by local access; clipped to 77 & Records the payoff (discharge); sends SETTLE once & BB Ceres $\to$ B $\to$ Jupiter; Ceres$\to$B h 364.1365; B$\to$Jupiter h 364.4765 & 364.8258 & Payoff \$57{,}500 to Ceres Iron Works: credited now, spendable (claim backed by Callisto's pledge at Jupiter); its own \$75{,}000 margin released\\
+\mbox{313.3784} & Jupiter Br. & Still holds the pledge at print + R\textsubscript{e} & Resubmits LOCK (pull rule; recovery reserve) & BB Jupiter $\to$ B $\to$ Ceres, resubmission; Jupiter$\to$B h 364.1360; B$\to$Ceres h 364.4858 & 364.8252 & unchanged\\
+\mbox{313.3787} & Ceres Br. & No data ACK for SETTLE JUP-1 within R\textsubscript{e} & Endpoint attempt 2 of SETTLE JUP-1 & attempt 1: Ceres$\to$B h 288.0006 lost, 289.6806 lost, 291.3606 lost, 293.0406 lost & lost & unchanged\\
+\mbox{338.7569} & Jupiter Br. & No data ACK for LOCK JUP-1 (pull) within R\textsubscript{e} & Endpoint attempt 2 of LOCK JUP-1 (pull) & attempt 1: Jupiter$\to$B h 313.3786; B$\to$Ceres h 313.7280 lost, 315.4076 lost, 317.0872 lost, 318.7669 lost & lost & unchanged\\
+\mbox{338.7574} & Ceres Br. & No data ACK for SETTLE JUP-1 within R\textsubscript{e} & Endpoint attempt 3 of SETTLE JUP-1 & attempt 2: Ceres$\to$B h 313.3790 lost, 315.0587 lost, 316.7384 lost, 318.4181 lost & lost & unchanged\\
+\mbox{364.1357} & Jupiter Br. & No data ACK for LOCK JUP-1 (pull) within R\textsubscript{e} & Endpoint attempt 3 of LOCK JUP-1 (pull) & attempt 2: Jupiter$\to$B h 338.7572; B$\to$Ceres h 339.1068 lost, 340.7861 lost, 342.4655 lost, 344.1448 lost & lost & unchanged\\
+\mbox{364.1362} & Ceres Br. & No data ACK for SETTLE JUP-1 within R\textsubscript{e} & Endpoint attempt 4 of SETTLE JUP-1 & attempt 3: Ceres$\to$B h 338.7576 lost, 340.4371 lost, 342.1165 lost, 343.7958 lost & lost & unchanged\\
+\mbox{364.8252} & Ceres Br. & JUP-1 already decided: SETTLE & Repeats recorded SETTLE & BB Ceres $\to$ B $\to$ Jupiter; Ceres$\to$B h 364.8258; B$\to$Jupiter h 365.1657 & 365.5150 & unchanged\\
+\mbox{364.8258} & Jupiter Br. & SETTLE arrived: settling print 77, clipped 77 & Applies SETTLE &  &  & \$57{,}500 of the pledge $\to$ Ceres Branch's account here; \$17{,}500 back to Callisto Foundry, spendable. Pledge ended.\\
+\end{xltabular}
+\normalsize
+
+\medskip
+\par\noindent\textbf{Maintenance comparison (natural geometry kept)}\par
+\par\noindent
+\begin{tabular}{lrrrr}
+\toprule
+Measure & VM & FR & FF & S2\\
+\midrule
+Done h, with maintenance & 8.35 & 288.69 & 288.69 & 364.83\\
+Done h, maintenance removed & 8.35 & 288.69 & 288.69 & 364.83\\
+Backbone packets, with / without & 28 / 28 & 124 / 124 & 124 / 124 & 164 / 164\\
+Longest known wait h, with / without & 0.00 / 0.00 & 24.00 / 0.00 & 24.00 / 0.00 & 24.00 / 0.00\\
+\$-hours, with & 208{,}741 & 43{,}251{,}691 & 43{,}251{,}691 & 48{,}961{,}911\\
+\$-hours, without & 208{,}741 & 43{,}251{,}691 & 43{,}251{,}691 & 48{,}961{,}911\\
+\bottomrule
+\end{tabular}\par
+
+\medskip
+\par\noindent\textbf{Alternative: Mars hub ledger vs home ledgers (same funding and guarantees)}\par
+{\setlength{\tabcolsep}{3pt}
+\par\noindent
+\begin{tabular}{lrrrr}
+\toprule
+Terra at & Earth & Ceres & Venus & Uranus\\
+\midrule
+Complete h, home ledgers & 8.35 & 8.21 & 8.45 & 12.37\\
+Complete h, Mars hub & 8.23 & 8.23 & 8.23 & 8.23\\
+Backbone packets, home / hub & 28 / 56 & 28 / 56 & 28 / 56 & 28 / 56\\
+Quota packets, home / hub & 3 / 6 & 3 / 6 & 3 / 6 & 3 / 6\\
+Sessions to pre-open, home / hub & 1 / 2 & 1 / 2 & 1 / 2 & 1 / 2\\
+\$-hours, home / hub & 208{,}741 / 116{,}991 & 205{,}258 / 115{,}251 & 211{,}234 / 118{,}237 & 309{,}334 / 167{,}288\\
+Ares-hours, home / hub & 835 / 1{,}646 & 821 / 1{,}646 & 845 / 1{,}646 & 1{,}237 / 1{,}646\\
+\bottomrule
+\end{tabular}\par
+}
