@@ -2,55 +2,71 @@
 \section{Guarantees, conditions and costs}\label{sec:guar}
 
 Each guarantee says what holds, what it rests on (\textbf{rules}: true at any epoch whatever the network does;
-\textbf{model}: shown on the common Kepler model, evidence not proof), and what participants pay for it.
+\textbf{model}: shown on the common Kepler model, evidence not proof), and what participants pay for it. We claim no formal proof. For G1--G3 the argument is
+Table~\ref{tab:inv}: five invariants, the rules that can change each, and why every step preserves it. The evidence is a check of every invariant after
+\emph{every} ledger step of the \SimRuns\ declared runs and of \FuzzRuns\ fault-injected runs (duplicates, reordering, contradictions, resets, a crash after every
+ledger step, launch loss up to 35\%; appendix S1): \FuzzSteps\ checked steps, \FuzzFailures\ violations. The fuzzer also found three errors in our own simulator, none a
+rule, all fixed (appendix S1).
 
-\textbf{G1. Funding is conserved and no asset serves two uses} (rules). Every posting is a balanced pair on one
-ledger (R1); a cross-planet deal changes two ledgers by equal and opposite inter-Branch entries, which net to zero.
-A reserved or locked amount is not free balance, so no second instruction can touch it (R2), and only the recorded
-outcome of its own deal ends a lock (R6). No institution starts with or creates assets. The simulator checks
-conservation and single use after every ledger step: \SimChecks\ checks over \SimRuns\ runs, none failed.
+\begin{table}[H]\centering
+\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{2.7cm}>{\raggedright\arraybackslash}p{1.9cm}X}
+\toprule
+Invariant & Rules & Why each step preserves it\\
+\midrule
+I1 Conservation of each asset & R1, R7, R9, R10, R20 & A posting is a balanced pair on one ledger; a cross-planet deal moves equal and opposite
+inter-Branch entries; nothing is created.\\
+I2 No unit serves two uses & R2, R4, R6, R7, R10 & Only free balance can be reserved, locked or pledged; an encumbrance never exceeds its balance;
+only a recorded outcome ends a lock.\\
+I3 Every claim is covered & R7, R9, R10 & A claim is credited in the step that creates or records its backing (an inter-Branch holding or a pending release against a
+lock) and removed only with it.\\
+I4 One decision per deal ID & R7, R8, R22 & Decided durably before any reply; a later copy gets the recorded answer, never a new decision.\\
+I5 Outcomes agree & R6, R9, R22 & COMMIT$\to$release, DECLINE$\to$unlock, SETTLE$\to$settle, each once and only if the echo matches; a conflicting later reply is logged.\\
+\bottomrule
+\end{tabularx}
+\caption{Invariants (rules, not model), checked after every ledger step.}\label{tab:inv}
+\end{table}
 
-\textbf{G2. A cross-planet deal is all or nothing} (rules). The deciding Branch records exactly one outcome per deal
-ID before replying (R7) and repeats it to every copy; the initiator's lock persists until that outcome arrives (R6,
-R8). So either both legs move (COMMIT, then release) or neither does (DECLINE). Between COMMIT and release the
-bought asset already sits in the initiator Branch's inter-Branch account at the deciding ledger, and the initiator
-Branch owes its client the release on arrival. Neither client ever holds an unbacked claim.
+\textbf{G1. Funding is conserved and no asset serves two uses} (rules; I1--I3). Every posting is a balanced pair on one ledger (R1); a cross-planet deal changes
+two ledgers by equal and opposite inter-Branch entries. A reserved or locked amount is not free balance, so no second instruction can touch it (R2); only the
+recorded outcome of its own deal ends a lock (R6). No institution starts with or creates assets.
 
-\textbf{G3. Every price contract pays in full, in both directions} (rules). Each side's largest possible loss under the
-clipped payoff is locked before the position opens (R11). Whatever the settling print, the winner is paid from
-encumbered assets, with no margin call and no default; the binding case (print 140, clipped to 130) pays exactly the
-whole \$75{,}000 lock. If the loser's Branch is cut off at maturity the winner holds a backed claim (funded default
-form) until SETTLE lands; nothing is ever unbacked.
+\textbf{G2. A cross-planet deal is all or nothing} (rules; I4--I5). The deciding Branch records one outcome per deal ID before replying (R7) and repeats it to every
+copy; the initiator's lock persists until that outcome arrives (R6, R8). Either both legs move (COMMIT, then release) or neither does (DECLINE). Between COMMIT and
+release the bought asset sits in the initiator Branch's inter-Branch account, and no client ever holds an unbacked claim.
 
-\textbf{G4. Every lock ends, if the two Branches can eventually exchange packets} (rules + model). Only the lock holder
-resends, it never gives up (R8), and its recovery reserve cannot be consumed by new trade (R14), so the only thing
-that can keep a lock open is a network that never carries a packet between the two Branches. On the model, that
-never happens: in 200 years every settlement can always reach every other by a route of at most three links (E4,
-\EfourNeverCut), and foresight pinning keeps 100\% availability in every 24 h window. Random loss only delays: with
-no incident, endpoint attempts are more than 24 h apart, share no window, and are independent, so the chance that
-$k$ attempts all fail on our worst pinned route is at most $p^k$, $p = \SimWorstAttemptLoss$.
+\textbf{G3. Every price contract pays in full, in both directions} (rules). Each side's largest loss under the clipped payoff is locked before the position opens
+(R11), so the winner is paid from encumbered assets, with no margin call and no default; the binding case (print 140, clipped to 130) pays exactly the whole
+\$75{,}000 lock. If the loser's Branch is cut off at maturity the winner holds a backed claim until SETTLE lands.
 
-\textbf{G5. Completion times} (model, \conditional). Value move: Triton spendable at h \SimVMCommit, trade complete
-at h \SimVMComplete. Future: position open at h \SimFutOpen; at maturity discharge and backed claim at h 288.0003,
-spendable for the remote side at h \SimFutSpendable\ in both price directions. Under random loss (E2 Monte Carlo,
-no incident) the Earth--Neptune trade completes at its no-loss time with probability \EtwoVMEarthNoLoss\%, within
-24 h of it \EtwoVMEarthDay\%; the settlement is spendable at its no-loss time \EtwoSettleNoLoss\% and within 6 h
-\EtwoSettleSixH\%. The fallback is always the same: retries, then resubmission (R8), with the lock in place. No
-conditional time is a promise: random loss means no unconditional deadline exists.
+\textbf{G4. Every lock ends, within a bound, if the two Branches can exchange packets} (rules + model). Only the lock holder resends and never gives up (R8); its
+reserve cannot be eaten by new trade (R14). Once a packet can cross, the lock ends at the next resubmission, at most $P\lceil n/14\rceil$ = 2.4 h later for $n$ open locks
+to the peer, or on the first packet from it, plus a round trip: in S2 service resumed \SimSTwoFRSpendableAfter\ h after Ceres reconnected (h 358). The bound fails only
+while a \emph{handshake} is stuck: a reset peer's SYN lost to a second incident waits one $R_e$ (25 h); the worst stacked incident ends \SimStackAfter\ h after its last
+fault. A Branch gone for good is outside the baseline: its locks stay, every other claim stays covered, and no rule recovers them. On the model a settlement is never cut
+off: in 200 years every one reaches every other by at most three links (E4, \EfourNeverCut), and foresight pinning gives 100\% availability in every 24 h window. Random loss
+only delays: with no incident, endpoint attempts are over 24 h apart and independent, so $k$ attempts all fail on our worst pinned route with probability at most $p^k$,
+$p = \SimWorstAttemptLoss$.
+
+\textbf{G5. Completion times} (model, \conditional). Value move: Triton spendable at h \SimVMCommit, trade complete at h \SimVMComplete. Future: position open at
+h \SimFutOpen; discharge and backed claim at h 288.0003; spendable for the remote side at h \SimFutSpendable\ in both price directions. Under random loss (E2, no
+incident) the service table gives, for all nine settlements, the probability of finishing within 24 h of the no-loss time: a share trade 72.8--78.9\%, the future's settlement
+92.1\% (Neptune) to $>$99.99\% (Mars to Saturn); on-time probabilities and the loss sweep are in E2. At four times the brief's loss R5 declines
+\EtwoSweepLossFourDecline\% of Earth trades (it is tuned to the stated law). The fallback is always retries, then resubmission (R8), lock in place; no time here is a
+promise, because random loss admits no unconditional deadline.
 
 \textbf{What participants pay or give up.}
 \begin{itemize}
-\item \emph{Capital.} The future locks \$150{,}000 (\SimFutUtil\% of all cash) for 288 h, \SimFutDollarHours\
-\$-hours per run; capital efficiency 0.60 (peak locked / notional). A share buyer locks the full price for one round
-trip (VM: \$25{,}000 for 8.35 h). No leverage: a client can open only what its free balance covers.
-\item \emph{Use of money during outages.} A lock is never broken by a timer, so a client cut off from its counterparty
-cannot get its money back early. In S2, Callisto's \$75{,}000 stays locked \SimSTwoLost\ h longer than planned.
-\item \emph{Latency.} One light round trip plus relay time per deal: 8.2--12.4 h for Neptune at h 0, 1.4 h for
-Jupiter--Ceres. Far clients see each print later than Ceres clients (\S\ref{sec:risks}).
-\item \emph{Product limits.} Only bounded-loss products; futures held to maturity; no new positions in the last 24 h;
-remote offers must outlive a second attempt (R5): 34--86 h at h 0.
-\item \emph{Packets.} 28 backbone launches per cross-planet trade (3 count against the quota); 124 for a 288-hour
-future including 11 forwarded prints (15 quota). No direct-service packets.
+\item \emph{Capital.} The future locks \$150{,}000 (\SimFutUtil\% of all cash) for 288 h, \SimFutDollarHours\ \$-hours per run; capital efficiency 0.60 (peak locked /
+notional). A share buyer locks the full price for one round trip (VM: \$25{,}000 for 8.35 h). No leverage: a client opens only what its free balance covers.
+\item \emph{Money during outages.} A lock is never broken by a timer. In S2-FR Callisto's \$75{,}000 pledge and \$57{,}500 payoff wait \SimSTwoFRLost\ h more
+(\SimSTwoFRExtraDollarHours\ extra \$-hours); stacked, \SimStackLost\ h.
+\item \emph{Latency.} One light round trip plus relay time: 8.2--12.4 h for Neptune at h 0, 1.4 h for Jupiter--Ceres. Far clients see each print later than Ceres clients
+(\S\ref{sec:risks}).
+\item \emph{Product limits.} Only bounded-loss products; futures held to maturity; no new positions in the last 24 h; remote offers must outlive a second attempt (R5):
+34--86 h at h 0.
+\item \emph{Packets.} 28 backbone launches per cross-planet trade (3 quota); 124 for the 288-hour future (15 quota), \SimLiteSaved\ of them the 11 forwarded interim prints
+and receipts. Interim prints move no money; forwarding only the settling print uses \SimLiteLaunches\ launches (\SimLiteQuota\ quota) with identical times and balances
+but no information for remote clients before maturity. We keep forwarding as the default; the lighter rule is a one-line change to R12.
 \end{itemize}
 
 \subsection{Service table}
@@ -59,22 +75,21 @@ Every settlement gets every product on the same rules; what differs is distance.
 fastest foresight-pinned route; ``200 y'' is the range over the E4 scan.
 
 \begin{table}[H]\centering
-\setlength{\tabcolsep}{3.5pt}
-\begin{tabularx}{\linewidth}{lrrrrX}
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabularx}{\linewidth}{l>{\raggedleft\arraybackslash}p{0.9cm}>{\raggedleft\arraybackslash}p{0.9cm}>{\centering\arraybackslash}p{3.3cm}>{\centering\arraybackslash}p{1.8cm}X}
 \toprule
-& \multicolumn{2}{c}{Share DvP / transfer} & \multicolumn{2}{c}{Ceres Iron future} & \\
-\cmidrule(lr){2-3}\cmidrule(lr){4-5}
-Settlement & to Neptune h 0 & any peer 200 y & to Ceres h 0 & 200 y & Restrictions and conditions\\
+& \multicolumn{3}{c}{One-way delay (h): DvP to Neptune, future to Ceres} & & \\
+Settlement & DvP h 0 & Fut. h 0 & 200 y (DvP; future) & $\le$+24 h \% & Restrictions and conditions\\
 \midrule
-Mercury & 4.32 & 0.34--5.20 & 0.70 & 0.34--1.51 & most link closures (788 per relay in 200 y); service relies on foresight pinning (R15)\\
-Venus & 4.22 & 0.32--5.20 & 0.61 & 0.32--1.52 & ---\\
-Earth & 4.17 & 0.28--5.19 & 0.56 & 0.28--1.53 & ---\\
-Mars & 4.11 & 0.21--5.25 & 0.50 & 0.21--1.57 & ---\\
-Ceres & 4.10 & 0.21--5.15 & local & local & referee: positions between two Ceres clients are local postings\\
-Jupiter & 4.67 & 0.38--5.55 & 0.69 & 0.38--1.76 & pinned relay link can close 51.8 d (R16 re-routes)\\
-Saturn & 4.87 & 0.89--6.17 & 1.25 & 0.89--2.40 & no account at h 0; same terms for any later account\\
-Uranus & 6.19 & 2.24--7.53 & 2.57 & 2.24--3.83 & Uranus--Relay A launch loss 28.5\% at h 0; more resubmissions\\
-Neptune & local & 3.78--7.53 & 4.11 & 3.78--5.15 & Neptune--Relay A launch loss 42.7\% at h 0; accepts futures until h \EtwoLatestNeptune\\
+Mercury & 4.32 & 0.70 & 0.34--5.20; 0.34--1.51 & \EtwoDvPMercuryDay / \EtwoFutMercuryDay & most link closures (788 per relay in 200 y); service relies on foresight pinning (R15)\\
+Venus & 4.22 & 0.61 & 0.32--5.20; 0.32--1.52 & \EtwoDvPVenusDay / \EtwoFutVenusDay & ---\\
+Earth & 4.17 & 0.56 & 0.28--5.19; 0.28--1.53 & \EtwoDvPEarthDay / \EtwoFutEarthDay & ---\\
+Mars & 4.11 & 0.50 & 0.21--5.25; 0.21--1.57 & \EtwoDvPMarsDay / \EtwoFutMarsDay & ---\\
+Ceres & 4.10 & local & 0.21--5.15; local & local / local & referee: positions between two Ceres clients are local postings\\
+Jupiter & 4.67 & 0.69 & 0.38--5.55; 0.38--1.76 & \EtwoDvPJupiterDay / \EtwoFutJupiterDay & pinned relay link can close 51.8 d (R16 re-routes)\\
+Saturn & 4.87 & 1.25 & 0.89--6.17; 0.89--2.40 & \EtwoDvPSaturnDay / \EtwoFutSaturnDay & no account at h 0; same terms for any later account\\
+Uranus & 6.19 & 2.57 & 2.24--7.53; 2.24--3.83 & \EtwoDvPUranusDay / \EtwoFutUranusDay & Uranus--Relay A launch loss 28.5\% at h 0; more resubmissions\\
+Neptune & local & 4.11 & 3.78--7.53; 3.78--5.15 & \EtwoDvPNeptuneDay / \EtwoFutNeptuneDay & Neptune--Relay A launch loss 42.7\% at h 0; accepts futures until h \EtwoLatestNeptune\\
 \bottomrule
 \end{tabularx}
 \caption{Service at every settlement. \emph{Offered at all nine:} local deals (R3, immediate, no quota); cross-planet

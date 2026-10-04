@@ -392,8 +392,6 @@ def write_all(R):
             ("Longest known wait h, with / without", [f"{h(a['max_wait'])} / {h(b['max_wait'])}" for a, b in zip(A_, N_)]),
             (B + "$-hours, with = without", [num(a["asset_hours"]["USD"]) if a["asset_hours"]["USD"] ==
                                             b["asset_hours"]["USD"] else "differ" for a, b in zip(A_, N_)])]
-    parts.append(B + "par" + B + "noindent" + B + "textbf{Maintenance comparison (natural geometry kept)}" + B + "par\n{" + B +
-                 "setlength{" + B + "tabcolsep}{3pt}\n" + ttab(bases, rows) + "}\n")
     vms = ["VM", "VM@Ceres", "VM@Venus", "VM@Uranus"]
     A_, H_ = [R[x] for x in vms], [R["Hub-" + x] for x in vms]
     rows = [("Complete h, home ledgers", [h(r["complete"]) for r in A_]),
@@ -450,6 +448,11 @@ def write_all(R):
         "SimSTwoFRExtraDollarHours": num(R["S2-FR"]["asset_hours"]["USD"] - fr["asset_hours"]["USD"]),
         "SimSTwoFRPackets": str(R["S2-FR"]["launches_total"]), "SimSTwoFRFailed": str(R["S2-FR"]["launches_failed"]),
         "SimSTwoFRQuota": str(R["S2-FR"]["originated"]),
+        "SimLiteLaunches": str(R["FR-lite"]["launches_total"]), "SimLiteQuota": str(R["FR-lite"]["originated"]),
+        "SimLiteSaved": str(fr["launches_total"] - R["FR-lite"]["launches_total"]),
+        "SimVoidSpendable": h(R["VOID"]["spendable"]), "SimVoidExtraDollarHours": num(R["VOID"]["asset_hours"]["USD"] - fr["asset_hours"]["USD"]),
+        "SimSTwoFRSpendableAfter": h(R["S2-FR"]["spendable"] - 358.0, 1),
+        "SimStackAfter": h(R["S2-ST"]["spendable"] - 364.0, 1),
         "SimSTwoPeakBranch": str(max(R["S2-FR"]["quota_peak_branch"].values())),
         "SimStackSpendable": h(R["S2-ST"]["spendable"]), "SimStackLost": h(R["S2-ST"]["spendable"] - fr["spendable"], 1),
         "SimStackExtraDollarHours": num(R["S2-ST"]["asset_hours"]["USD"] - fr["asset_hours"]["USD"]),

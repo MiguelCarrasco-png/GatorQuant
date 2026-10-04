@@ -11,7 +11,7 @@
 %  [ ] spendable, backed-claim and discharge moments reported separately for every settled position
 %  [ ] no \pending left (search the PDF for "PENDING")
 
-\title{Lost Packets Cost Time, Never Money: A Pre-Funded Exchange Across the Solar System \\ \large Design paper --- MultiPlanetary Exchange System, Gator Quant Hacks 2026}
+\title{Lost Packets Cost Time, Not Principal: A Pre-Funded Exchange Across the Solar System \\ \large Design paper --- MultiPlanetary Exchange System, Gator Quant Hacks 2026}
 \author{\teamline}
 \date{}
 
@@ -23,13 +23,16 @@ We run the exchange as nine \emph{Branches}, one per settlement, each keeping th
 there; there is no hub and no central bank. Nothing is owed across light-lag unless it is locked first: a cross-planet
 trade locks the buyer's money at home, the seller's Branch decides once and commits, and the buyer's Branch releases
 on the commit; a capped Ceres Iron future locks each side's full maximum loss at home and is settled by the Branch
-where its price is published. No timer ever ends a lock, and only the lock holder resends, so a lost, late, duplicated
-or contradictory message can cost time but never money (guarantees G1--G3, resting on rules alone). Completion is
-conditional only on the two Branches eventually exchanging a packet, which on the common model is always possible:
-a 200-year scan certified to 1 ms finds no settlement ever cut off. On the traced runs an Earth--Neptune share trade
-completes in \SimVMComplete\ h, the 288-hour future pays in full in both price directions at h \SimFutSpendable\ with
-30\% of all cash locked, and a 72 h isolation of the referee at maturity delays payment by \SimSTwoLost\ h without
-touching a balance.
+where its price is published. No timer ends a lock and only the lock holder resends, so a lost, late, duplicated or
+contradictory message costs \emph{time}, not principal, and time has a price: the 288-hour future keeps 30\% of all
+cash locked, \SimFutDollarHours\ \$-hours, and each incident adds more (below). The invariants (G1--G3) rest on rules
+alone and are checked after every ledger step of \FuzzRuns\ fault-injected runs, \FuzzFailures\ violations. Completion needs only that two Branches can eventually exchange a packet, which a 200-year scan certified to 1 ms
+shows is always possible on the common model. On the traced runs an Earth--Neptune share trade
+completes in \SimVMComplete\ h and the future pays in full in both price directions at h \SimFutSpendable. A 72 h
+isolation of the referee at maturity makes the remote winner (FR: Callisto) wait \SimSTwoFRLost\ h more
+(\SimSTwoFRExtraDollarHours\ extra \$-hours); our worst stacked incident (isolation, reset, forced loss) makes it wait
+\SimStackLost\ h (\SimStackExtraDollarHours). No balance is wrong at any point. Guarantees against a Branch that breaks
+its own rules are an \extension: detection is implemented and tested (R22), enforcement is not claimed.
 \end{abstract}
 
 % Suggested budget (brief s.8): 5 + 2 + 2 + 2 + 1 = 12 pages.

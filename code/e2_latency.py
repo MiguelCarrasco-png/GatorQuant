@@ -162,7 +162,7 @@ def main():
                               f"{100 * np.mean(de):.2f}", PCT(np.mean(u <= nu + 24)), f"{100 * np.mean(du):.2f}",
                               PCT(np.mean(st <= ns + 6)), PCT(np.mean(st <= ns + 24))]))
         if ke == 1.0:
-            k = str(m).replace(".", "p")
+            k = {0.5: "Half", 1.0: "One", 2.0: "Two", 4.0: "Four"}[m]
             M[f"EtwoSweepLoss{k}Day"] = PCT(np.mean(e <= ne + 24))
             M[f"EtwoSweepLoss{k}Decline"] = f"{100 * np.mean(de):.2f}"
             M[f"EtwoSweepLoss{k}UranusDecline"] = f"{100 * np.mean(du):.2f}"

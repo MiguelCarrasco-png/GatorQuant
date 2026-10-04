@@ -456,6 +456,7 @@ class World:
         self.reroute = True
         self._batch = None
         self.void = False
+        self.lite = False
 
     def offer_life_ok(self, frm, to, t, expiry):
         """Offer-life rule R5: the initiator accepts a remote offer only if a second endpoint attempt, if it is not
@@ -537,11 +538,19 @@ class World:
         S, B = self.apps[seller_at], self.apps[buyer_at]
         deal = self.next_deal(buyer_at)
 
+        def expire(t, app, oid, at, owner, asset):
+            """R4: an offer still open at its expiry hour frees its reservation."""
+            off = app.offers[oid]
+            if off["state"] == "open":
+                off["state"] = "expired"
+                self.sim.book(t, lambda L: L.unencumber(at, owner, asset, off["tag"]))
+
         def post_offer(t):
             ok = self.sim.book(t, lambda L: L.encumber(seller_at, "Triton Fund", "ARES", VM_SHARES, "O-1"))
             assert ok
             S.offers["O-1"] = dict(owner="Triton Fund", shares=VM_SHARES, price=VM_PRICE, expiry=VM_OFFER_EXPIRY,
                                    state="open", tag="O-1")
+            self.sim.at(VM_OFFER_EXPIRY, lambda t2: expire(t2, S, "O-1", seller_at, "Triton Fund", "ARES"))
             self.row(t, f"{seller_at} Branch", "Triton's offer arrives by local access (1 s)",
                      f"Posts firm offer O-1: sell {VM_SHARES} Ares at {money(VM_PRICE)}, expiry h {VM_OFFER_EXPIRY:g}",
                      "local", "", f"Triton {VM_SHARES} Ares reserved for O-1")
@@ -579,10 +588,17 @@ class World:
         deal = self.next_deal(J)
         self.deal = deal
 
+        def expire_f(t):
+            off = self.apps[C].offers["O-F"]
+            if off["state"] == "open":
+                off["state"] = "expired"
+                self.sim.book(t, lambda L: L.unencumber(C, "Ceres Iron Works", "USD", off["tag"]))
+
         def offer(t):
             assert self.sim.book(t, lambda L: L.encumber(C, "Ceres Iron Works", "USD", MARGIN, "O-F"))
             self.apps[C].offers["O-F"] = dict(owner="Ceres Iron Works", contracts=CONTRACTS, margin=MARGIN,
                                               expiry=FUT_OFFER_EXPIRY, state="open", tag="O-F")
+            self.sim.at(FUT_OFFER_EXPIRY, lambda t2: expire_f(t2))
             self.row(t, "Ceres Branch", "Ceres Iron Works' order by local access; h 0 print = 100 = entry",
                      f"Posts firm offer O-F: short {CONTRACTS} at {ENTRY:g}, expiry h {FUT_OFFER_EXPIRY:g}",
                      "local", "", f"Ceres Iron Works {money(MARGIN)} reserved (max loss)")
@@ -608,6 +624,8 @@ class World:
                          "local", "", "entry price fixed at 100")
                 return
             tb = t + SEC                                   # local access to Ceres Branch
+            if h < SETTLE_H and self.lite:
+                return                                       # R12 variant: interim prints are not forwarded
             if h < SETTLE_H:
                 self.sim.at(tb, lambda t2: self.send(t2, C, J, [dict(type="PRINT", h=h, price=p)], f"PRINT h{h}",
                             know=f"Interim print h {h} = {p:g} by local access", action="Forwards it to Jupiter "
@@ -672,8 +690,9 @@ class World:
 
         def keepalive(t):
             s = self.sim.sessions[(J, C)]
-            last = s.last_rx[J] if s.last_rx[J] is not None else s.opened
+            last = max(s.last_rx[J] if s.last_rx[J] is not None else s.opened, getattr(self, "_ka_sent", -1e9))
             if self.apps[J].locks.get(deal, {}).get("state") in ("locked", "pledged") and t - last >= KEEPALIVE_IDLE:
+                self._ka_sent = t
                 self.send(t, J, C, [dict(type="KEEPALIVE")], "KEEPALIVE", know="Session idle 120 h",
                           action="Sends keep-alive", state="unchanged")
             if t < 400:
@@ -707,18 +726,19 @@ def make(run):
     reloc = base.split("@")[1] if "@" in base else None
     w = World(run, maintenance=maint, incident=inc, relocate=reloc)
     w.void = base == "VOID"
+    w.lite = base == "FR-lite"
     if base.startswith("VM"):
         w.script_vm(hub=run.startswith("Hub-"))
     else:
         w.script_future({"FR": RISING, "FF": FALLING, "FR-cap": CAPPED, "S2": FALLING, "S2-FR": RISING,
-                         "S2-ST": RISING, "VOID": RISING}[base])
+                         "S2-ST": RISING, "VOID": RISING, "FR-lite": RISING}[base])
         for t, node in resets:
             w.sim.at(t, lambda t_, n=node: w.reset(t_, n))
     w.kind = "vm" if base.startswith("VM") else "future"
     return w
 
 
-RUNS = ["VM", "FR", "FF", "FR-cap", "S2", "S2-FR", "S2-ST", "VOID", "VM@Ceres", "VM@Venus", "VM@Uranus",
+RUNS = ["VM", "FR", "FF", "FR-cap", "S2", "S2-FR", "S2-ST", "VOID", "FR-lite", "VM@Ceres", "VM@Venus", "VM@Uranus",
         "noMaint-VM", "noMaint-FR", "noMaint-FF", "noMaint-S2",
         "Hub-VM", "Hub-VM@Ceres", "Hub-VM@Venus", "Hub-VM@Uranus"]
 

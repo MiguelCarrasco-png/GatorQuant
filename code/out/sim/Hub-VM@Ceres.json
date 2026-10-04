@@ -477,10 +477,10 @@
  "max_wait": 0.000833333333333507,
  "last_packet": 15.953156392221583,
  "rx_gaps": {
-  "Ceres on Ceres-Mars": 72.00640103720801,
-  "Mars on Ceres-Mars": 71.01842274135483,
   "Neptune on Neptune-Mars": 72.01186534670565,
-  "Mars on Neptune-Mars": 63.78824393043918
+  "Mars on Neptune-Mars": 63.78824393043918,
+  "Ceres on Ceres-Mars": 72.00640103720801,
+  "Mars on Ceres-Mars": 71.01842274135483
  },
  "snaps": [
   [
