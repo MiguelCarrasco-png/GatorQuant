@@ -1,0 +1,23 @@
+{
+  "name": "gatorquant-slides",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "slidev --open",
+    "build": "slidev build",
+    "export": "slidev export --output gatorquant-deck.pdf"
+  },
+  "dependencies": {
+    "@fontsource-variable/archivo": "^5.3.0",
+    "@slidev/cli": "^53.0.0",
+    "@slidev/theme-default": "^0.25.0",
+    "@splinetool/loader": "^2.0.66",
+    "@splinetool/runtime": "^2.0.66",
+    "gsap": "^3.15.0",
+    "three": "^0.186.1",
+    "vue": "^3.5.43"
+  },
+  "devDependencies": {
+    "playwright-chromium": "^1.63.0"
+  }
+}
