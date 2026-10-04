@@ -74,19 +74,23 @@ def ttab(cols, rows, first="Measure"):
 
 # ------------------------------------------------------------------ traces
 
-TRACE_SPEC = (">{\\raggedright\\arraybackslash}p{1.05cm}>{\\raggedright\\arraybackslash}p{1.0cm}"
-              ">{\\raggedright\\arraybackslash\\hsize=0.85\\hsize}X>{\\raggedright\\arraybackslash\\hsize=0.75\\hsize}X"
-              ">{\\raggedright\\arraybackslash}p{2.75cm}>{\\raggedright\\arraybackslash}p{1.0cm}"
-              ">{\\raggedright\\arraybackslash\\hsize=1.4\\hsize}X")
-TRACE_HEAD = "Time (h) & Actor & Local knowledge & Action & Packet (BB = backbone) & Arrival & Financial state after"
+# Time+actor and packet+arrival share a cell each, so the text columns are wide enough to stay short at 10 pt.
+TRACE_SPEC = (">{\\raggedright\\arraybackslash}p{1.75cm}"
+              ">{\\raggedright\\arraybackslash\\hsize=0.8\\hsize}X>{\\raggedright\\arraybackslash\\hsize=0.8\\hsize}X"
+              ">{\\raggedright\\arraybackslash\\hsize=1.15\\hsize}X>{\\raggedright\\arraybackslash\\hsize=1.25\\hsize}X")
+TRACE_HEAD = ("Time (h), actor & Local knowledge & Action & Packet (BB = backbone); arrival & "
+              "Financial state after")
 
 
 def trace_rows(rows):
     out = []
     for r in rows:
         actor = r["actor"].replace(" Branch", " Br.")
-        out.append(" & ".join([ht(r["t"]), esc(actor), esc(r["know"]), esc(r["action"]), r["packet"],
-                               r["arrival"].replace("h ", ""), r["state"]]))
+        arr = r["arrival"]
+        packet = r["packet"] + ("; " + ("arrives " + arr if arr.startswith("h ") or arr.startswith("+") else arr)
+                                if arr else "")
+        out.append(" & ".join([ht(r["t"]) + B + "newline " + esc(actor), esc(r["know"]), esc(r["action"]), packet,
+                               r["state"]]))
     return out
 
 
@@ -113,8 +117,8 @@ def collapse_prints(rows, lo=24, hi=216):
 
 
 def trace_table(rows, caption):
-    return (B + "par" + B + "noindent" + B + "textbf{" + caption + "}" + B + "par\n" + B + "footnotesize\n" +
-            tabx(TRACE_SPEC, TRACE_HEAD, trace_rows(rows)) + B + "normalsize\n")
+    return (B + "par" + B + "noindent" + B + "textbf{" + caption + "}" + B + "par\n{" + B + "setlength{" + B +
+            "tabcolsep}{3pt}\n" + tabx(TRACE_SPEC, TRACE_HEAD, trace_rows(rows)) + "}\n")
 
 
 # ------------------------------------------------------------------ S3 access table
@@ -310,7 +314,7 @@ def write_all(R):
         rows.append(B + "multicolumn{2}{l}{" + B + "textbf{" + run + "}}")
         for t, diffs in changes(R[run]["snaps"]):
             rows.append(ht(t) + " & " + "; ".join(diffs))
-    parts.append(B + "footnotesize\n" + tabx("rX", "Time (h) & Lines changed (balance after, amount encumbered)",
+    parts.append(tabx("rX", "Time (h) & Lines changed (balance after, amount encumbered)",
                                               rows) + B + "normalsize\n")
     (GEN / "e3_balances.tex").write_text(("\n" + B + "medskip\n").join(parts))
     M["SimChecks"] = str(sum(R[r]["checks"] for r in R))
@@ -329,21 +333,21 @@ def write_all(R):
             ("Longest known wait h, with / without", [f"{h(a['max_wait'])} / {h(b['max_wait'])}" for a, b in zip(A_, N_)]),
             (B + "$-hours, with = without", [num(a["asset_hours"]["USD"]) if a["asset_hours"]["USD"] ==
                                             b["asset_hours"]["USD"] else "differ" for a, b in zip(A_, N_)])]
-    parts.append(B + "par" + B + "noindent" + B + "textbf{Maintenance comparison (natural geometry kept)}" + B + "par\n" +
-                 ttab(bases, rows))
+    parts.append(B + "par" + B + "noindent" + B + "textbf{Maintenance comparison (natural geometry kept)}" + B + "par\n{" + B +
+                 "setlength{" + B + "tabcolsep}{3pt}\n" + ttab(bases, rows) + "}\n")
     vms = ["VM", "VM@Ceres", "VM@Venus", "VM@Uranus"]
     A_, H_ = [R[x] for x in vms], [R["Hub-" + x] for x in vms]
     rows = [("Complete h, home ledgers", [h(r["complete"]) for r in A_]),
             ("Complete h, Mars hub", [h(r["complete"]) for r in H_]),
-            ("Backbone packets, home / hub", [f"{a['launches_total']} / {b['launches_total']}" for a, b in zip(A_, H_)]),
-            ("Quota packets, home / hub", [f"{a['originated']} / {b['originated']}" for a, b in zip(A_, H_)]),
-            ("Sessions to pre-open, home / hub", [f"{len(a['sessions'])} / {len(b['sessions'])}" for a, b in zip(A_, H_)]),
-            (B + "$-hours, home / hub", [f"{num(a['asset_hours']['USD'])} / {num(b['asset_hours']['USD'])}"
-                                       for a, b in zip(A_, H_)]),
-            ("Ares-hours, home / hub", [f"{num(a['asset_hours']['ARES'])} / {num(b['asset_hours']['ARES'])}"
-                                        for a, b in zip(A_, H_)])]
+            ("Backbone packets", [f"{a['launches_total']} / {b['launches_total']}" for a, b in zip(A_, H_)]),
+            ("Quota packets", [f"{a['originated']} / {b['originated']}" for a, b in zip(A_, H_)]),
+            ("Sessions to pre-open", [f"{len(a['sessions'])} / {len(b['sessions'])}" for a, b in zip(A_, H_)]),
+            (B + "$-hours, home ledgers", [num(a["asset_hours"]["USD"]) for a in A_]),
+            (B + "$-hours, Mars hub", [num(b["asset_hours"]["USD"]) for b in H_]),
+            ("Ares-hours", [f"{num(a['asset_hours']['ARES'])} / {num(b['asset_hours']['ARES'])}"
+                            for a, b in zip(A_, H_)])]
     parts.append(B + "par" + B + "noindent" + B + "textbf{Alternative: Mars hub ledger vs home ledgers (same funding "
-                 "and guarantees)}" + B + "par\n{" + B + "small" + B + "setlength{" + B + "tabcolsep}{3pt}\n" +
+                 "and guarantees; pairs are home / hub)}" + B + "par\n{" + B + "setlength{" + B + "tabcolsep}{3pt}\n" +
                  ttab(["Earth", "Ceres", "Venus", "Uranus"], rows, "Terra at") + "}\n")
     (GEN / "s2_stress.tex").write_text(("\n" + B + "medskip\n").join(parts))
 

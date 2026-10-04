@@ -5,7 +5,7 @@
 the price source, so every price contract depends on it, and in FF the loser (Callisto) is remote, so its pledge and
 refund can only be settled by a SETTLE that must leave Ceres. We scanned every kind, node and start time
 (\texttt{code/s2\_incident.py}); the worst cases, each at its worst start:
-\begin{center}\small\gen{s2_incident.tex}\end{center}
+\begin{center}\gen{s2_incident.tex}\end{center}
 Retries cannot beat an isolation: an endpoint packet gets four attempts $R_e = 2T_0 + 24 = 25.4$ h apart, so the first
 three fall inside 72 h and only the fourth gets out. Any start in [272.5, 288] gives the same 76.1 h; we chose
 h 286 (inside the band, 2 h before the print) over the equally long isolation at opening because it hits a

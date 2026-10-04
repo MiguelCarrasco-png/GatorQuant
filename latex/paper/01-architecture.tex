@@ -14,7 +14,7 @@ noted; \extension\ marks future work that no guarantee relies on.
 
 \subsection{Institutions, accounts and ledgers}
 
-\begin{table}[h]\centering\small
+\begin{table}[h]\centering
 \begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.1cm}>{\raggedright\arraybackslash}p{2.6cm}X}
 \toprule
 Institution (10 of 12 chartered) & Where & Responsible for\\
@@ -34,7 +34,7 @@ no quota). An \emph{inter-Branch account} is a balance one Branch holds on anoth
 \emph{Earth Branch at Neptune: 200 Ares}. It is a claim, not new money, and nets to zero across the system.
 
 \textbf{Opening balance sheet} (hour 0, authoritative; every run starts from it, a declared reset):
-\begin{center}\small\gen{balance_sheet.tex}\end{center}
+\begin{center}\gen{balance_sheet.tex}\end{center}
 Six accounts at six settlements; totals exactly at the limits (\$500{,}000, 5{,}000 shares). We put the value move
 at the far ends of the system (Earth and Neptune, 4.17 h one way through Relay A), and put the price contract's
 \emph{loser-to-be} on a different planet from its referee in both runs: Callisto Foundry at Jupiter is long, Ceres
@@ -84,14 +84,14 @@ the lock returns to the client's free balance. A trade is complete at the later 
 \end{description}
 
 \begin{figure}[h]\centering
-\begin{tikzpicture}[x=1cm,y=-0.62cm,font=\footnotesize,>={Stealth[length=2mm]}]
+\begin{tikzpicture}[x=0.85cm,y=-0.75cm,font=\normalsize,>={Stealth[length=2mm]}]
 \foreach \x/\n in {0/Earth Branch (Terra),4.5/Relay A,9.0/Neptune Branch (Triton)} {
-  \node[font=\footnotesize\bfseries] at (\x,-0.6) {\n}; \draw[gray] (\x,0) -- (\x,8.6); }
-\draw[->] (0,0.4) -- node[above,sloped] {LOCK EAR-1, h 0.0006} (4.5,1.0);
-\draw[->] (4.5,1.0) -- node[above,sloped] {h 0.3138 $\to$ 4.1751 (27.86 AU)} (9.0,4.2);
-\draw[->] (9.0,4.6) -- node[above,sloped] {COMMIT EAR-1, h 4.1756 $\to$ 8.0372} (4.5,7.8);
-\draw[->] (4.5,7.8) -- node[above,sloped] {h 8.0378 $\to$ 8.3499} (0,8.4);
-\node[anchor=east,align=right] at (-0.15,0.4) {h 0.0003: lock \$25{,}000};
+  \node[font=\bfseries] at (\x,-0.6) {\n}; \draw[gray] (\x,0) -- (\x,8.6); }
+\draw[->] (0,1.0) -- node[above,sloped,align=center] {LOCK EAR-1\\h 0.0006} (4.5,1.0);
+\draw[->] (4.5,1.0) -- node[above,sloped,align=center] {h 0.3138 $\to$ 4.1751\\(27.86 AU)} (9.0,4.2);
+\draw[->] (9.0,4.6) -- node[below,sloped,align=center] {COMMIT EAR-1\\h 4.1756 $\to$ 8.0372} (4.5,7.8);
+\draw[->] (4.5,7.8) -- node[below,sloped] {h 8.0378 $\to$ 8.3499} (0,8.4);
+\node[anchor=east,align=right] at (-0.15,1.0) {h 0.0003: lock \$25{,}000};
 \node[anchor=east,align=right] at (-0.15,8.4) {h 8.3499: release;\\Terra's 200 Ares spendable};
 \node[anchor=west,align=left] at (9.15,0.4) {h 0.0003: offer O-1\\reserves 200 Ares};
 \node[anchor=west,align=left] at (9.15,4.4) {h 4.1751: decide once,\\record, commit; Triton's\\\$25{,}000 spendable};
@@ -104,7 +104,7 @@ the lock returns to the client's free balance. A trade is complete at the later 
 contradiction and the brief's three incident kinds. In every row the money stays where R2 and R6 put it, so a fault
 can cost time but never assets.
 
-\begin{table}[h]\centering\small
+\begin{table}[h]\centering
 \begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.0cm}X>{\raggedright\arraybackslash}p{4.4cm}}
 \toprule
 Event & What happens (who knows what) & Who owes what meanwhile\\

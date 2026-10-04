@@ -5,7 +5,7 @@
 all, listed below and in S2--S3). Sessions are handshaken at h $-72$ (R15); the epoch geometry and both maintenance
 windows apply; random loss is removed. Rules R1--R21 are those of the design paper.
 
-\begin{center}\small\setlength{\tabcolsep}{3pt}
+\begin{center}\setlength{\tabcolsep}{3pt}
 \begin{tabularx}{\linewidth}{l>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{5.2cm}}
 \toprule
 Run & Script (brief requirement covered) & Final state of every obligation\\
@@ -57,7 +57,7 @@ independent under an isolation that hits them all.
 \textbf{Backbone, per launch and per hop (exact per launch; bound per hop).} Every launch of every run uses
 $p = 1 - e^{-0.02d}$ from its own geometry. A hop is abandoned only if all four of its launches are lost; we bound
 this by $p_{\max}^4$ over all launches on that link.
-\begin{center}\footnotesize\setlength{\tabcolsep}{4pt}\gen{e2_probabilities.tex}\end{center}
+\begin{center}\setlength{\tabcolsep}{4pt}\gen{e2_probabilities.tex}\end{center}
 An endpoint attempt is lost if any hop is abandoned; four attempts all lost leaves \emph{status unknown}. With no
 incident the attempts are more than 24 h apart and share no window or queue, so we multiply them; in S2 the
 isolation makes attempts 1--3 fail together, and we do not. \textbf{Financial effect of an abandoned hop:} none.
@@ -66,7 +66,7 @@ The lock or pledge stays (R6), the endpoint retries, and status unknown triggers
 \textbf{Completion probability under random loss} (\texttt{code/e2\_latency.py}, $10^6$ Monte Carlo runs per row,
 no incident). Each launch is an independent trial; a failed launch costs one $R_h$; four failures abandon the
 attempt; attempts are enqueued every $R_e$; the deal commits on the first LOCK arrival before expiry.
-\begin{center}\footnotesize\setlength{\tabcolsep}{4pt}\gen{e2_latency.tex}\end{center}
+\begin{center}\setlength{\tabcolsep}{4pt}\gen{e2_latency.tex}\end{center}
 The far trade completes at its no-loss time only \EtwoVMEarthNoLoss\% of the time, because the Neptune hop loses
 42.7\% of launches and each retry waits $R_h = 8.7$ h. It is declined (funded: the lock returns) in
 \EtwoVMEarthDecline\% of runs from Earth and \EtwoVMUranusDecline\% from Uranus under R5 (offer life 96 h).

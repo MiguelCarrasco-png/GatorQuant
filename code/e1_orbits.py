@@ -54,10 +54,10 @@ def main():
         worst_rad = max(worst_rad, lo - r.min(), r.max() - hi, 0.0)
         rows.append(" & ".join([b, f"{p[0]:+.6f}", f"{p[1]:+.6f}", f"{p[2]:+.6f}", f"{err:.1e}",
                                 f"{el['period_days']:,.1f}".replace(",", "{,}"), f"{close:.0e}",
-                                f"{r.min():.4f}--{r.max():.4f}", f"{lo:.4f}--{hi:.4f}"]))
-    (GEN / "e1_epoch_check.tex").write_text(tab(
-        "lrrrrrrcc", "Body & $x$ & $y$ & $z$ (AU) & $|\\Delta|_{\\max}$ & period d & $|r(P)-r(0)|$ & "
-        "$|r|$ over one period & $a(1\\mp e)$", rows))
+                                f"{r.min():.4f}--{r.max():.4f}"]))
+    (GEN / "e1_epoch_check.tex").write_text(tab(   # |r| range equals a(1-e)--a(1+e) to EoneRadSlack (prose)
+        "lrrrrrrc", "Body & $x$ & $y$ & $z$ (AU) & $|\\Delta|_{\\max}$ & period d & $|r(P)-r(0)|$ & "
+        "$|r|$ over one period", rows))
     M["EoneWorstErr"] = f"{worst:.1e}"
     M["EoneWorstClose"] = f"{worst_close:.0e}"
     M["EoneRadSlack"] = f"{worst_rad:.0e}"

@@ -19,11 +19,12 @@ after the packet is (serialization), a relay adds 1 s, and local access adds 1 s
 
 \textbf{Epoch check, periods and radius bounds.} The worst epoch error is \EoneWorstErr\ AU, against the brief's
 $10^{-5}$. After one period every body returns to its start within \EoneWorstClose\ AU, and the distance from the
-Sun over a period (20{,}001 samples) stays inside $[a(1-e), a(1+e)]$ to \EoneRadSlack\ AU.
-\begin{center}\footnotesize\setlength{\tabcolsep}{3pt}\gen{e1_epoch_check.tex}\end{center}
+Sun over a period (20{,}001 samples) stays inside $[a(1-e), a(1+e)]$ to \EoneRadSlack\ AU, so the last column is
+also each body's $a(1-e)$--$a(1+e)$.
+\begin{center}\setlength{\tabcolsep}{3pt}\gen{e1_epoch_check.tex}\end{center}
 
 \textbf{Worked positions at a later time} (the settling print and the S3 second snapshot):
-\begin{center}\footnotesize\setlength{\tabcolsep}{4pt}\gen{e1_later.tex}\end{center}
+\begin{center}\setlength{\tabcolsep}{4pt}\gen{e1_later.tex}\end{center}
 
 \textbf{Receiver motion changes the arrival time; forward and return differ.} We scanned every ordered pair of the
 11 nodes, hourly over h 0--2{,}000, for the largest gap between the moving-receiver arrival and the frozen-receiver
@@ -35,4 +36,4 @@ at the same instant, takes \EoneRevMin\ min (\EoneRevShiftS\ s; \EoneExSender\ b
 therefore differ by \EoneAsymS\ s, 2{,}900 times the 1 ms tolerance and more than the 1 s serialization step: it
 matters for the brief's simultaneous-arrival ordering and for whether a flight overlaps a maintenance window. Every
 hop of our scenario routes, each direction computed separately at its own launch time:
-\begin{center}\footnotesize\gen{e1_lighttime.tex}\end{center}
+\begin{center}\gen{e1_lighttime.tex}\end{center}

@@ -146,7 +146,7 @@ def write_tex(R):
              r"\multicolumn{4}{c}{Ceres Iron future, Jupiter--Ceres (FR = FF)}\\" + "\n"
              r"\cmidrule(lr){3-6}\cmidrule(lr){7-10}")
     t1 = (r"\par\noindent\textbf{Tier 1: shifted runs, no suspension at any offset (maintenance and S2 incident "
-          r"not replayed)}\par" + "\n" + r"\footnotesize\setlength{\tabcolsep}{4pt}" + "\n"
+          r"not replayed)}\par" + "\n" + r"\setlength{\tabcolsep}{3pt}" + "\n"
           + tab("lrlrrrlrrr", head, rows, extra) + r"\normalsize" + "\n")
 
     hr = [
@@ -161,7 +161,7 @@ def write_tex(R):
     ]
     t2 = (r"\par\noindent\textbf{Tiers 2--3: difficult epoch h " + num(HARD_T) + " (" + hard["date"][:10]
           + "): Jupiter--Relay A closed from h " + h(hard["closure"][0], 1) + " for " + num(hard["closure"][2])
-          + r" h}\par" + "\n" + r"\footnotesize\setlength{\tabcolsep}{4pt}" + "\n"
+          + r" h}\par" + "\n" + r"\setlength{\tabcolsep}{3pt}" + "\n"
           + tab(r"llrrrr>{\raggedright\arraybackslash}p{5.4cm}",
                 r"Run & route & done h & re-routes & launches & \$-h locked & Funded consequence",
                 [" & ".join(x) for x in hr]) + r"\normalsize" + "\n")
