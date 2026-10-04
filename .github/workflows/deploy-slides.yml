@@ -1,0 +1,47 @@
+name: Deploy slides
+
+on:
+  push:
+    branches: [main, hardening-eval76]
+    paths: ['slides/**', '.github/workflows/deploy-slides.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: deploy-slides
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: slides
+    env:
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: slides/package-lock.json
+
+      - run: npm ci
+
+      - name: Build
+        run: |
+          npx slidev build --base /${{ github.event.repository.name }}/
+          cp dist/index.html dist/404.html
+          touch dist/.nojekyll
+
+      - name: Publish to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: slides/dist
+          publish_branch: gh-pages
+          force_orphan: true
