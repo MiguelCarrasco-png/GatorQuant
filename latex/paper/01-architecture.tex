@@ -209,9 +209,9 @@ $100 \times 25 \times |\mathrm{clip}(P_{288}) - 100|$ and the rest of each lock 
 contract terms and positions, never a price that has not been published. Default is impossible by construction: the
 largest possible payoff is already encumbered, so a loser whose Branch is cut off is a \emph{funded default} at
 worst, with the winner holding a backed claim until SETTLE lands.
-\item[R12] \emph{Prints and freeze.} The referee receives each print by local access. It forwards interim prints to
-every Branch with an open pledge over the backbone (information only, 1 packet each); that Branch hands them to its
-clients locally. From h 264 (24 h before the settling print) the referee accepts no new positions; offers on the
+\item[R12] \emph{Prints and freeze.} The referee receives each print by local access. Interim prints move no money and are not forwarded on the
+backbone: a remote client learns the settling print from SETTLE. (Variant FR-full forwards each interim print to every Branch with an open pledge,
+information only; it adds \SimFullExtra\ launches, S1.) From h 264 (24 h before the settling print) the referee accepts no new positions; offers on the
 contract expire by then (R4).
 \end{description}
 

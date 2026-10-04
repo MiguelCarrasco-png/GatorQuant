@@ -9,12 +9,12 @@ Ceres from h 272.5, 280 or 286; an endpoint reset of Ceres or Jupiter at reconne
 \begin{center}\gen{s2_incident.tex}\end{center}
 \begin{center}\gen{stack_scan.tex}\end{center}
 
-\textbf{What the rules did.} The timer-only version of R8 (resubmit every $R_e = 25.4$ h) resumed at h 364.83, 76.1 h late, with 164 launches. R8 as written resubmits every
+\textbf{What the rules did.} The timer-only version of R8 (resubmit every $R_e = 25.4$ h) resumed at h 364.83, 76.1 h late, with 164 launches (measured when interim prints were still forwarded, 72 of them). R8 as written resubmits every
 $P = 2.4$ h in one batch per peer, on contact, and from a fresh session. Contact alone changes nothing in S2: both sides are silent from h 358 until their timers fire. Pace is the lever,
 and the 10-packet reserve affords one packet per 2.4 h:
 \begin{center}\gen{probe_sweep.tex}\end{center}
 A 4.8 h pace costs no time and half the packets; 9.6 h loses 3 h. The stacked case ignores pace: a stuck handshake waits one $R_e$ whatever the pace (interaction (f)); the
-fresh-session rule moved it from 386.8 h to \SimStackSpendable\ h. R8's cost in S2-FR is \SimSTwoFRPackets\ launches (\SimSTwoFRFailed\ lost) and \SimSTwoFRQuota\ quota packets, against 164 and 17.
+fresh-session rule moved it from 386.8 h to \SimStackSpendable\ h. R8's cost in S2-FR is \SimSTwoFRPackets\ launches (\SimSTwoFRFailed\ lost) and \SimSTwoFRQuota\ quota packets, against 164 and 17 under that old setting (92 and 8 without the print forwards, by subtraction).
 
 \gen{s2_stress.tex}
 

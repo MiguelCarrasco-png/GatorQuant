@@ -423,7 +423,7 @@ def write_all(R):
         "SimFutPackets": str(fr["launches_total"]), "SimFutQuota": str(fr["originated"]),
         "SimFutDollarHours": num(fr["asset_hours"]["USD"]), "SimFutPeak": usd(fr["peak_usd"]),
         "SimFutUtil": f"{100 * fr['utilization']:.0f}",
-        "SimPrintTwoFortyArrives": h(float(next(x for x in fr["trace"] if x["action"].startswith("Forwards")
+        "SimPrintTwoFortyArrives": h(float(next(x for x in R["FR-full"]["trace"] if x["action"].startswith("Forwards")
                                                 and abs(x["t"] - 240) < 1)["arrival"].replace("h ", "")), 4),
         "SimSTwoSpendable": h(s2r["spendable"]), "SimSTwoLost": h(s2r["spendable"] - ff["spendable"], 1),
         "SimSTwoExtraDollarHours": num(s2r["asset_hours"]["USD"] - ff["asset_hours"]["USD"]),
@@ -433,8 +433,8 @@ def write_all(R):
         "SimSTwoFRExtraDollarHours": num(R["S2-FR"]["asset_hours"]["USD"] - fr["asset_hours"]["USD"]),
         "SimSTwoFRPackets": str(R["S2-FR"]["launches_total"]), "SimSTwoFRFailed": str(R["S2-FR"]["launches_failed"]),
         "SimSTwoFRQuota": str(R["S2-FR"]["originated"]),
-        "SimLiteLaunches": str(R["FR-lite"]["launches_total"]), "SimLiteQuota": str(R["FR-lite"]["originated"]),
-        "SimLiteSaved": str(fr["launches_total"] - R["FR-lite"]["launches_total"]),
+        "SimFullLaunches": str(R["FR-full"]["launches_total"]), "SimFullQuota": str(R["FR-full"]["originated"]),
+        "SimFullExtra": str(R["FR-full"]["launches_total"] - fr["launches_total"]),
         "SimVoidSpendable": h(R["VOID"]["spendable"]), "SimVoidExtraDollarHours": num(R["VOID"]["asset_hours"]["USD"] - fr["asset_hours"]["USD"]),
         "SimSTwoFRSpendableAfter": h(R["S2-FR"]["spendable"] - 358.0, 1),
         "SimStackAfter": h(R["S2-ST"]["spendable"] - 364.0, 1),

@@ -4,15 +4,15 @@
   "S2-FR": {
    "spendable": 359.63673862291256,
    "lost": 70.94724166785988,
-   "launches": 274,
-   "quota": 36,
+   "launches": 202,
+   "quota": 27,
    "peak": 11
   },
   "S2-ST": {
    "spendable": 368.2364474916751,
    "lost": 79.54695053662243,
-   "launches": 331,
-   "quota": 41,
+   "launches": 259,
+   "quota": 32,
    "peak": 11
   }
  },
@@ -21,15 +21,15 @@
   "S2-FR": {
    "spendable": 359.6367386229131,
    "lost": 70.9472416678604,
-   "launches": 207,
-   "quota": 26,
+   "launches": 135,
+   "quota": 17,
    "peak": 5
   },
   "S2-ST": {
    "spendable": 368.93788504444376,
    "lost": 80.24838808939109,
-   "launches": 261,
-   "quota": 32,
+   "launches": 189,
+   "quota": 23,
    "peak": 6
   }
  },
@@ -38,15 +38,15 @@
   "S2-FR": {
    "spendable": 362.7576599357719,
    "lost": 74.06816298071925,
-   "launches": 182,
-   "quota": 22,
+   "launches": 110,
+   "quota": 13,
    "peak": 3
   },
   "S2-ST": {
    "spendable": 373.7379702233774,
    "lost": 85.0484732683247,
-   "launches": 232,
-   "quota": 27,
+   "launches": 160,
+   "quota": 18,
    "peak": 4
   }
  },
@@ -55,15 +55,15 @@
   "S2-FR": {
    "spendable": 364.8257517572823,
    "lost": 76.13625480222964,
-   "launches": 178,
-   "quota": 19,
-   "peak": 2
+   "launches": 106,
+   "quota": 10,
+   "peak": 1
   },
   "S2-ST": {
    "spendable": 386.8284846483689,
    "lost": 98.13898769331621,
-   "launches": 192,
-   "quota": 21,
+   "launches": 120,
+   "quota": 12,
    "peak": 2
   }
  }

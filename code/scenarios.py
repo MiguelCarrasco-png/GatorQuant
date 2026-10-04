@@ -457,7 +457,7 @@ class World:
         self.reroute = True
         self._batch = None
         self.void = False
-        self.lite = False
+        self.lite = True                                 # R12 default: interim prints are not forwarded over the backbone
 
     def offer_life_ok(self, frm, to, t, expiry):
         """Offer-life rule R5: the initiator accepts a remote offer only if a second endpoint attempt, if it is not
@@ -624,7 +624,7 @@ class World:
                 return
             tb = t + SEC                                   # local access to Ceres Branch
             if h < SETTLE_H and self.lite:
-                return                                       # R12 variant: interim prints are not forwarded
+                return                                       # R12: interim prints are forwarded only in the FR-full variant
             if h < SETTLE_H:
                 self.sim.at(tb, lambda t2: self.send(t2, C, J, [dict(type="PRINT", h=h, price=p)], f"PRINT h{h}",
                             know=f"Interim print h {h} = {p:g} by local access", action="Forwards it to Jupiter "
@@ -725,19 +725,19 @@ def make(run):
     reloc = base.split("@")[1] if "@" in base else None
     w = World(run, maintenance=maint, incident=inc, relocate=reloc)
     w.void = base == "VOID"
-    w.lite = base == "FR-lite"
+    w.lite = base != "FR-full"
     if base.startswith("VM"):
         w.script_vm(hub=run.startswith("Hub-"))
     else:
         w.script_future({"FR": RISING, "FF": FALLING, "FR-cap": CAPPED, "S2": FALLING, "S2-FR": RISING,
-                         "S2-ST": RISING, "VOID": RISING, "FR-lite": RISING}[base])
+                         "S2-ST": RISING, "VOID": RISING, "FR-full": RISING}[base])
         for t, node in resets:
             w.sim.at(t, lambda t_, n=node: w.reset(t_, n))
     w.kind = "vm" if base.startswith("VM") else "future"
     return w
 
 
-RUNS = ["VM", "FR", "FF", "FR-cap", "S2", "S2-FR", "S2-ST", "VOID", "FR-lite", "VM@Ceres", "VM@Venus", "VM@Uranus",
+RUNS = ["VM", "FR", "FF", "FR-cap", "S2", "S2-FR", "S2-ST", "VOID", "FR-full", "VM@Ceres", "VM@Venus", "VM@Uranus",
         "noMaint-VM", "noMaint-FR", "noMaint-FF", "noMaint-S2",
         "Hub-VM", "Hub-VM@Ceres", "Hub-VM@Venus", "Hub-VM@Uranus"]
 

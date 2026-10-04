@@ -64,9 +64,7 @@ notional). A share buyer locks the full price for one round trip (VM: \$25{,}000
 (\S\ref{sec:risks}).
 \item \emph{Product limits.} Only bounded-loss products; futures held to maturity; no new positions in the last 24 h; remote offers must outlive a second attempt (R5):
 34--86 h at h 0.
-\item \emph{Packets.} 28 backbone launches per cross-planet trade (3 quota); 124 for the 288-hour future (15 quota), \SimLiteSaved\ of them the 11 forwarded interim prints
-and receipts. Interim prints move no money; forwarding only the settling print uses \SimLiteLaunches\ launches (\SimLiteQuota\ quota) with identical times and balances
-but no information for remote clients before maturity. We keep forwarding as the default; the lighter rule is a one-line change to R12.
+\item \emph{Packets.} 28 backbone launches per cross-planet trade (3 quota); \SimFutPackets\ for the 288-hour future (\SimFutQuota\ quota). Interim prints move no money, so R12 does not forward them; forwarding all 11 (variant FR-full) costs \SimFullLaunches\ launches (\SimFullQuota\ quota) with identical times and balances and gives remote clients prices before maturity.
 \end{itemize}
 
 \subsection{Service table}
