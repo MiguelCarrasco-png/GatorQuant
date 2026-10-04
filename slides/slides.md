@@ -149,27 +149,6 @@ Do not oversell: random loss means no unconditional deadline exists. We said tha
 layout: none
 ---
 
-<div class="slide night">
-  <div style="position:absolute; top:0; right:0; bottom:0; width:640px"><RefereeBlackout /></div>
-  <h2 class="title">Worst case</h2>
-  <p class="lede" style="margin-top:14px; max-width:520px">The referee Branch is cut off for 72 hours at maturity.</p>
-  <div class="stat-stack">
-    <div class="stat"><div class="n">76.1<small>h</small></div><div class="l">late for the payment. Callisto's $75,000 stays locked that much longer.</div></div>
-    <div class="stat"><div class="n">$0</div><div class="l">change in any balance. The Ceres winner is paid at the print regardless.</div></div>
-    <div class="stat"><div class="n">4</div><div class="l">endpoint attempts for SETTLE to land, kept alive by a recovery reserve new trade cannot use.</div></div>
-  </div>
-  <p class="lede small" style="margin-top:30px; max-width:500px">The party that was cut off pays for the outage in time. Nobody loses value.</p>
-  <div class="foot"><span>Appendix S2</span><span>8</span></div>
-</div>
-
-<!--
-Ranked #1 of ten risks. Others: a route closing mid-contract (E5), pinning the fastest route (E4).
--->
-
----
-layout: none
----
-
 <div class="slide">
   <h2 class="title">Limits</h2>
   <p class="lede small" style="margin-top:14px">What the design costs and where it stops.</p>
@@ -179,7 +158,7 @@ layout: none
     <div class="item"><h3>Bounded loss only</h3><p>Futures held to maturity. No new positions in the final 24 h.</p></div>
     <div class="item"><h3>Effects we left out</h3><p>Solar conjunction and similar real-world effects can delay a deal. None can unfund one.</p></div>
   </div>
-  <div class="foot"><span>Every rule is marked implemented or extension in the paper</span><span>9</span></div>
+  <div class="foot"><span>Every rule is marked implemented or extension in the paper</span><span>8</span></div>
 </div>
 
 <!--
