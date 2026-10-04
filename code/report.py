@@ -76,8 +76,8 @@ def ttab(cols, rows, first="Measure"):
 
 # Time+actor and packet+arrival share a cell each, so the text columns are wide enough to stay short at 10 pt.
 TRACE_SPEC = (">{\\raggedright\\arraybackslash}p{1.75cm}"
-              ">{\\raggedright\\arraybackslash\\hsize=0.8\\hsize}X>{\\raggedright\\arraybackslash\\hsize=0.8\\hsize}X"
-              ">{\\raggedright\\arraybackslash\\hsize=1.15\\hsize}X>{\\raggedright\\arraybackslash\\hsize=1.25\\hsize}X")
+              ">{\\raggedright\\arraybackslash\\hsize=0.75\\hsize}X>{\\raggedright\\arraybackslash\\hsize=0.7\\hsize}X"
+              ">{\\raggedright\\arraybackslash\\hsize=0.9\\hsize}X>{\\raggedright\\arraybackslash\\hsize=1.65\\hsize}X")
 TRACE_HEAD = ("Time (h), actor & Local knowledge & Action & Packet (BB = backbone); arrival & "
               "Financial state after")
 
@@ -87,8 +87,8 @@ def trace_rows(rows):
     for r in rows:
         actor = r["actor"].replace(" Branch", " Br.")
         arr = r["arrival"]
-        packet = r["packet"] + ("; " + ("arrives " + arr if arr.startswith("h ") or arr.startswith("+") else arr)
-                                if arr else "")
+        packet = r["packet"].split("; ")[0] + ("; " + ("arrives " + arr if arr.startswith("h ") or arr.startswith("+") else arr)
+                                               if arr else "")             # hop-by-hop launch times: events CSV
         out.append(" & ".join([ht(r["t"]) + B + "newline " + esc(actor), esc(r["know"]), esc(r["action"]), packet,
                                r["state"]]))
     return out
@@ -114,6 +114,60 @@ def collapse_prints(rows, lo=24, hi=216):
                          state="unchanged; Jupiter Branch hands every print to Callisto by local access on "
                                "arrival"))
     return sorted(keep, key=lambda r: r["t"])
+
+
+
+BOring = ("Resubmits LOCK", "Endpoint attempt", "Repeats recorded")
+
+
+def compact_s2(rows):
+    """Group runs of repetitive recovery rows (resubmissions, endpoint retries, repeated answers) into one summary row."""
+    out, buf = [], []
+
+    def flush():
+        if not buf:
+            return
+        n_re = sum(r["action"].startswith("Resubmits") for r in buf)
+        n_ep = sum(r["action"].startswith("Endpoint attempt") for r in buf)
+        n_rp = sum(r["action"].startswith("Repeats") for r in buf)
+        parts = []
+        if n_re:
+            parts.append(f"{n_re} LOCK resubmissions, one every 2.4 h")
+        if n_ep:
+            parts.append(f"{n_ep} endpoint retries")
+        if n_rp:
+            parts.append(f"{n_rp} repeats of the recorded SETTLE")
+        out.append(dict(t=buf[0]["t"], actor="Jupiter and Ceres Br.", know="No SETTLE has reached Jupiter; "
+                        f"repeats run h {buf[0]['t']:.1f}--{buf[-1]['t']:.1f}", action="; ".join(parts),
+                        packet="BB; copies launched during the incident are lost", arrival="", state="unchanged"))
+        buf.clear()
+    for r in rows:
+        if r["action"].startswith(BOring) and r["state"] == "unchanged":
+            buf.append(r)
+        else:
+            flush()
+            out.append(r)
+    flush()
+    return out
+
+
+def s2_summary(R):
+    base, ff, fr = R["FR"], R["S2"], R["S2-FR"]
+    cols = [("No incident", base, "none"),
+            ("S2-FF", ff, "FF: Callisto's " + B + "$17{,}500 refund; Ceres Iron paid at the print"),
+            ("S2-FR", fr, "FR: Callisto's " + B + "$132{,}500 (payoff and pledge)"),
+            ("S2-ST", R["S2-ST"], "FR: Callisto's " + B + "$132{,}500, three incidents")]
+    rows = [("Financial service resumes (h)", [h(r.get("spendable")) for _, r, _ in cols]),
+            ("Lost service vs no incident (h)", ["---"] + [h(r["spendable"] - base["spendable"], 1) for _, r, _ in cols[1:]]),
+            ("Extra " + B + "$-hours locked", ["---"] + [num(r["asset_hours"]["USD"] - base["asset_hours"]["USD"]) for _, r, _ in cols[1:]]),
+            ("Backbone launches (failed)", [f"{r['launches_total']} ({r['launches_failed']})" for _, r, _ in cols]),
+            ("Quota packets; peak per Branch of 66", [f"{r['originated']}; {max(r['quota_peak_branch'].values())}" for _, r, _ in cols])]
+    nl = chr(10)
+    t = B + "begin{tabularx}{" + B + "linewidth}{lXXXX}" + B + "toprule" + nl
+    t += "Measure & " + " & ".join(n for n, _, _ in cols) + B + B + B + "midrule" + nl
+    t += nl.join(lab + " & " + " & ".join(v) + B + B for lab, v in rows) + nl
+    t += B + "bottomrule" + nl + B + "end{tabularx}" + nl
+    return t
 
 
 def trace_table(rows, caption):
@@ -216,7 +270,7 @@ def write_all(R):
     M = {}
 
     # ---------- S1 summary (one column per run)
-    runs = ["VM", "FR", "FF", "FR-cap", "S2"]
+    runs = ["VM", "FR", "FF", "FR-cap", "S2-FR"]
     G = [R[x] for x in runs]
     rows = [
         ("Completion / spendable h", [h(r.get("complete", r.get("spendable"))) for r in G]),
@@ -238,14 +292,13 @@ def write_all(R):
     out.append(trace_table(collapse_prints(R["FR"]["trace"]), "FR: Ceres Iron future, rising path (settles 123)"))
     ff = [x for x in R["FF"]["trace"] if x["t"] >= 287]
     cap = [x for x in R["FR-cap"]["trace"] if x["t"] >= 287]
-    out.append(trace_table(ff + cap, "FF (falling path, settles 77; first two rows) and FR-cap (settling print 140, "
-                                     "clipped to 130: the cap binds; last two rows), from h 288. Before h 288 both "
-                                     "are identical to FR except the interim print values"))
+    out.append(trace_table(ff, "FF (falling path, settles 77), from h 288; before h 288 identical to FR except the interim "
+                               "print values. FR-cap (print 140, clipped to 130) differs only in the last two lines: E3"))
     (GEN / "s1_traces.tex").write_text("\n\\medskip\n".join(out))
 
     # ---------- E2
     links = {}
-    for run in ["VM", "FR", "FF", "FR-cap", "S2", "VM@Ceres", "VM@Venus", "VM@Uranus"]:
+    for run in ["VM", "FR", "FF", "FR-cap", "S2", "S2-FR", "S2-ST", "VM@Ceres", "VM@Venus", "VM@Uranus"]:
         for x in R[run]["hops"]:
             links.setdefault(x["link"], []).append(x["d"])
     pairs = {}   # both directions of a link share one row (their distances differ by < 0.005 AU)
@@ -263,11 +316,13 @@ def write_all(R):
                                 f"{pmax ** 4:.2e}"]))
     t1 = tab("lrrrrrr", "Link (both directions) & launches & $d$ min AU & $d$ max AU & $p$ min \\% & $p$ max \\% & "
              "$P$(abandon) $" + B + "le p_{" + B + "max}^4$", rows)
-    runs = ["VM", "FR", "FF", "FR-cap", "S2", "VM@Ceres", "VM@Venus", "VM@Uranus"]
+    runs = ["VM", "FR", "FF", "FR-cap", "S2-FR", "VM@Ceres", "VM@Venus", "VM@Uranus"]
     G = [R[x] for x in runs]
     rows = [(lab, [str(r["launches_by_kind"][k]) for r in G]) for lab, k in
-            [("SYN", "SYN"), ("SYN-ACK", "SYNACK"), ("ACK", "ACK"), ("data", "DATA"), ("data ACK", "DACK"),
-             ("hop receipts", "RCPT")]]
+            [("data and data ACK", "DATA"), ("hop receipts", "RCPT")]]
+    for lab, k2 in [("data and data ACK", "DACK")]:
+        rows[0] = (lab, [str(r["launches_by_kind"]["DATA"] + r["launches_by_kind"]["DACK"]) for r in G])
+    rows += [("handshake (SYN, SYN-ACK, ACK)", [str(r["launches_by_kind"]["SYN"] + r["launches_by_kind"]["SYNACK"] + r["launches_by_kind"]["ACK"]) for r in G])]
     rows += [("Backbone total", [str(r["launches_total"]) for r in G]),
              ("failed (incident)", [str(r["launches_failed"]) for r in G]),
              ("Quota packets", [str(r["originated"]) for r in G]),
@@ -321,10 +376,13 @@ def write_all(R):
     M["SimRuns"] = str(len(R))
 
     # ---------- S2
-    s2 = [x for x in R["S2"]["trace"] if x["t"] >= 287]
-    parts = [trace_table(s2, "S2: FF plus a 72 h isolation of Ceres, h 286--358 (from h 288)")]
-    bases = ["VM", "FR", "FF", "S2"]
-    A_, N_ = [R[x] for x in bases], [R["noMaint-" + x] for x in bases]
+    s2 = compact_s2([x for x in R["S2-FR"]["trace"] if x["t"] >= 287])
+    st = compact_s2([x for x in R["S2-ST"]["trace"] if x["t"] >= 287])
+    parts = [s2_summary(R),
+             trace_table(s2, "S2-FR: the FR run plus a 72 h isolation of Ceres, h 286--358 (from h 288). The stacked run S2-ST "
+                             "adds a Ceres endpoint reset at h 358 and a 6 h forced loss of Jupiter's links h 358--364")]
+    bases = ["VM", "FR", "FF", "S2-FR"]
+    A_, N_ = [R[x] for x in bases], [R["noMaint-" + x.replace("S2-FR", "S2")] for x in bases]
 
     def done(r):
         return r.get("complete", r.get("spendable"))
@@ -333,22 +391,6 @@ def write_all(R):
             ("Longest known wait h, with / without", [f"{h(a['max_wait'])} / {h(b['max_wait'])}" for a, b in zip(A_, N_)]),
             (B + "$-hours, with = without", [num(a["asset_hours"]["USD"]) if a["asset_hours"]["USD"] ==
                                             b["asset_hours"]["USD"] else "differ" for a, b in zip(A_, N_)])]
-    parts.append(B + "par" + B + "noindent" + B + "textbf{Maintenance comparison (natural geometry kept)}" + B + "par\n{" + B +
-                 "setlength{" + B + "tabcolsep}{3pt}\n" + ttab(bases, rows) + "}\n")
-    vms = ["VM", "VM@Ceres", "VM@Venus", "VM@Uranus"]
-    A_, H_ = [R[x] for x in vms], [R["Hub-" + x] for x in vms]
-    rows = [("Complete h, home ledgers", [h(r["complete"]) for r in A_]),
-            ("Complete h, Mars hub", [h(r["complete"]) for r in H_]),
-            ("Backbone packets", [f"{a['launches_total']} / {b['launches_total']}" for a, b in zip(A_, H_)]),
-            ("Quota packets", [f"{a['originated']} / {b['originated']}" for a, b in zip(A_, H_)]),
-            ("Sessions to pre-open", [f"{len(a['sessions'])} / {len(b['sessions'])}" for a, b in zip(A_, H_)]),
-            (B + "$-hours, home ledgers", [num(a["asset_hours"]["USD"]) for a in A_]),
-            (B + "$-hours, Mars hub", [num(b["asset_hours"]["USD"]) for b in H_]),
-            ("Ares-hours", [f"{num(a['asset_hours']['ARES'])} / {num(b['asset_hours']['ARES'])}"
-                            for a, b in zip(A_, H_)])]
-    parts.append(B + "par" + B + "noindent" + B + "textbf{Alternative: Mars hub ledger vs home ledgers (same funding "
-                 "and guarantees; pairs are home / hub)}" + B + "par\n{" + B + "setlength{" + B + "tabcolsep}{3pt}\n" +
-                 ttab(["Earth", "Ceres", "Venus", "Uranus"], rows, "Terra at") + "}\n")
     (GEN / "s2_stress.tex").write_text(("\n" + B + "medskip\n").join(parts))
 
     # ---------- S3
@@ -381,12 +423,27 @@ def write_all(R):
         "SimFutPackets": str(fr["launches_total"]), "SimFutQuota": str(fr["originated"]),
         "SimFutDollarHours": num(fr["asset_hours"]["USD"]), "SimFutPeak": usd(fr["peak_usd"]),
         "SimFutUtil": f"{100 * fr['utilization']:.0f}",
-        "SimPrintTwoFortyArrives": h(float(next(x for x in fr["trace"] if x["action"].startswith("Forwards")
+        "SimPrintTwoFortyArrives": h(float(next(x for x in R["FR-full"]["trace"] if x["action"].startswith("Forwards")
                                                 and abs(x["t"] - 240) < 1)["arrival"].replace("h ", "")), 4),
         "SimSTwoSpendable": h(s2r["spendable"]), "SimSTwoLost": h(s2r["spendable"] - ff["spendable"], 1),
         "SimSTwoExtraDollarHours": num(s2r["asset_hours"]["USD"] - ff["asset_hours"]["USD"]),
         "SimSTwoPackets": str(s2r["launches_total"]), "SimSTwoFailed": str(s2r["launches_failed"]),
         "SimSTwoQuota": str(s2r["originated"]),
+        "SimSTwoFRSpendable": h(R["S2-FR"]["spendable"]), "SimSTwoFRLost": h(R["S2-FR"]["spendable"] - fr["spendable"], 1),
+        "SimSTwoFRExtraDollarHours": num(R["S2-FR"]["asset_hours"]["USD"] - fr["asset_hours"]["USD"]),
+        "SimSTwoFRPackets": str(R["S2-FR"]["launches_total"]), "SimSTwoFRFailed": str(R["S2-FR"]["launches_failed"]),
+        "SimSTwoFRQuota": str(R["S2-FR"]["originated"]),
+        "SimFullLaunches": str(R["FR-full"]["launches_total"]), "SimFullQuota": str(R["FR-full"]["originated"]),
+        "SimFullExtra": str(R["FR-full"]["launches_total"] - fr["launches_total"]),
+        "SimVoidSpendable": h(R["VOID"]["spendable"]), "SimVoidExtraDollarHours": num(R["VOID"]["asset_hours"]["USD"] - fr["asset_hours"]["USD"]),
+        "SimSTwoFRSpendableAfter": h(R["S2-FR"]["spendable"] - 358.0, 1),
+        "SimStackAfter": h(R["S2-ST"]["spendable"] - 364.0, 1),
+        "SimSTwoPeakBranch": str(max(R["S2-FR"]["quota_peak_branch"].values())),
+        "SimStackSpendable": h(R["S2-ST"]["spendable"]), "SimStackLost": h(R["S2-ST"]["spendable"] - fr["spendable"], 1),
+        "SimStackExtraDollarHours": num(R["S2-ST"]["asset_hours"]["USD"] - fr["asset_hours"]["USD"]),
+        "SimStackPackets": str(R["S2-ST"]["launches_total"]), "SimStackFailed": str(R["S2-ST"]["launches_failed"]),
+        "SimStackQuota": str(R["S2-ST"]["originated"]),
+        "SimStackPeakBranch": str(max(R["S2-ST"]["quota_peak_branch"].values())),
         "SimCapPayoff": usd(cap["payoff"]["to_long"]),
         "SimUranusComplete": h(R["VM@Uranus"]["complete"]), "SimCeresComplete": h(R["VM@Ceres"]["complete"]),
         "SimVenusComplete": h(R["VM@Venus"]["complete"]),

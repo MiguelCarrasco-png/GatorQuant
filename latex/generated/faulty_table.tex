@@ -1,0 +1,10 @@
+\begin{tabularx}{\linewidth}{l>{\raggedright\arraybackslash}p{3.7cm}XX}
+\toprule
+& Faulty Branch & With R22 (echo check, recompute) & Without\\
+\midrule
+F1 & commits, then sends DECLINE for the same deal & no effect on any balance; flagged: conflicting decision: DECLINE after COMMIT & no effect on any balance; not noticed\\
+F2 & sends SETTLE for \$70{,}000 when its own print pays \$57{,}500 & no effect on any balance; flagged: SETTLE amount differs from the payoff recomputed from the settling print & forged amount applied: Callisto Foundry -12,500 NeoDollars; BROKEN: Ceres USD claims 57,500 vs backi\\
+F3 & sends COMMIT echoing \$24{,}000, not the LOCK's \$25{,}000 & no effect on any balance; flagged: COMMIT echoes terms that differ from the LOCK & invariant check fails: unbacked claims on Earth Branch ARES: 200.0 > held 0 + pending 0\\
+F4 & records its decision and never sends it & decision never sent; lock stays open, no loss, no detection (liveness fault only) & decision never sent; lock stays open, no loss, no detection (liveness fault only)\\
+\bottomrule
+\end{tabularx}

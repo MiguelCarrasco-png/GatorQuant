@@ -4,9 +4,9 @@
 Link (both directions) & launches & $d$ min AU & $d$ max AU & $p$ min \% & $p$ max \% & $P$(abandon) $\le p_{\max}^4$\\
 \midrule
 Ceres $\leftrightarrow$ Relay A & 14 & 1.749 & 1.751 & 3.44 & 3.44 & 1.40e-06\\
-Ceres $\leftrightarrow$ Relay B & 256 & 2.448 & 2.467 & 4.78 & 4.81 & 5.37e-06\\
+Ceres $\leftrightarrow$ Relay B & 230 & 2.445 & 2.467 & 4.77 & 4.81 & 5.37e-06\\
 Earth $\leftrightarrow$ Relay A & 14 & 2.251 & 2.293 & 4.40 & 4.48 & 4.03e-06\\
-Jupiter $\leftrightarrow$ Relay B & 260 & 2.491 & 2.520 & 4.86 & 4.91 & 5.84e-06\\
+Jupiter $\leftrightarrow$ Relay B & 330 & 2.491 & 2.525 & 4.86 & 4.92 & 5.88e-06\\
 Neptune $\leftrightarrow$ Relay A & 56 & 27.835 & 27.863 & 42.69 & 42.72 & 3.33e-02\\
 Uranus $\leftrightarrow$ Relay A & 14 & 16.766 & 16.778 & 28.49 & 28.51 & 6.60e-03\\
 Venus $\leftrightarrow$ Relay A & 14 & 2.610 & 2.668 & 5.09 & 5.20 & 7.29e-06\\
@@ -23,7 +23,7 @@ Earth $\leftrightarrow$ A $\leftrightarrow$ Neptune & 3.33e-02 & 1.23e-06\\
 Ceres $\leftrightarrow$ A $\leftrightarrow$ Neptune & 3.33e-02 & 1.23e-06\\
 Venus $\leftrightarrow$ A $\leftrightarrow$ Neptune & 3.33e-02 & 1.23e-06\\
 Uranus $\leftrightarrow$ A $\leftrightarrow$ Neptune & 3.97e-02 & 2.48e-06\\
-Jupiter $\leftrightarrow$ B $\leftrightarrow$ Ceres & 1.12e-05 & 1.58e-20\\
+Jupiter $\leftrightarrow$ B $\leftrightarrow$ Ceres & 1.13e-05 & 1.61e-20\\
 \bottomrule
 \end{tabular}\par
 
@@ -31,21 +31,18 @@ Jupiter $\leftrightarrow$ B $\leftrightarrow$ Ceres & 1.12e-05 & 1.58e-20\\
 \par\noindent
 \begin{tabular}{lrrrrrrrr}
 \toprule
-Packets & VM & FR & FF & FR-cap & S2 & @Ceres & @Venus & @Uranus\\
+Packets & VM & FR & FF & FR-cap & S2-FR & @Ceres & @Venus & @Uranus\\
 \midrule
-SYN & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2\\
-SYN-ACK & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2\\
-ACK & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2\\
-data & 4 & 28 & 28 & 28 & 54 & 4 & 4 & 4\\
-data ACK & 4 & 28 & 28 & 28 & 32 & 4 & 4 & 4\\
-hop receipts & 14 & 62 & 62 & 62 & 72 & 14 & 14 & 14\\
-Backbone total & 28 & 124 & 124 & 124 & 164 & 28 & 28 & 28\\
-failed (incident) & 0 & 0 & 0 & 0 & 20 & 0 & 0 & 0\\
-Quota packets & 3 & 15 & 15 & 15 & 17 & 3 & 3 & 3\\
-Peak 24 h, system / 600 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2\\
-Peak 24 h, one Branch / 66 & 1 & 2 & 2 & 2 & 2 & 1 & 1 & 1\\
+data and data ACK & 8 & 20 & 20 & 20 & 137 & 8 & 8 & 8\\
+hop receipts & 14 & 26 & 26 & 26 & 59 & 14 & 14 & 14\\
+handshake (SYN, SYN-ACK, ACK) & 6 & 6 & 6 & 6 & 6 & 6 & 6 & 6\\
+Backbone total & 28 & 52 & 52 & 52 & 202 & 28 & 28 & 28\\
+failed (incident) & 0 & 0 & 0 & 0 & 84 & 0 & 0 & 0\\
+Quota packets & 3 & 6 & 6 & 6 & 27 & 3 & 3 & 3\\
+Peak 24 h, system / 600 & 2 & 2 & 2 & 2 & 12 & 2 & 2 & 2\\
+Peak 24 h, one Branch / 66 & 1 & 1 & 1 & 1 & 11 & 1 & 1 & 1\\
 Peak link queue / 10{,}000 & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 3\\
-Peak unACKed / 64 & 1 & 2 & 2 & 2 & 2 & 1 & 1 & 1\\
-Longest known wait h & 0.00 & 24.00 & 24.00 & 24.00 & 24.00 & 0.00 & 0.00 & 0.00\\
+Peak unACKed / 64 & 1 & 1 & 1 & 1 & 2 & 1 & 1 & 1\\
+Longest known wait h & 0.00 & 19.65 & 19.65 & 19.65 & 19.65 & 0.00 & 0.00 & 0.00\\
 \bottomrule
 \end{tabular}\par

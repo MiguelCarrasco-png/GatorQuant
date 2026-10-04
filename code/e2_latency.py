@@ -37,17 +37,17 @@ def hops(route, t0):
     return out
 
 
-def deliver(route, t0):
+def deliver(route, t0, m=1.0, ke=1.0):
     """Delivery delay (h) after enqueue at t0, or inf if all 4 endpoint attempts fail; plus the no-loss delay."""
     H = hops(route, t0)
     T0 = sum(f for f, _, _ in H) + SEC * (2 * len(H))
-    Re = 2 * T0 + 24.0
+    Re = ke * (2 * T0 + 24.0)
     best = np.full(N, np.inf)
     for j in range(4):
         t = np.full(N, j * Re + T0)
         ok = np.ones(N, bool)
         for f, p, Rh in H:
-            fails = rng.geometric(1 - p, N) - 1        # failed launches before the first success
+            fails = rng.geometric((1 - p) ** m, N) - 1        # failed launches before the first success
             ok &= fails < 4
             t += np.minimum(fails, 3) * Rh
         best = np.minimum(best, np.where(ok, t, np.inf))
@@ -68,40 +68,114 @@ def row(name, t, nominal, marks):
     return " & ".join(cells)
 
 
+PCT = lambda x: ">99.99" if x > 0.99995 else f"{100 * x:.1f}" if x < 0.9995 else f"{100 * x:.2f}"
+RELAY = lambda frm: "Relay B" if frm == "Jupiter" else "Relay A"
+ORDER = ["Mercury", "Venus", "Earth", "Mars", "Ceres", "Jupiter", "Saturn", "Uranus", "Neptune"]
+CI95 = 1.96 * 0.5 / N ** 0.5 * 100            # worst-case 95% half-width in percentage points
+
+
+def dvp(frm, to, m=1.0, ke=1.0, expiry=96.0):
+    """Share DvP initiated at `frm` against a firm offer at `to`: (trade-complete times, no-loss time, decline mask)."""
+    L, T0f = deliver([frm, "Relay A", to], 0.0003, m, ke)
+    arrive = 0.0003 + L
+    ok = arrive < expiry
+    C, T0r = deliver([to, "Relay A", frm], 4.2, m, ke)
+    return np.where(ok, arrive + C, np.inf), 0.0003 + T0f + T0r, ~ok
+
+
+def future(frm, m=1.0, ke=1.0):
+    S, T0s = deliver(["Ceres", RELAY(frm), frm], 288.0003, m, ke)
+    return 288.0003 + S, 288.0003 + T0s
+
+
+def table(head, rows, cols):
+    L_ = [B + "par" + B + "noindent", B + "begin{tabular}{" + cols + "}", B + "toprule", head + B + B, B + "midrule"]
+    return "\n".join(L_ + [r + B + B for r in rows] + [B + "bottomrule", B + "end{tabular}" + B + "par"]) + "\n"
+
+
 def main():
     M, rows = {}, []
-    marks_label = ["no-loss", "+6 h", "+24 h", "+48 h"]
-    # value moves: Branch X -> A -> Neptune and back; offer expiry h 48
-    for name, frm, lock_t in [("VM Earth", "Earth", 0.0003), ("VM@Uranus", "Uranus", 0.0003)]:
-        L, T0f = deliver([frm, "Relay A", "Neptune"], lock_t)
-        arrive = lock_t + L
-        commit_ok = arrive < 96.0
-        C, T0r = deliver(["Neptune", "Relay A", frm], 4.2)
-        done = np.where(commit_ok, arrive + C, np.inf)
-        nominal = lock_t + T0f + T0r
+    # ---- nine settlements: share DvP with Neptune (Neptune itself trades with Earth) and the Ceres Iron future
+    for frm in ORDER:
+        cells = [frm]
+        if frm == "Ceres":
+            cells += ["local"] * 4
+        else:
+            to = "Earth" if frm == "Neptune" else "Neptune"
+            done, nominal, dec = dvp(frm, to)
+            cells += [f"{nominal:.2f}", PCT(np.mean(done <= nominal + 1e-6)), PCT(np.mean(done <= nominal + 24)),
+                      PCT(np.mean(done <= nominal + 48))]
+            M["EtwoDvP" + frm + "NoLoss"] = PCT(np.mean(done <= nominal + 1e-6))
+            M["EtwoDvP" + frm + "Day"] = PCT(np.mean(done <= nominal + 24))
+            M["EtwoDvP" + frm + "Decline"] = f"{100 * np.mean(dec):.2f}"
+        if frm == "Ceres":
+            cells += ["local"] * 3
+        else:
+            settled, nominal = future(frm)
+            cells += [PCT(np.mean(settled <= nominal + 1e-6)), PCT(np.mean(settled <= nominal + 6)),
+                      PCT(np.mean(settled <= nominal + 24))]
+            M["EtwoFut" + frm + "NoLoss"] = PCT(np.mean(settled <= nominal + 1e-6))
+            M["EtwoFut" + frm + "Day"] = PCT(np.mean(settled <= nominal + 24))
+        rows.append(" & ".join(cells))
+    head = (" & " + B + "multicolumn{4}{c}{Share DvP, " + B + "% complete by} & " + B + "multicolumn{3}{c}{Ceres Iron future, "
+            + B + "% spendable by} " + B + B + "\n" + B + "cmidrule(lr){2-5}" + B + "cmidrule(lr){6-8}\n"
+            "Settlement & no-loss h & no-loss & +24 h & +48 h & no-loss & +6 h & +24 h")
+    (GEN / "e2_latency.tex").write_text(table(head, rows, "lrrrrrrr"))
+
+    # ---- the traced Earth / Uranus value moves in full (median, 99th percentile)
+    full = []
+    for name, frm in [("VM Earth", "Earth"), ("VM@Uranus", "Uranus")]:
+        done, nominal, dec = dvp(frm, "Neptune")
         marks = [nominal + 1e-6, nominal + 6, nominal + 24, nominal + 48]
-        rows.append(row(name + " trade complete", done, nominal, marks))
+        full.append(row(name + " trade complete", done, nominal, marks))
         key = "Earth" if frm == "Earth" else "Uranus"
         M[f"EtwoVM{key}NoLoss"] = f"{100 * np.mean(done <= nominal + 1e-6):.1f}"
-        M[f"EtwoVM{key}Decline"] = f"{100 * np.mean(~commit_ok):.2f}"
-        # sensitivity: the same LOCK deliveries against shorter offer lives (24 h, 48 h) than R5 allows
+        M[f"EtwoVM{key}Decline"] = f"{100 * np.mean(dec):.2f}"
+        L, _ = deliver([frm, "Relay A", "Neptune"], 0.0003)
+        arrive = 0.0003 + L
         for life, word in ((24.0, "TwentyFour"), (48.0, "FortyEight")):
             M[f"EtwoVM{key}Decline{word}"] = f"{100 * np.mean(arrive >= life):.2f}"
         M[f"EtwoVM{key}Day"] = f"{100 * np.mean(done <= nominal + 24):.2f}"
-    # future: open (LOCK Jupiter -> B -> Ceres, COMMIT back), settlement (SETTLE Ceres -> B -> Jupiter after h 288)
     L, T0f = deliver(["Jupiter", "Relay B", "Ceres"], 0.0003)
     C, T0r = deliver(["Ceres", "Relay B", "Jupiter"], 0.69)
-    opened = 0.0003 + L + C
-    nominal = 0.0003 + T0f + T0r
-    rows.append(row("Future: open known at Jupiter", opened, nominal,
+    opened, nominal = 0.0003 + L + C, 0.0003 + T0f + T0r
+    full.append(row("Future: open known at Jupiter", opened, nominal,
                     [nominal + 1e-6, nominal + 6, nominal + 24, nominal + 48]))
-    S, T0s = deliver(["Ceres", "Relay B", "Jupiter"], 288.0003)
-    settled = 288.0003 + S
-    nominal = 288.0003 + T0s
-    rows.append(row("Future: settlement spendable", settled, nominal,
+    settled, nominal = future("Jupiter")
+    full.append(row("Future: settlement spendable", settled, nominal,
                     [nominal + 1e-6, nominal + 6, nominal + 24, nominal + 48]))
     M["EtwoSettleNoLoss"] = f"{100 * np.mean(settled <= nominal + 1e-6):.1f}"
     M["EtwoSettleSixH"] = f"{100 * np.mean(settled <= nominal + 6):.2f}"
+    head2 = (" & & " + B + "multicolumn{4}{c}{" + B + "% complete by} & & " + B + B + "\n" + B + "cmidrule(lr){3-6}\n" +
+             "Event & no-loss h & no-loss & +6 h & +24 h & +48 h & median h & 99th pct h")
+    (GEN / "e2_latency_detail.tex").write_text(table(head2, full, "lrrrrrrr"))
+
+    # ---- sensitivity: loss multiplier m (loss law 1 - exp(-0.02 m d) on every launch) and R_e factor
+    sw = []
+    for label, m, ke in [(f"loss {B}times{m}", m, 1.0) for m in (0.5, 1.0, 2.0, 4.0)] + \
+                        [(f"$R_e$ {B}times{ke}", 1.0, ke) for ke in (0.5, 2.0)]:
+        label = label.replace(B + "times", "$" + B + "times$ ").replace("$$", "$")
+        e, ne, de = dvp("Earth", "Neptune", m=m, ke=ke)
+        u, nu, du = dvp("Uranus", "Neptune", m=m, ke=ke)
+        st, ns = future("Uranus", m=m, ke=ke)
+        sw.append(" & ".join([label, PCT(np.mean(e <= ne + 1e-6)), PCT(np.mean(e <= ne + 24)),
+                              f"{100 * np.mean(de):.2f}", PCT(np.mean(u <= nu + 24)), f"{100 * np.mean(du):.2f}",
+                              PCT(np.mean(st <= ns + 6)), PCT(np.mean(st <= ns + 24))]))
+        if ke == 1.0:
+            k = {0.5: "Half", 1.0: "One", 2.0: "Two", 4.0: "Four"}[m]
+            M[f"EtwoSweepLoss{k}Day"] = PCT(np.mean(e <= ne + 24))
+            M[f"EtwoSweepLoss{k}Decline"] = f"{100 * np.mean(de):.2f}"
+            M[f"EtwoSweepLoss{k}UranusDecline"] = f"{100 * np.mean(du):.2f}"
+            M[f"EtwoSweepLoss{k}FutDay"] = PCT(np.mean(st <= ns + 24))
+    head3 = (" & " + B + "multicolumn{3}{c}{Earth DvP, " + B + "%} & " + B + "multicolumn{2}{c}{Uranus DvP, " + B + "%} & "
+             + B + "multicolumn{2}{c}{Uranus future, " + B + "%} " + B + B + "\n" + B + "cmidrule(lr){2-4}" + B +
+             "cmidrule(lr){5-6}" + B + "cmidrule(lr){7-8}\n"
+             "Change & no-loss & $" + B + "le$ +24 h & declined & $" + B + "le$ +24 h & declined & $" + B +
+             "le$ +6 h & $" + B + "le$ +24 h")
+    (GEN / "e2_sweep.tex").write_text(table(head3, sw, "lrrrrrrr"))
+    M["EtwoN"] = "1{,}000{,}000"
+    M["EtwoSeed"] = "20261003"
+    M["EtwoCI"] = f"{CI95:.2f}"
     # R5 minimum offer life at h 0 from every settlement, to the referee (Ceres) and to Neptune (VM counterparty)
     from orbits import SETTLEMENTS
     for frm in SETTLEMENTS:
@@ -112,15 +186,15 @@ def main():
             M["EtwoLatest" + frm] = f"{264 - life:.0f}"
         if frm != "Neptune":
             M["EtwoLife" + frm + "Neptune"] = f"{min_life([frm, 'Relay A', 'Neptune'], 0.0):.0f}"
-    head = (" & & " + B + "multicolumn{4}{c}{" + B + "% complete by} & & " + B + B + "\n" + B + "cmidrule(lr){3-6}\n" +
-            "Event & no-loss h & no-loss & +6 h & +24 h & +48 h & median h & 99th pct h")
-    L_ = [B + "par" + B + "noindent", B + "begin{tabular}{lrrrrrrr}", B + "toprule", head + B + B, B + "midrule"]
-    L_ += [r + B + B for r in rows] + [B + "bottomrule", B + "end{tabular}" + B + "par"]
-    (GEN / "e2_latency.tex").write_text("\n".join(L_) + "\n")
     (GEN / "e2_latency_macros.tex").write_text("".join(f"\\newcommand{{\\{k}}}{{{v}}}\n" for k, v in M.items()))
     print("\n".join(rows))
+    print()
+    print("\n".join(full))
+    print()
+    print("\n".join(sw))
     for k, v in M.items():
-        print(k, v)
+        if "Life" not in k and "Latest" not in k:
+            print(k, v)
 
 
 if __name__ == "__main__":

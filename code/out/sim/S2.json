@@ -1,15 +1,34 @@
 {
  "run": "S2",
- "end": 365.0,
+ "end": 360.0,
  "marks": {
   "lock": 0.0002777777777777778,
   "open": 0.6885650469337745,
   "discharge": 288.0002777777778,
   "backed": 288.0002777777778,
-  "pulls": [
-   313.3783649320452
+  "resubs": [
+   313.3783649320452,
+   315.7783649320452,
+   318.17836493204516,
+   320.57836493204513,
+   322.9783649320451,
+   325.3783649320451,
+   327.77836493204506,
+   330.17836493204504,
+   332.578364932045,
+   334.978364932045,
+   337.378364932045,
+   339.77836493204495,
+   342.17836493204493,
+   344.5783649320449,
+   346.9783649320449,
+   349.37836493204486,
+   351.77836493204484,
+   354.1783649320448,
+   356.5783649320448,
+   358.97836493204477
   ],
-  "spendable": 364.8257517572823
+  "spendable": 359.63673862291256
  },
  "sessions": [
   {
@@ -22,17 +41,17 @@
    ]
   }
  ],
- "launches_total": 164,
- "launches_failed": 20,
+ "launches_total": 202,
+ "launches_failed": 84,
  "launches_by_kind": {
   "SYN": 2,
   "SYNACK": 2,
   "ACK": 2,
-  "DATA": 54,
-  "DACK": 32,
-  "RCPT": 72
+  "DATA": 119,
+  "DACK": 18,
+  "RCPT": 59
  },
- "originated": 17,
+ "originated": 27,
  "originated_list": [
   [
    -72.0,
@@ -50,59 +69,14 @@
    "COMMIT JUP-1"
   ],
   [
-   24.00027777777778,
-   "Ceres",
-   "PRINT h24"
+   122.0,
+   "Jupiter",
+   "KEEPALIVE"
   ],
   [
-   48.000277777777775,
-   "Ceres",
-   "PRINT h48"
-  ],
-  [
-   72.00027777777778,
-   "Ceres",
-   "PRINT h72"
-  ],
-  [
-   96.00027777777778,
-   "Ceres",
-   "PRINT h96"
-  ],
-  [
-   120.00027777777778,
-   "Ceres",
-   "PRINT h120"
-  ],
-  [
-   144.00027777777777,
-   "Ceres",
-   "PRINT h144"
-  ],
-  [
-   168.00027777777777,
-   "Ceres",
-   "PRINT h168"
-  ],
-  [
-   192.00027777777777,
-   "Ceres",
-   "PRINT h192"
-  ],
-  [
-   216.00027777777777,
-   "Ceres",
-   "PRINT h216"
-  ],
-  [
-   240.00027777777777,
-   "Ceres",
-   "PRINT h240"
-  ],
-  [
-   264.0002777777778,
-   "Ceres",
-   "PRINT h264"
+   244.0,
+   "Jupiter",
+   "KEEPALIVE"
   ],
   [
    288.0002777777778,
@@ -112,18 +86,113 @@
   [
    313.3783649320452,
    "Jupiter",
-   "LOCK JUP-1 (pull)"
+   "LOCK JUP-1 (resub)"
   ],
   [
-   364.82521778074795,
+   315.7783649320452,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   318.17836493204516,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   320.57836493204513,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   322.9783649320451,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   325.3783649320451,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   327.77836493204506,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   330.17836493204504,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   332.578364932045,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   334.978364932045,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   337.378364932045,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   339.77836493204495,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   342.17836493204493,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   344.5783649320449,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   346.9783649320449,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   349.37836493204486,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   351.77836493204484,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   354.1783649320448,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   356.5783649320448,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   358.9469461639355,
    "Ceres",
    "SETTLE JUP-1 (recorded answer)"
+  ],
+  [
+   358.97836493204477,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
   ]
  ],
- "quota_peak_system": 2,
+ "quota_peak_system": 12,
  "quota_peak_branch": {
-  "Jupiter": 1,
-  "Ceres": 2
+  "Jupiter": 11,
+  "Ceres": 1
  },
  "queue_peak": 3,
  "max_unacked": 2,
@@ -131,7 +200,7 @@
  "peak_usd_at": 0.0002777777777777778,
  "peak_ares": 0.0,
  "asset_hours": {
-  "USD": 48961910.54846284,
+  "USD": 48572734.56338511,
   "ARES": 0.0
  },
  "checks": 5,
@@ -367,444 +436,84 @@
    "p": 0.04808976490683359
   },
   {
-   "link": "Ceres->Relay B",
-   "d": 2.463304901246965,
-   "p": 0.04807221011138596
-  },
-  {
-   "link": "Relay B->Ceres",
-   "d": 2.463023141464803,
-   "p": 0.04806684579693732
+   "link": "Jupiter->Relay B",
+   "d": 2.5028263938198965,
+   "p": 0.048824344958869226
   },
   {
    "link": "Relay B->Jupiter",
-   "d": 2.496757024715781,
-   "p": 0.0487088772281824
-  },
-  {
-   "link": "Jupiter->Relay B",
-   "d": 2.4968086113003922,
-   "p": 0.048709858704875986
-  },
-  {
-   "link": "Jupiter->Relay B",
-   "d": 2.496808627803623,
-   "p": 0.048709859018863155
-  },
-  {
-   "link": "Relay B->Jupiter",
-   "d": 2.4967981706008193,
-   "p": 0.04870966006216382
+   "d": 2.5028137621282696,
+   "p": 0.048824104659687784
   },
   {
    "link": "Relay B->Ceres",
-   "d": 2.462993932764988,
-   "p": 0.048066289702179965
+   "d": 2.4588636445940213,
+   "p": 0.0479876512433659
   },
   {
    "link": "Ceres->Relay B",
-   "d": 2.4632469069979384,
-   "p": 0.04807110598399966
+   "d": 2.459116087973696,
+   "p": 0.0479924578155283
   },
   {
    "link": "Ceres->Relay B",
-   "d": 2.46229227657648,
-   "p": 0.0480529310048704
+   "d": 2.4591160760909205,
+   "p": 0.0479924575892785
   },
   {
    "link": "Relay B->Ceres",
-   "d": 2.462010548070308,
-   "p": 0.04804756717724501
+   "d": 2.45883444894737,
+   "p": 0.04798709535088075
   },
   {
    "link": "Relay B->Jupiter",
-   "d": 2.498195915092073,
-   "p": 0.0487362529071067
+   "d": 2.5028576571267105,
+   "p": 0.04882493969661006
   },
   {
    "link": "Jupiter->Relay B",
-   "d": 2.498248893459676,
-   "p": 0.0487372608345823
+   "d": 2.5029149667983353,
+   "p": 0.04882602992659257
   },
   {
    "link": "Jupiter->Relay B",
-   "d": 2.498248910296148,
-   "p": 0.0487372611549004
+   "d": 2.511035445062169,
+   "p": 0.04898049713375907
   },
   {
    "link": "Relay B->Jupiter",
-   "d": 2.498237916558145,
-   "p": 0.048737051996211034
+   "d": 2.5110200909320497,
+   "p": 0.04898020509217038
   },
   {
    "link": "Relay B->Ceres",
-   "d": 2.4619812100736524,
-   "p": 0.04804700860953526
+   "d": 2.4527372049786034,
+   "p": 0.04787099517329241
   },
   {
    "link": "Ceres->Relay B",
-   "d": 2.4622340540890857,
-   "p": 0.048051822509700526
+   "d": 2.452988862047667,
+   "p": 0.047875787361126965
   },
   {
    "link": "Ceres->Relay B",
-   "d": 2.4612757616027476,
-   "p": 0.048033577439142494
+   "d": 2.4529888498995875,
+   "p": 0.047875787129797454
   },
   {
    "link": "Relay B->Ceres",
-   "d": 2.460994065002188,
-   "p": 0.04802821410993252
+   "d": 2.4527074318019086,
+   "p": 0.04787042821502163
   },
   {
    "link": "Relay B->Jupiter",
-   "d": 2.499663575789251,
-   "p": 0.048764175145586064
+   "d": 2.5124592034874724,
+   "p": 0.049007577188799445
   },
   {
    "link": "Jupiter->Relay B",
-   "d": 2.499717945951227,
-   "p": 0.04876520952194119
-  },
-  {
-   "link": "Jupiter->Relay B",
-   "d": 2.499717963120428,
-   "p": 0.048765209848580016
-  },
-  {
-   "link": "Relay B->Jupiter",
-   "d": 2.4997064329998677,
-   "p": 0.0487649904915185
-  },
-  {
-   "link": "Relay B->Ceres",
-   "d": 2.460964597270175,
-   "p": 0.04802765306077783
-  },
-  {
-   "link": "Ceres->Relay B",
-   "d": 2.4612173106040847,
-   "p": 0.04803246457073018
-  },
-  {
-   "link": "Ceres->Relay B",
-   "d": 2.460255357350562,
-   "p": 0.04801414942918858
-  },
-  {
-   "link": "Relay B->Ceres",
-   "d": 2.459973693285766,
-   "p": 0.04800878660999741
-  },
-  {
-   "link": "Relay B->Jupiter",
-   "d": 2.5011599617816382,
-   "p": 0.048792643038869765
-  },
-  {
-   "link": "Jupiter->Relay B",
-   "d": 2.501215723742126,
-   "p": 0.04879370386201931
-  },
-  {
-   "link": "Jupiter->Relay B",
-   "d": 2.5012157412435267,
-   "p": 0.0487937041949682
-  },
-  {
-   "link": "Relay B->Jupiter",
-   "d": 2.501203674895536,
-   "p": 0.04879347464321693
-  },
-  {
-   "link": "Relay B->Ceres",
-   "d": 2.4599440953771863,
-   "p": 0.04800822307085262
-  },
-  {
-   "link": "Ceres->Relay B",
-   "d": 2.460196677566107,
-   "p": 0.04801303218204267
-  },
-  {
-   "link": "Ceres->Relay B",
-   "d": 2.459231064865608,
-   "p": 0.04799464699037681
-  },
-  {
-   "link": "Relay B->Ceres",
-   "d": 2.4589494339672697,
-   "p": 0.047989284692819156
-  },
-  {
-   "link": "Relay B->Jupiter",
-   "d": 2.5026850269974155,
-   "p": 0.04882165566146801
-  },
-  {
-   "link": "Jupiter->Relay B",
-   "d": 2.502742180753309,
-   "p": 0.04882274292914468
-  },
-  {
-   "link": "Jupiter->Relay B",
-   "d": 2.5027421985863714,
-   "p": 0.048822743268392754
-  },
-  {
-   "link": "Relay B->Jupiter",
-   "d": 2.502729596168568,
-   "p": 0.04882250352569861
-  },
-  {
-   "link": "Relay B->Ceres",
-   "d": 2.4589197054382566,
-   "p": 0.04798871865508736
-  },
-  {
-   "link": "Ceres->Relay B",
-   "d": 2.459172156019254,
-   "p": 0.04799352535897472
-  },
-  {
-   "link": "Ceres->Relay B",
-   "d": 2.458202885214764,
-   "p": 0.04797507013846314
-  },
-  {
-   "link": "Relay B->Ceres",
-   "d": 2.4579212881140964,
-   "p": 0.047969708374164255
-  },
-  {
-   "link": "Relay B->Jupiter",
-   "d": 2.5042387243268664,
-   "p": 0.04885121206731713
-  },
-  {
-   "link": "Jupiter->Relay B",
-   "d": 2.5042972698678034,
-   "p": 0.048852325777071104
-  },
-  {
-   "link": "Jupiter->Relay B",
-   "d": 2.5042972880319763,
-   "p": 0.04885232612260737
-  },
-  {
-   "link": "Relay B->Jupiter",
-   "d": 2.504284149704462,
-   "p": 0.048852076192781424
-  },
-  {
-   "link": "Relay B->Ceres",
-   "d": 2.4578914285181566,
-   "p": 0.047969139829197927
-  },
-  {
-   "link": "Ceres->Relay B",
-   "d": 2.458143747028849,
-   "p": 0.0479739441172512
-  },
-  {
-   "link": "Ceres->Relay B",
-   "d": 2.457170819486379,
-   "p": 0.047955418889596424
-  },
-  {
-   "link": "Relay B->Ceres",
-   "d": 2.4568892568151295,
-   "p": 0.047950057670193114
-  },
-  {
-   "link": "Relay B->Jupiter",
-   "d": 2.505821005630733,
-   "p": 0.048881311289947105
-  },
-  {
-   "link": "Jupiter->Relay B",
-   "d": 2.505880942939102,
-   "p": 0.04888245143914649
-  },
-  {
-   "link": "Jupiter->Relay B",
-   "d": 2.505880961433821,
-   "p": 0.048882451790959514
-  },
-  {
-   "link": "Relay B->Jupiter",
-   "d": 2.5058672873591834,
-   "p": 0.04888219167787711
-  },
-  {
-   "link": "Relay B->Ceres",
-   "d": 2.456859265703164,
-   "p": 0.047949486609293546
-  },
-  {
-   "link": "Ceres->Relay B",
-   "d": 2.457111451681743,
-   "p": 0.047954288472991435
-  },
-  {
-   "link": "Ceres->Relay B",
-   "d": 2.456134868790587,
-   "p": 0.04793569326032476
-  },
-  {
-   "link": "Relay B->Ceres",
-   "d": 2.4558533411810117,
-   "p": 0.047930332597464265
-  },
-  {
-   "link": "Relay B->Jupiter",
-   "d": 2.5074318217487384,
-   "p": 0.048911952342651555
-  },
-  {
-   "link": "Jupiter->Relay B",
-   "d": 2.507493150799667,
-   "p": 0.04891311892848238
-  },
-  {
-   "link": "Jupiter->Relay B",
-   "d": 2.5074931696243574,
-   "p": 0.048913119286560724
-  },
-  {
-   "link": "Relay B->Jupiter",
-   "d": 2.507478959967669,
-   "p": 0.04891284899416115
-  },
-  {
-   "link": "Relay B->Ceres",
-   "d": 2.455823218101376,
-   "p": 0.047929759011883344
-  },
-  {
-   "link": "Ceres->Relay B",
-   "d": 2.456075271086592,
-   "p": 0.04793455844271377
-  },
-  {
-   "link": "Ceres->Relay B",
-   "d": 2.4550950342595903,
-   "p": 0.04791589326760082
-  },
-  {
-   "link": "Relay B->Ceres",
-   "d": 2.4548135423444677,
-   "p": 0.04791053317294136
-  },
-  {
-   "link": "Relay B->Jupiter",
-   "d": 2.5090711225082254,
-   "p": 0.048943134218661366
-  },
-  {
-   "link": "Jupiter->Relay B",
-   "d": 2.5091338432695798,
-   "p": 0.04894432723812736
-  },
-  {
-   "link": "Jupiter->Relay B",
-   "d": 2.509133862423656,
-   "p": 0.04894432760245915
-  },
-  {
-   "link": "Relay B->Jupiter",
-   "d": 2.509119117352474,
-   "p": 0.048944047134746094
-  },
-  {
-   "link": "Relay B->Ceres",
-   "d": 2.454783286842968,
-   "p": 0.047909957053881236
-  },
-  {
-   "link": "Ceres->Relay B",
-   "d": 2.455035206374164,
-   "p": 0.04791475404334222
-  },
-  {
-   "link": "Ceres->Relay B",
-   "d": 2.4530037426278346,
-   "p": 0.047876070724298336
-  },
-  {
-   "link": "Ceres->Relay B",
-   "d": 2.4530037183329503,
-   "p": 0.04787607026166352
-  },
-  {
-   "link": "Relay B->Ceres",
-   "d": 2.452722324001125,
-   "p": 0.04787071180104474
-  },
-  {
-   "link": "Relay B->Jupiter",
-   "d": 2.512434932661913,
-   "p": 0.04900711556126336
-  },
-  {
-   "link": "Relay B->Ceres",
-   "d": 2.452722299707107,
-   "p": 0.0478707113384238
-  },
-  {
-   "link": "Relay B->Jupiter",
-   "d": 2.512434972251918,
-   "p": 0.04900711631425958
-  },
-  {
-   "link": "Jupiter->Relay B",
-   "d": 2.512500436686426,
-   "p": 0.04900836143767151
-  },
-  {
-   "link": "Jupiter->Relay B",
-   "d": 2.5125004564974565,
-   "p": 0.04900836181447399
-  },
-  {
-   "link": "Jupiter->Relay B",
-   "d": 2.512500476308644,
-   "p": 0.049008362191279464
-  },
-  {
-   "link": "Jupiter->Relay B",
-   "d": 2.512500496119683,
-   "p": 0.04900836256808205
-  },
-  {
-   "link": "Relay B->Jupiter",
-   "d": 2.512484641122276,
-   "p": 0.04900806100863542
-  },
-  {
-   "link": "Relay B->Ceres",
-   "d": 2.4526918022865085,
-   "p": 0.047870130588499094
-  },
-  {
-   "link": "Relay B->Jupiter",
-   "d": 2.5124846807321166,
-   "p": 0.049008061762008115
-  },
-  {
-   "link": "Relay B->Ceres",
-   "d": 2.452691777989397,
-   "p": 0.04787013012581898
-  },
-  {
-   "link": "Ceres->Relay B",
-   "d": 2.4529434535331864,
-   "p": 0.047874922669812414
-  },
-  {
-   "link": "Ceres->Relay B",
-   "d": 2.4529434292329593,
-   "p": 0.04787492220707534
+   "d": 2.512524727257941,
+   "p": 0.04900882344016744
   },
   {
    "link": "Jupiter->Relay B",
@@ -818,18 +527,323 @@
   },
   {
    "link": "Jupiter->Relay B",
-   "d": 2.5179175871322927,
-   "p": 0.049111389151981544
+   "d": 2.516208222260912,
+   "p": 0.04907888028452989
   },
   {
    "link": "Relay B->Jupiter",
-   "d": 2.5179001215611807,
-   "p": 0.04911105699567042
+   "d": 2.516191268458715,
+   "p": 0.04907855784990389
   },
   {
    "link": "Jupiter->Relay B",
-   "d": 2.51983549734264,
-   "p": 0.0491478628319576
+   "d": 2.5163855484904407,
+   "p": 0.049082252743684385
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.516368541228696,
+   "p": 0.04908192929348887
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.5165631567769102,
+   "p": 0.04908563055511839
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.516546096057424,
+   "p": 0.04908530608939676
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.516741047064454,
+   "p": 0.04908901371771224
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.5167239328890356,
+   "p": 0.04908868823650803
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.5169192192971104,
+   "p": 0.04909240223034461
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.51690205166757,
+   "p": 0.049092075733701224
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.5170976734188235,
+   "p": 0.04909579609189185
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.517080452336976,
+   "p": 0.04909546857985303
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.5172764093734394,
+   "p": 0.04909919530122897
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.5172591348411,
+   "p": 0.049098866773838123
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.517455427104712,
+   "p": 0.049102599857228646
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.5174380991236984,
+   "p": 0.04910227031452963
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.517634726556298,
+   "p": 0.04910600975876189
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.517617345128432,
+   "p": 0.04910567920079845
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.51781430767176,
+   "p": 0.04910942500469784
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.5177968727988653,
+   "p": 0.04910909343151382
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.5179941703945654,
+   "p": 0.04911284559390361
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.5179766820784666,
+   "p": 0.04911251300554287
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.518174314668087,
+   "p": 0.04911627152524467
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.5181567729106127,
+   "p": 0.04911593792175106
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.5183547404356013,
+   "p": 0.049119702797584264
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.518337145238584,
+   "p": 0.049119368179001976
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.5185354476402955,
+   "p": 0.04912313940978419
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.518517799005565,
+   "p": 0.04912280377615719
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.518716436225253,
+   "p": 0.049126581360704025
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.5186987341546487,
+   "p": 0.049126244712076494
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.5188977061334716,
+   "p": 0.049130028649201574
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.5188799506288313,
+   "p": 0.04912969098561781
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.5190792573078515,
+   "p": 0.04913348127413297
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.5190614483710148,
+   "p": 0.04913314259563717
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.5192610896911978,
+   "p": 0.04913693923435214
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.5192432273240093,
+   "p": 0.0491365995409887
+  },
+  {
+   "link": "Relay B->Ceres",
+   "d": 2.4485701498686425,
+   "p": 0.04779164038588246
+  },
+  {
+   "link": "Ceres->Relay B",
+   "d": 2.4488212728622214,
+   "p": 0.04779642280214824
+  },
+  {
+   "link": "Ceres->Relay B",
+   "d": 2.4488212605372213,
+   "p": 0.04779642256743011
+  },
+  {
+   "link": "Ceres->Relay B",
+   "d": 2.448821248212216,
+   "p": 0.04779642233271186
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.519443203226223,
+   "p": 0.049140402528711435
+  },
+  {
+   "link": "Relay B->Ceres",
+   "d": 2.4485399943588995,
+   "p": 0.04779106609913997
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.5194222012828993,
+   "p": 0.04914000313064004
+  },
+  {
+   "link": "Relay B->Ceres",
+   "d": 2.4485399820342835,
+   "p": 0.04779106586442783
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.519422222370168,
+   "p": 0.049140003531660814
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.5194252874305265,
+   "p": 0.04914006182052466
+  },
+  {
+   "link": "Relay B->Ceres",
+   "d": 2.4485381660042838,
+   "p": 0.04779103127962736
+  },
+  {
+   "link": "Relay B->Ceres",
+   "d": 2.4485276349789924,
+   "p": 0.04779083072487167
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.519493210177194,
+   "p": 0.04914135352002125
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.519493231280345,
+   "p": 0.049141353921343556
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.5194932523834983,
+   "p": 0.049141354322665864
+  },
+  {
+   "link": "Ceres->Relay B",
+   "d": 2.4487892849009842,
+   "p": 0.047795813620931105
+  },
+  {
+   "link": "Ceres->Relay B",
+   "d": 2.448789272574636,
+   "p": 0.0477958133861871
+  },
+  {
+   "link": "Ceres->Relay B",
+   "d": 2.4487787525267586,
+   "p": 0.04779561304149338
+  },
+  {
+   "link": "Ceres->Relay B",
+   "d": 2.448778740199965,
+   "p": 0.04779561280674083
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.5194753008221515,
+   "p": 0.049141012934658335
+  },
+  {
+   "link": "Relay B->Ceres",
+   "d": 2.44850894059308,
+   "p": 0.04779047470549147
+  },
+  {
+   "link": "Relay B->Ceres",
+   "d": 2.448508007591845,
+   "p": 0.047790456937238046
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.5194769399259243,
+   "p": 0.0491410441057889
+  },
+  {
+   "link": "Relay B->Ceres",
+   "d": 2.448497475610911,
+   "p": 0.0477902563641619
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.519494967442359,
+   "p": 0.04914138693823622
+  },
+  {
+   "link": "Ceres->Relay B",
+   "d": 2.4487600557462645,
+   "p": 0.04779525697829856
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.519547990612036,
+   "p": 0.0491423952884531
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.519566031887852,
+   "p": 0.04914273838207739
   },
   {
    "link": "Ceres->Relay B",
@@ -847,59 +861,14 @@
    "p": 0.04914750676143331
   },
   {
-   "link": "Relay B->Jupiter",
-   "d": 2.519817466740862,
-   "p": 0.049147519943171014
-  },
-  {
-   "link": "Relay B->Ceres",
-   "d": 2.4483092480748945,
-   "p": 0.0477866717155383
-  },
-  {
-   "link": "Ceres->Relay B",
-   "d": 2.4485603376500706,
-   "p": 0.047791453520333205
-  },
-  {
-   "link": "Ceres->Relay B",
-   "d": 2.44856032531408,
-   "p": 0.04779145328540446
-  },
-  {
    "link": "Jupiter->Relay B",
    "d": 2.519888083295735,
    "p": 0.049148862860749376
   },
   {
-   "link": "Ceres->Relay B",
-   "d": 2.448560312978092,
-   "p": 0.04779145305047583
-  },
-  {
    "link": "Jupiter->Relay B",
    "d": 2.5198881044692074,
    "p": 0.04914886326340584
-  },
-  {
-   "link": "Relay B->Ceres",
-   "d": 2.448279068900979,
-   "p": 0.04778609697513203
-  },
-  {
-   "link": "Relay B->Jupiter",
-   "d": 2.519869285560713,
-   "p": 0.049148505383727725
-  },
-  {
-   "link": "Relay B->Ceres",
-   "d": 2.448279056565377,
-   "p": 0.047786096740209394
-  },
-  {
-   "link": "Relay B->Jupiter",
-   "d": 2.5198693067276454,
-   "p": 0.049148505786259955
   },
   {
    "link": "Relay B->Jupiter",
@@ -912,46 +881,16 @@
    "p": 0.04778608792677275
   },
   {
-   "link": "Jupiter->Relay B",
-   "d": 2.519940635227717,
-   "p": 0.049149862241509856
-  },
-  {
-   "link": "Jupiter->Relay B",
-   "d": 2.5199406564105282,
-   "p": 0.04914986264434351
-  },
-  {
    "link": "Ceres->Relay B",
    "d": 2.4485296794276628,
    "p": 0.04779086965972623
-  },
-  {
-   "link": "Jupiter->Relay B",
-   "d": 2.519940677593343,
-   "p": 0.049149863047177056
-  },
-  {
-   "link": "Relay B->Jupiter",
-   "d": 2.5199225950994535,
-   "p": 0.049149519172279055
-  },
-  {
-   "link": "Relay B->Ceres",
-   "d": 2.448247981954708,
-   "p": 0.047785504946499135
-  },
-  {
-   "link": "Ceres->Relay B",
-   "d": 2.448499063682769,
-   "p": 0.04779028660771134
   }
  ],
- "max_wait": 23.999444444444453,
- "last_packet": 366.5445014589411,
+ "max_wait": 19.65109530339031,
+ "last_packet": 365.85521837572344,
  "rx_gaps": {
-  "Jupiter on Jupiter-Ceres": 100.13634808634458,
-  "Ceres on Jupiter-Ceres": 99.44644459630291
+  "Jupiter on Jupiter-Ceres": 141.65186558675276,
+  "Ceres on Jupiter-Ceres": 141.65138398807196
  },
  "snaps": [
   [
@@ -1360,7 +1299,7 @@
    ]
   ],
   [
-   364.8257517572823,
+   359.63673862291256,
    [
     {
      "branch": "Mercury",
@@ -1494,7 +1433,7 @@
  "open": 0.6885650469337745,
  "discharge": 288.0002777777778,
  "backed": 288.0002777777778,
- "spendable": 364.8257517572823,
+ "spendable": 359.63673862291256,
  "payoff": {
   "price": 77,
   "clipped": 77,
@@ -1504,7 +1443,7 @@
  "completed_tx": 1,
  "exposure": "75000 per side (cap x entry x multiplier x contracts)",
  "capital_eff": 0.6,
- "comm_eff": 164.0,
+ "comm_eff": 202.0,
  "utilization": 0.3,
  "trace": [
   {
@@ -1537,7 +1476,7 @@
   {
    "t": 0.0002777777777777778,
    "actor": "Jupiter Branch",
-   "know": "Callisto's order (long 25, entry = h 0 print); free balance covers the max loss; offer life covers a second attempt (R5)",
+   "know": "Callisto orders long 25 at the h 0 print; free balance covers the max loss; offer life passes R5",
    "action": "Locks \\$75{,}000 at home; sends LOCK JUP-1",
    "packet": "BB Jupiter $\\to$ B $\\to$ Ceres; Jupiter$\\to$B h 0.0006; B$\\to$Ceres h 0.3470",
    "arrival": "h 0.6886",
@@ -1546,7 +1485,7 @@
   {
    "t": 0.6885650469337745,
    "actor": "Ceres Branch",
-   "know": "Holds Ceres Iron Works' offer (short 25 at entry 100); LOCK matches; before freeze",
+   "know": "Holds Ceres Iron Works' offer; LOCK matches; before freeze",
    "action": "Records the position; replies COMMIT",
    "packet": "BB Ceres $\\to$ B $\\to$ Jupiter; Ceres$\\to$B h 0.6891; B$\\to$Jupiter h 1.0313",
    "arrival": "h 1.3772",
@@ -1562,201 +1501,21 @@
    "state": "Callisto Foundry \\$75{,}000 pledged to Ceres (unchanged)"
   },
   {
-   "t": 24.00027777777778,
-   "actor": "Ceres Branch",
-   "know": "Interim print h 24 = 97 by local access",
-   "action": "Forwards it to Jupiter (information only)",
-   "packet": "BB Ceres $\\to$ B $\\to$ Jupiter; Ceres$\\to$B h 24.0006; B$\\to$Jupiter h 24.3426",
-   "arrival": "h 24.6887",
-   "state": "unchanged"
-  },
-  {
-   "t": 24.68865836174827,
+   "t": 122.0,
    "actor": "Jupiter Branch",
-   "know": "Interim print h 24 = 97 (information only)",
-   "action": "Hands it to Callisto by local access",
-   "packet": "",
-   "arrival": "",
+   "know": "Session idle 120 h",
+   "action": "Sends keep-alive",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres; Jupiter$\\to$B h 122.0003; B$\\to$Ceres h 122.3478",
+   "arrival": "h 122.6886",
    "state": "unchanged"
   },
   {
-   "t": 48.000277777777775,
-   "actor": "Ceres Branch",
-   "know": "Interim print h 48 = 93 by local access",
-   "action": "Forwards it to Jupiter (information only)",
-   "packet": "BB Ceres $\\to$ B $\\to$ Jupiter; Ceres$\\to$B h 48.0006; B$\\to$Jupiter h 48.3424",
-   "arrival": "h 48.6887",
-   "state": "unchanged"
-  },
-  {
-   "t": 48.68871744927951,
+   "t": 244.0,
    "actor": "Jupiter Branch",
-   "know": "Interim print h 48 = 93 (information only)",
-   "action": "Hands it to Callisto by local access",
-   "packet": "",
-   "arrival": "",
-   "state": "unchanged"
-  },
-  {
-   "t": 72.00027777777778,
-   "actor": "Ceres Branch",
-   "know": "Interim print h 72 = 89 by local access",
-   "action": "Forwards it to Jupiter (information only)",
-   "packet": "BB Ceres $\\to$ B $\\to$ Jupiter; Ceres$\\to$B h 72.0006; B$\\to$Jupiter h 72.3423",
-   "arrival": "h 72.6888",
-   "state": "unchanged"
-  },
-  {
-   "t": 72.6887799855959,
-   "actor": "Jupiter Branch",
-   "know": "Interim print h 72 = 89 (information only)",
-   "action": "Hands it to Callisto by local access",
-   "packet": "",
-   "arrival": "",
-   "state": "unchanged"
-  },
-  {
-   "t": 96.00027777777778,
-   "actor": "Ceres Branch",
-   "know": "Interim print h 96 = 85 by local access",
-   "action": "Forwards it to Jupiter (information only)",
-   "packet": "BB Ceres $\\to$ B $\\to$ Jupiter; Ceres$\\to$B h 96.0006; B$\\to$Jupiter h 96.3421",
-   "arrival": "h 96.6888",
-   "state": "unchanged"
-  },
-  {
-   "t": 96.68884596459813,
-   "actor": "Jupiter Branch",
-   "know": "Interim print h 96 = 85 (information only)",
-   "action": "Hands it to Callisto by local access",
-   "packet": "",
-   "arrival": "",
-   "state": "unchanged"
-  },
-  {
-   "t": 120.00027777777778,
-   "actor": "Ceres Branch",
-   "know": "Interim print h 120 = 82 by local access",
-   "action": "Forwards it to Jupiter (information only)",
-   "packet": "BB Ceres $\\to$ B $\\to$ Jupiter; Ceres$\\to$B h 120.0006; B$\\to$Jupiter h 120.3420",
-   "arrival": "h 120.6889",
-   "state": "unchanged"
-  },
-  {
-   "t": 120.68891538004483,
-   "actor": "Jupiter Branch",
-   "know": "Interim print h 120 = 82 (information only)",
-   "action": "Hands it to Callisto by local access",
-   "packet": "",
-   "arrival": "",
-   "state": "unchanged"
-  },
-  {
-   "t": 144.00027777777777,
-   "actor": "Ceres Branch",
-   "know": "Interim print h 144 = 79 by local access",
-   "action": "Forwards it to Jupiter (information only)",
-   "packet": "BB Ceres $\\to$ B $\\to$ Jupiter; Ceres$\\to$B h 144.0006; B$\\to$Jupiter h 144.3419",
-   "arrival": "h 144.6890",
-   "state": "unchanged"
-  },
-  {
-   "t": 144.68898822555366,
-   "actor": "Jupiter Branch",
-   "know": "Interim print h 144 = 79 (information only)",
-   "action": "Hands it to Callisto by local access",
-   "packet": "",
-   "arrival": "",
-   "state": "unchanged"
-  },
-  {
-   "t": 168.00027777777777,
-   "actor": "Ceres Branch",
-   "know": "Interim print h 168 = 76 by local access",
-   "action": "Forwards it to Jupiter (information only)",
-   "packet": "BB Ceres $\\to$ B $\\to$ Jupiter; Ceres$\\to$B h 168.0006; B$\\to$Jupiter h 168.3417",
-   "arrival": "h 168.6891",
-   "state": "unchanged"
-  },
-  {
-   "t": 168.6890644946027,
-   "actor": "Jupiter Branch",
-   "know": "Interim print h 168 = 76 (information only)",
-   "action": "Hands it to Callisto by local access",
-   "packet": "",
-   "arrival": "",
-   "state": "unchanged"
-  },
-  {
-   "t": 192.00027777777777,
-   "actor": "Ceres Branch",
-   "know": "Interim print h 192 = 74 by local access",
-   "action": "Forwards it to Jupiter (information only)",
-   "packet": "BB Ceres $\\to$ B $\\to$ Jupiter; Ceres$\\to$B h 192.0006; B$\\to$Jupiter h 192.3416",
-   "arrival": "h 192.6891",
-   "state": "unchanged"
-  },
-  {
-   "t": 192.6891441805313,
-   "actor": "Jupiter Branch",
-   "know": "Interim print h 192 = 74 (information only)",
-   "action": "Hands it to Callisto by local access",
-   "packet": "",
-   "arrival": "",
-   "state": "unchanged"
-  },
-  {
-   "t": 216.00027777777777,
-   "actor": "Ceres Branch",
-   "know": "Interim print h 216 = 75 by local access",
-   "action": "Forwards it to Jupiter (information only)",
-   "packet": "BB Ceres $\\to$ B $\\to$ Jupiter; Ceres$\\to$B h 216.0006; B$\\to$Jupiter h 216.3414",
-   "arrival": "h 216.6892",
-   "state": "unchanged"
-  },
-  {
-   "t": 216.68922727654166,
-   "actor": "Jupiter Branch",
-   "know": "Interim print h 216 = 75 (information only)",
-   "action": "Hands it to Callisto by local access",
-   "packet": "",
-   "arrival": "",
-   "state": "unchanged"
-  },
-  {
-   "t": 240.00027777777777,
-   "actor": "Ceres Branch",
-   "know": "Interim print h 240 = 76 by local access",
-   "action": "Forwards it to Jupiter (information only)",
-   "packet": "BB Ceres $\\to$ B $\\to$ Jupiter; Ceres$\\to$B h 264.0000; B$\\to$Jupiter h 264.3406",
-   "arrival": "h 264.6888",
-   "state": "unchanged"
-  },
-  {
-   "t": 264.0002777777778,
-   "actor": "Ceres Branch",
-   "know": "Interim print h 264 = 76 by local access",
-   "action": "Forwards it to Jupiter (information only)",
-   "packet": "BB Ceres $\\to$ B $\\to$ Jupiter; Ceres$\\to$B h 264.0006; B$\\to$Jupiter h 264.3411",
-   "arrival": "h 264.6894",
-   "state": "unchanged"
-  },
-  {
-   "t": 264.688848113262,
-   "actor": "Jupiter Branch",
-   "know": "Interim print h 240 = 76 (information only)",
-   "action": "Hands it to Callisto by local access",
-   "packet": "",
-   "arrival": "",
-   "state": "unchanged"
-  },
-  {
-   "t": 264.68940367093774,
-   "actor": "Jupiter Branch",
-   "know": "Interim print h 264 = 76 (information only)",
-   "action": "Hands it to Callisto by local access",
-   "packet": "",
-   "arrival": "",
+   "know": "Session idle 120 h",
+   "action": "Sends keep-alive",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres; Jupiter$\\to$B h 244.0003; B$\\to$Ceres h 264.0000",
+   "arrival": "h 264.3400",
    "state": "unchanged"
   },
   {
@@ -1771,10 +1530,10 @@
   {
    "t": 313.3783649320452,
    "actor": "Jupiter Branch",
-   "know": "Still holds the pledge at print + R\\textsubscript{e}",
-   "action": "Resubmits LOCK (pull rule; recovery reserve)",
-   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission; Jupiter$\\to$B h 364.1360; B$\\to$Ceres h 364.4858",
-   "arrival": "h 364.8252",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission",
+   "arrival": "",
    "state": "unchanged"
   },
   {
@@ -1787,12 +1546,93 @@
    "state": "unchanged"
   },
   {
-   "t": 338.75693467756446,
+   "t": 315.7783649320452,
    "actor": "Jupiter Branch",
-   "know": "No data ACK for LOCK JUP-1 (pull) within R\\textsubscript{e}",
-   "action": "Endpoint attempt 2 of LOCK JUP-1 (pull)",
-   "packet": "attempt 1: Jupiter$\\to$B h 313.3786; B$\\to$Ceres h 313.7280 lost, 315.4076 lost, 317.0872 lost, 318.7669 lost",
-   "arrival": "lost",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission",
+   "arrival": "",
+   "state": "unchanged"
+  },
+  {
+   "t": 318.17836493204516,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission",
+   "arrival": "",
+   "state": "unchanged"
+  },
+  {
+   "t": 320.57836493204513,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission",
+   "arrival": "",
+   "state": "unchanged"
+  },
+  {
+   "t": 322.9783649320451,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission",
+   "arrival": "",
+   "state": "unchanged"
+  },
+  {
+   "t": 325.3783649320451,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission",
+   "arrival": "",
+   "state": "unchanged"
+  },
+  {
+   "t": 327.77836493204506,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission",
+   "arrival": "",
+   "state": "unchanged"
+  },
+  {
+   "t": 330.17836493204504,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission",
+   "arrival": "",
+   "state": "unchanged"
+  },
+  {
+   "t": 332.578364932045,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission",
+   "arrival": "",
+   "state": "unchanged"
+  },
+  {
+   "t": 334.978364932045,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission",
+   "arrival": "",
+   "state": "unchanged"
+  },
+  {
+   "t": 337.378364932045,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission",
+   "arrival": "",
    "state": "unchanged"
   },
   {
@@ -1805,13 +1645,103 @@
    "state": "unchanged"
   },
   {
-   "t": 364.1357167832872,
+   "t": 339.77836493204495,
    "actor": "Jupiter Branch",
-   "know": "No data ACK for LOCK JUP-1 (pull) within R\\textsubscript{e}",
-   "action": "Endpoint attempt 3 of LOCK JUP-1 (pull)",
-   "packet": "attempt 2: Jupiter$\\to$B h 338.7572; B$\\to$Ceres h 339.1068 lost, 340.7861 lost, 342.4655 lost, 344.1448 lost",
-   "arrival": "lost",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission",
+   "arrival": "",
    "state": "unchanged"
+  },
+  {
+   "t": 342.17836493204493,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission",
+   "arrival": "",
+   "state": "unchanged"
+  },
+  {
+   "t": 344.5783649320449,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission",
+   "arrival": "",
+   "state": "unchanged"
+  },
+  {
+   "t": 346.9783649320449,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission",
+   "arrival": "",
+   "state": "unchanged"
+  },
+  {
+   "t": 349.37836493204486,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission",
+   "arrival": "",
+   "state": "unchanged"
+  },
+  {
+   "t": 351.77836493204484,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission",
+   "arrival": "",
+   "state": "unchanged"
+  },
+  {
+   "t": 354.1783649320448,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission; Jupiter$\\to$B h 354.1786; B$\\to$Ceres h 354.5284 lost, 356.2075 lost, 357.8867 lost, 359.5658",
+   "arrival": "h 359.9052",
+   "state": "unchanged"
+  },
+  {
+   "t": 356.5783649320448,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission; Jupiter$\\to$B h 356.5786; B$\\to$Ceres h 356.9284 lost, 358.6075",
+   "arrival": "h 358.9469",
+   "state": "unchanged"
+  },
+  {
+   "t": 358.9469461639355,
+   "actor": "Ceres Branch",
+   "know": "JUP-1 already decided: SETTLE",
+   "action": "Repeats recorded SETTLE",
+   "packet": "BB Ceres $\\to$ B $\\to$ Jupiter; Ceres$\\to$B h 358.9475; B$\\to$Jupiter h 359.2875",
+   "arrival": "h 359.6367",
+   "state": "unchanged"
+  },
+  {
+   "t": 358.97836493204477,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission; Jupiter$\\to$B h 358.9786; B$\\to$Ceres h 359.3284",
+   "arrival": "h 359.6678",
+   "state": "unchanged"
+  },
+  {
+   "t": 359.63673862291256,
+   "actor": "Jupiter Branch",
+   "know": "SETTLE arrived: settling print 77, clipped 77",
+   "action": "Applies SETTLE",
+   "packet": "",
+   "arrival": "",
+   "state": "\\$57{,}500 of the pledge $\\to$ Ceres Branch's account here; \\$17{,}500 back to Callisto Foundry, spendable. Pledge ended."
   },
   {
    "t": 364.1362143088278,
@@ -1821,24 +1751,6 @@
    "packet": "attempt 3: Ceres$\\to$B h 338.7576 lost, 340.4371 lost, 342.1165 lost, 343.7958 lost",
    "arrival": "lost",
    "state": "unchanged"
-  },
-  {
-   "t": 364.82521778074795,
-   "actor": "Ceres Branch",
-   "know": "JUP-1 already decided: SETTLE",
-   "action": "Repeats recorded SETTLE",
-   "packet": "BB Ceres $\\to$ B $\\to$ Jupiter; Ceres$\\to$B h 364.8258; B$\\to$Jupiter h 365.1657",
-   "arrival": "h 365.5150",
-   "state": "unchanged"
-  },
-  {
-   "t": 364.8257517572823,
-   "actor": "Jupiter Branch",
-   "know": "SETTLE arrived: settling print 77, clipped 77",
-   "action": "Applies SETTLE",
-   "packet": "",
-   "arrival": "",
-   "state": "\\$57{,}500 of the pledge $\\to$ Ceres Branch's account here; \\$17{,}500 back to Callisto Foundry, spendable. Pledge ended."
   }
  ]
 }

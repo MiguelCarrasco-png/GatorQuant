@@ -57,8 +57,8 @@
       ]
      }
     ],
-    "launches": 124,
-    "originated": 15,
+    "launches": 52,
+    "originated": 6,
     "usd_h": 43261861.26006091,
     "peak": 150000.0,
     "payoff": {
@@ -92,8 +92,8 @@
       ]
      }
     ],
-    "launches": 124,
-    "originated": 15,
+    "launches": 52,
+    "originated": 6,
     "usd_h": 43261861.26006091,
     "peak": 150000.0,
     "payoff": {
@@ -164,8 +164,8 @@
       ]
      }
     ],
-    "launches": 124,
-    "originated": 15,
+    "launches": 52,
+    "originated": 6,
     "usd_h": 43257150.3631228,
     "peak": 150000.0,
     "payoff": {
@@ -199,8 +199,8 @@
       ]
      }
     ],
-    "launches": 124,
-    "originated": 15,
+    "launches": 52,
+    "originated": 6,
     "usd_h": 43257150.3631228,
     "peak": 150000.0,
     "payoff": {
@@ -271,8 +271,8 @@
       ]
      }
     ],
-    "launches": 124,
-    "originated": 15,
+    "launches": 52,
+    "originated": 6,
     "usd_h": 43309658.495629214,
     "peak": 150000.0,
     "payoff": {
@@ -306,8 +306,8 @@
       ]
      }
     ],
-    "launches": 124,
-    "originated": 15,
+    "launches": 52,
+    "originated": 6,
     "usd_h": 43309658.495629214,
     "peak": 150000.0,
     "payoff": {
@@ -394,8 +394,8 @@
       ]
      }
     ],
-    "launches": 136,
-    "originated": 16,
+    "launches": 64,
+    "originated": 7,
     "usd_h": 43550776.25261016,
     "peak": 150000.0,
     "payoff": {
@@ -445,8 +445,8 @@
       ]
      }
     ],
-    "launches": 136,
-    "originated": 16,
+    "launches": 64,
+    "originated": 7,
     "usd_h": 43550776.25261016,
     "peak": 150000.0,
     "payoff": {
@@ -459,8 +459,8 @@
   },
   "naive_FR": {
    "spendable": 1527.8693882053217,
-   "launches": 514,
-   "originated": 54
+   "launches": 130,
+   "originated": 515
   },
   "closure": [
    281.82472859998234,

@@ -824,7 +824,7 @@
   {
    "t": 0.0002777777777777778,
    "actor": "Earth Branch",
-   "know": "Terra's acceptance of O-1 (terms as advertised); free balance covers it; offer life covers a second attempt (R5); knows nothing of Neptune's state",
+   "know": "Terra accepts O-1; free balance covers it; offer life passes R5; knows nothing of Neptune",
    "action": "Locks \\$25{,}000; sends LOCK EAR-1",
    "packet": "BB Earth $\\to$ A $\\to$ Neptune; Earth$\\to$A h 0.0006; A$\\to$Neptune h 0.5284",
    "arrival": "h 4.4581",
@@ -833,7 +833,7 @@
   {
    "t": 4.458061047337122,
    "actor": "Neptune Branch",
-   "know": "Holds Triton Fund's firm offer O-1; LOCK terms match; before expiry h 96",
+   "know": "Holds Triton Fund's offer O-1; terms match; before expiry",
    "action": "Commits EAR-1; records it durably, then replies",
    "packet": "BB Neptune $\\to$ A $\\to$ Earth; Neptune$\\to$A h 4.4586; A$\\to$Earth h 8.3892",
    "arrival": "h 8.9166",

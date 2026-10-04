@@ -1,0 +1,50 @@
+{
+ "summary": {
+  "VM": {
+   "runs": 1500,
+   "failures": 0,
+   "ledger_steps": 6000,
+   "committed": 1211,
+   "declined": 289,
+   "launches": 240406,
+   "loss": 51578,
+   "dup": 2499,
+   "reorder": 3405,
+   "contradiction": 1491,
+   "reset": 1149,
+   "crash": 1114,
+   "withdraw": 286
+  },
+  "FR": {
+   "runs": 1500,
+   "failures": 0,
+   "ledger_steps": 7370,
+   "committed": 1370,
+   "declined": 130,
+   "launches": 2461983,
+   "loss": 451425,
+   "dup": 41723,
+   "reorder": 58657,
+   "contradiction": 1535,
+   "reset": 1145,
+   "crash": 1107,
+   "withdraw": 130
+  },
+  "FF": {
+   "runs": 1500,
+   "failures": 0,
+   "ledger_steps": 7360,
+   "committed": 1360,
+   "declined": 140,
+   "launches": 2428816,
+   "loss": 436585,
+   "dup": 40038,
+   "reorder": 56696,
+   "contradiction": 1457,
+   "reset": 1117,
+   "crash": 1090,
+   "withdraw": 140
+  }
+ },
+ "failures": []
+}

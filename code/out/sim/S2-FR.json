@@ -1,0 +1,1756 @@
+{
+ "run": "S2-FR",
+ "end": 360.0,
+ "marks": {
+  "lock": 0.0002777777777777778,
+  "open": 0.6885650469337745,
+  "discharge": 288.0002777777778,
+  "backed": 288.0002777777778,
+  "resubs": [
+   313.3783649320452,
+   315.7783649320452,
+   318.17836493204516,
+   320.57836493204513,
+   322.9783649320451,
+   325.3783649320451,
+   327.77836493204506,
+   330.17836493204504,
+   332.578364932045,
+   334.978364932045,
+   337.378364932045,
+   339.77836493204495,
+   342.17836493204493,
+   344.5783649320449,
+   346.9783649320449,
+   349.37836493204486,
+   351.77836493204484,
+   354.1783649320448,
+   356.5783649320448,
+   358.97836493204477
+  ],
+  "spendable": 359.63673862291256
+ },
+ "sessions": [
+  {
+   "a": "Jupiter",
+   "b": "Ceres",
+   "route": [
+    "Jupiter",
+    "Relay B",
+    "Ceres"
+   ]
+  }
+ ],
+ "launches_total": 202,
+ "launches_failed": 84,
+ "launches_by_kind": {
+  "SYN": 2,
+  "SYNACK": 2,
+  "ACK": 2,
+  "DATA": 119,
+  "DACK": 18,
+  "RCPT": 59
+ },
+ "originated": 27,
+ "originated_list": [
+  [
+   -72.0,
+   "Jupiter",
+   "SYN Jupiter-Ceres"
+  ],
+  [
+   0.0002777777777777778,
+   "Jupiter",
+   "LOCK JUP-1"
+  ],
+  [
+   0.6885650469337745,
+   "Ceres",
+   "COMMIT JUP-1"
+  ],
+  [
+   122.0,
+   "Jupiter",
+   "KEEPALIVE"
+  ],
+  [
+   244.0,
+   "Jupiter",
+   "KEEPALIVE"
+  ],
+  [
+   288.0002777777778,
+   "Ceres",
+   "SETTLE JUP-1"
+  ],
+  [
+   313.3783649320452,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   315.7783649320452,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   318.17836493204516,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   320.57836493204513,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   322.9783649320451,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   325.3783649320451,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   327.77836493204506,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   330.17836493204504,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   332.578364932045,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   334.978364932045,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   337.378364932045,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   339.77836493204495,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   342.17836493204493,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   344.5783649320449,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   346.9783649320449,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   349.37836493204486,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   351.77836493204484,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   354.1783649320448,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   356.5783649320448,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ],
+  [
+   358.9469461639355,
+   "Ceres",
+   "SETTLE JUP-1 (recorded answer)"
+  ],
+  [
+   358.97836493204477,
+   "Jupiter",
+   "LOCK JUP-1 (resub)"
+  ]
+ ],
+ "quota_peak_system": 12,
+ "quota_peak_branch": {
+  "Jupiter": 11,
+  "Ceres": 1
+ },
+ "queue_peak": 3,
+ "max_unacked": 2,
+ "peak_usd": 150000.0,
+ "peak_usd_at": 0.0002777777777777778,
+ "peak_ares": 0.0,
+ "asset_hours": {
+  "USD": 48572734.56338511,
+  "ARES": 0.0
+ },
+ "checks": 5,
+ "final": [
+  {
+   "branch": "Mercury",
+   "owner": "Helios Traders",
+   "asset": "USD",
+   "kind": "own",
+   "bal": 40000.0,
+   "enc": {}
+  },
+  {
+   "branch": "Mercury",
+   "owner": "Helios Traders",
+   "asset": "ARES",
+   "kind": "own",
+   "bal": 1000.0,
+   "enc": {}
+  },
+  {
+   "branch": "Earth",
+   "owner": "Terra Capital",
+   "asset": "USD",
+   "kind": "own",
+   "bal": 150000.0,
+   "enc": {}
+  },
+  {
+   "branch": "Mars",
+   "owner": "Ares Habitat Treasury",
+   "asset": "USD",
+   "kind": "own",
+   "bal": 40000.0,
+   "enc": {}
+  },
+  {
+   "branch": "Mars",
+   "owner": "Ares Habitat Treasury",
+   "asset": "ARES",
+   "kind": "own",
+   "bal": 3000.0,
+   "enc": {}
+  },
+  {
+   "branch": "Ceres",
+   "owner": "Ceres Iron Works",
+   "asset": "USD",
+   "kind": "own",
+   "bal": 27500.0,
+   "enc": {}
+  },
+  {
+   "branch": "Ceres",
+   "owner": "Jupiter Branch",
+   "asset": "USD",
+   "kind": "own",
+   "bal": 57500.0,
+   "enc": {}
+  },
+  {
+   "branch": "Jupiter",
+   "owner": "Callisto Foundry",
+   "asset": "USD",
+   "kind": "own",
+   "bal": 85000.0,
+   "enc": {}
+  },
+  {
+   "branch": "Jupiter",
+   "owner": "Callisto Foundry",
+   "asset": "USD",
+   "kind": "claim",
+   "bal": 57500.0,
+   "enc": {}
+  },
+  {
+   "branch": "Neptune",
+   "owner": "Triton Fund",
+   "asset": "USD",
+   "kind": "own",
+   "bal": 100000.0,
+   "enc": {}
+  },
+  {
+   "branch": "Neptune",
+   "owner": "Triton Fund",
+   "asset": "ARES",
+   "kind": "own",
+   "bal": 1000.0,
+   "enc": {}
+  }
+ ],
+ "hops": [
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.4912984750402623,
+   "p": 0.04860501816209628
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.491290180870821,
+   "p": 0.04860486034145939
+  },
+  {
+   "link": "Relay B->Ceres",
+   "d": 2.467034460682894,
+   "p": 0.048143212888684284
+  },
+  {
+   "link": "Ceres->Relay B",
+   "d": 2.467287954812277,
+   "p": 0.04814803867860218
+  },
+  {
+   "link": "Ceres->Relay B",
+   "d": 2.4672879432935537,
+   "p": 0.04814803845931981
+  },
+  {
+   "link": "Relay B->Ceres",
+   "d": 2.4670060655087185,
+   "p": 0.04814267232574565
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.4913275711756997,
+   "p": 0.04860557180028002
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.4913736307888183,
+   "p": 0.04860644821706206
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.491373645963785,
+   "p": 0.04860644850580942
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.491365320975809,
+   "p": 0.04860629009899864
+  },
+  {
+   "link": "Relay B->Ceres",
+   "d": 2.4669773660142846,
+   "p": 0.048142125969107274
+  },
+  {
+   "link": "Ceres->Relay B",
+   "d": 2.4672308527932696,
+   "p": 0.048146951624605694
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.4953570878343982,
+   "p": 0.048682241904752455
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.4953471827175595,
+   "p": 0.048682053446462814
+  },
+  {
+   "link": "Relay B->Ceres",
+   "d": 2.464031652018431,
+   "p": 0.04808604629594482
+  },
+  {
+   "link": "Ceres->Relay B",
+   "d": 2.4642847597203583,
+   "p": 0.04809086501881332
+  },
+  {
+   "link": "Ceres->Relay B",
+   "d": 2.4642847480664365,
+   "p": 0.0480908647969438
+  },
+  {
+   "link": "Ceres->Relay B",
+   "d": 2.4642847364125116,
+   "p": 0.04809086457507428
+  },
+  {
+   "link": "Relay B->Ceres",
+   "d": 2.464002958507865,
+   "p": 0.04808550002072631
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.4953870021306956,
+   "p": 0.04868281106460792
+  },
+  {
+   "link": "Relay B->Ceres",
+   "d": 2.4640029468542233,
+   "p": 0.0480854997988609
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.495387018293784,
+   "p": 0.04868281137213237
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.495437236880624,
+   "p": 0.048683766847749554
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.495437253059689,
+   "p": 0.04868376715557765
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.4954372692387583,
+   "p": 0.04868376746340597
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.495427317142551,
+   "p": 0.048683578111573644
+  },
+  {
+   "link": "Relay B->Ceres",
+   "d": 2.4639738749781013,
+   "p": 0.04808494631989135
+  },
+  {
+   "link": "Ceres->Relay B",
+   "d": 2.4642269752478905,
+   "p": 0.04808976490683359
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.5028263938198965,
+   "p": 0.048824344958869226
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.5028137621282696,
+   "p": 0.048824104659687784
+  },
+  {
+   "link": "Relay B->Ceres",
+   "d": 2.4588636445940213,
+   "p": 0.0479876512433659
+  },
+  {
+   "link": "Ceres->Relay B",
+   "d": 2.459116087973696,
+   "p": 0.0479924578155283
+  },
+  {
+   "link": "Ceres->Relay B",
+   "d": 2.4591160760909205,
+   "p": 0.0479924575892785
+  },
+  {
+   "link": "Relay B->Ceres",
+   "d": 2.45883444894737,
+   "p": 0.04798709535088075
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.5028576571267105,
+   "p": 0.04882493969661006
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.5029149667983353,
+   "p": 0.04882602992659257
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.511035445062169,
+   "p": 0.04898049713375907
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.5110200909320497,
+   "p": 0.04898020509217038
+  },
+  {
+   "link": "Relay B->Ceres",
+   "d": 2.4527372049786034,
+   "p": 0.04787099517329241
+  },
+  {
+   "link": "Ceres->Relay B",
+   "d": 2.452988862047667,
+   "p": 0.047875787361126965
+  },
+  {
+   "link": "Ceres->Relay B",
+   "d": 2.4529888498995875,
+   "p": 0.047875787129797454
+  },
+  {
+   "link": "Relay B->Ceres",
+   "d": 2.4527074318019086,
+   "p": 0.04787042821502163
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.5124592034874724,
+   "p": 0.049007577188799445
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.512524727257941,
+   "p": 0.04900882344016744
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.516031178144096,
+   "p": 0.04907551317877257
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.51601427780325,
+   "p": 0.049075191759759385
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.516208222260912,
+   "p": 0.04907888028452989
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.516191268458715,
+   "p": 0.04907855784990389
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.5163855484904407,
+   "p": 0.049082252743684385
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.516368541228696,
+   "p": 0.04908192929348887
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.5165631567769102,
+   "p": 0.04908563055511839
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.516546096057424,
+   "p": 0.04908530608939676
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.516741047064454,
+   "p": 0.04908901371771224
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.5167239328890356,
+   "p": 0.04908868823650803
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.5169192192971104,
+   "p": 0.04909240223034461
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.51690205166757,
+   "p": 0.049092075733701224
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.5170976734188235,
+   "p": 0.04909579609189185
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.517080452336976,
+   "p": 0.04909546857985303
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.5172764093734394,
+   "p": 0.04909919530122897
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.5172591348411,
+   "p": 0.049098866773838123
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.517455427104712,
+   "p": 0.049102599857228646
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.5174380991236984,
+   "p": 0.04910227031452963
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.517634726556298,
+   "p": 0.04910600975876189
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.517617345128432,
+   "p": 0.04910567920079845
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.51781430767176,
+   "p": 0.04910942500469784
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.5177968727988653,
+   "p": 0.04910909343151382
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.5179941703945654,
+   "p": 0.04911284559390361
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.5179766820784666,
+   "p": 0.04911251300554287
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.518174314668087,
+   "p": 0.04911627152524467
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.5181567729106127,
+   "p": 0.04911593792175106
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.5183547404356013,
+   "p": 0.049119702797584264
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.518337145238584,
+   "p": 0.049119368179001976
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.5185354476402955,
+   "p": 0.04912313940978419
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.518517799005565,
+   "p": 0.04912280377615719
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.518716436225253,
+   "p": 0.049126581360704025
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.5186987341546487,
+   "p": 0.049126244712076494
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.5188977061334716,
+   "p": 0.049130028649201574
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.5188799506288313,
+   "p": 0.04912969098561781
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.5190792573078515,
+   "p": 0.04913348127413297
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.5190614483710148,
+   "p": 0.04913314259563717
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.5192610896911978,
+   "p": 0.04913693923435214
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.5192432273240093,
+   "p": 0.0491365995409887
+  },
+  {
+   "link": "Relay B->Ceres",
+   "d": 2.4485701498686425,
+   "p": 0.04779164038588246
+  },
+  {
+   "link": "Ceres->Relay B",
+   "d": 2.4488212728622214,
+   "p": 0.04779642280214824
+  },
+  {
+   "link": "Ceres->Relay B",
+   "d": 2.4488212605372213,
+   "p": 0.04779642256743011
+  },
+  {
+   "link": "Ceres->Relay B",
+   "d": 2.448821248212216,
+   "p": 0.04779642233271186
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.519443203226223,
+   "p": 0.049140402528711435
+  },
+  {
+   "link": "Relay B->Ceres",
+   "d": 2.4485399943588995,
+   "p": 0.04779106609913997
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.5194222012828993,
+   "p": 0.04914000313064004
+  },
+  {
+   "link": "Relay B->Ceres",
+   "d": 2.4485399820342835,
+   "p": 0.04779106586442783
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.519422222370168,
+   "p": 0.049140003531660814
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.5194252874305265,
+   "p": 0.04914006182052466
+  },
+  {
+   "link": "Relay B->Ceres",
+   "d": 2.4485381660042838,
+   "p": 0.04779103127962736
+  },
+  {
+   "link": "Relay B->Ceres",
+   "d": 2.4485276349789924,
+   "p": 0.04779083072487167
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.519493210177194,
+   "p": 0.04914135352002125
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.519493231280345,
+   "p": 0.049141353921343556
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.5194932523834983,
+   "p": 0.049141354322665864
+  },
+  {
+   "link": "Ceres->Relay B",
+   "d": 2.4487892849009842,
+   "p": 0.047795813620931105
+  },
+  {
+   "link": "Ceres->Relay B",
+   "d": 2.448789272574636,
+   "p": 0.0477958133861871
+  },
+  {
+   "link": "Ceres->Relay B",
+   "d": 2.4487787525267586,
+   "p": 0.04779561304149338
+  },
+  {
+   "link": "Ceres->Relay B",
+   "d": 2.448778740199965,
+   "p": 0.04779561280674083
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.5194753008221515,
+   "p": 0.049141012934658335
+  },
+  {
+   "link": "Relay B->Ceres",
+   "d": 2.44850894059308,
+   "p": 0.04779047470549147
+  },
+  {
+   "link": "Relay B->Ceres",
+   "d": 2.448508007591845,
+   "p": 0.047790456937238046
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.5194769399259243,
+   "p": 0.0491410441057889
+  },
+  {
+   "link": "Relay B->Ceres",
+   "d": 2.448497475610911,
+   "p": 0.0477902563641619
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.519494967442359,
+   "p": 0.04914138693823622
+  },
+  {
+   "link": "Ceres->Relay B",
+   "d": 2.4487600557462645,
+   "p": 0.04779525697829856
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.519547990612036,
+   "p": 0.0491423952884531
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.519566031887852,
+   "p": 0.04914273838207739
+  },
+  {
+   "link": "Ceres->Relay B",
+   "d": 2.4485909343930174,
+   "p": 0.04779203620975747
+  },
+  {
+   "link": "Relay B->Ceres",
+   "d": 2.4483096768328823,
+   "p": 0.04778667988091967
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.519816773587195,
+   "p": 0.04914750676143331
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.519888083295735,
+   "p": 0.049148862860749376
+  },
+  {
+   "link": "Jupiter->Relay B",
+   "d": 2.5198881044692074,
+   "p": 0.04914886326340584
+  },
+  {
+   "link": "Relay B->Jupiter",
+   "d": 2.5198700585012572,
+   "p": 0.04914852008276105
+  },
+  {
+   "link": "Relay B->Ceres",
+   "d": 2.4482785937787805,
+   "p": 0.04778608792677275
+  },
+  {
+   "link": "Ceres->Relay B",
+   "d": 2.4485296794276628,
+   "p": 0.04779086965972623
+  }
+ ],
+ "max_wait": 19.65109530339031,
+ "last_packet": 365.85521837572344,
+ "rx_gaps": {
+  "Jupiter on Jupiter-Ceres": 141.65186558675276,
+  "Ceres on Jupiter-Ceres": 141.65138398807196
+ },
+ "snaps": [
+  [
+   0.0,
+   [
+    {
+     "branch": "Mercury",
+     "owner": "Helios Traders",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 40000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Mercury",
+     "owner": "Helios Traders",
+     "asset": "ARES",
+     "kind": "own",
+     "bal": 1000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Earth",
+     "owner": "Terra Capital",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 150000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Mars",
+     "owner": "Ares Habitat Treasury",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 40000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Mars",
+     "owner": "Ares Habitat Treasury",
+     "asset": "ARES",
+     "kind": "own",
+     "bal": 3000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Ceres",
+     "owner": "Ceres Iron Works",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 85000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Jupiter",
+     "owner": "Callisto Foundry",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 85000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Neptune",
+     "owner": "Triton Fund",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 100000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Neptune",
+     "owner": "Triton Fund",
+     "asset": "ARES",
+     "kind": "own",
+     "bal": 1000.0,
+     "enc": {}
+    }
+   ]
+  ],
+  [
+   0.0002777777777777778,
+   [
+    {
+     "branch": "Mercury",
+     "owner": "Helios Traders",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 40000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Mercury",
+     "owner": "Helios Traders",
+     "asset": "ARES",
+     "kind": "own",
+     "bal": 1000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Earth",
+     "owner": "Terra Capital",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 150000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Mars",
+     "owner": "Ares Habitat Treasury",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 40000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Mars",
+     "owner": "Ares Habitat Treasury",
+     "asset": "ARES",
+     "kind": "own",
+     "bal": 3000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Ceres",
+     "owner": "Ceres Iron Works",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 85000.0,
+     "enc": {
+      "O-F": 75000.0
+     }
+    },
+    {
+     "branch": "Jupiter",
+     "owner": "Callisto Foundry",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 85000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Neptune",
+     "owner": "Triton Fund",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 100000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Neptune",
+     "owner": "Triton Fund",
+     "asset": "ARES",
+     "kind": "own",
+     "bal": 1000.0,
+     "enc": {}
+    }
+   ]
+  ],
+  [
+   0.0002777777777777778,
+   [
+    {
+     "branch": "Mercury",
+     "owner": "Helios Traders",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 40000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Mercury",
+     "owner": "Helios Traders",
+     "asset": "ARES",
+     "kind": "own",
+     "bal": 1000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Earth",
+     "owner": "Terra Capital",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 150000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Mars",
+     "owner": "Ares Habitat Treasury",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 40000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Mars",
+     "owner": "Ares Habitat Treasury",
+     "asset": "ARES",
+     "kind": "own",
+     "bal": 3000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Ceres",
+     "owner": "Ceres Iron Works",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 85000.0,
+     "enc": {
+      "O-F": 75000.0
+     }
+    },
+    {
+     "branch": "Jupiter",
+     "owner": "Callisto Foundry",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 85000.0,
+     "enc": {
+      "JUP-1": 75000.0
+     }
+    },
+    {
+     "branch": "Neptune",
+     "owner": "Triton Fund",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 100000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Neptune",
+     "owner": "Triton Fund",
+     "asset": "ARES",
+     "kind": "own",
+     "bal": 1000.0,
+     "enc": {}
+    }
+   ]
+  ],
+  [
+   0.6885650469337745,
+   [
+    {
+     "branch": "Mercury",
+     "owner": "Helios Traders",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 40000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Mercury",
+     "owner": "Helios Traders",
+     "asset": "ARES",
+     "kind": "own",
+     "bal": 1000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Earth",
+     "owner": "Terra Capital",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 150000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Mars",
+     "owner": "Ares Habitat Treasury",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 40000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Mars",
+     "owner": "Ares Habitat Treasury",
+     "asset": "ARES",
+     "kind": "own",
+     "bal": 3000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Ceres",
+     "owner": "Ceres Iron Works",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 85000.0,
+     "enc": {
+      "JUP-1/short": 75000.0
+     }
+    },
+    {
+     "branch": "Jupiter",
+     "owner": "Callisto Foundry",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 85000.0,
+     "enc": {
+      "JUP-1": 75000.0
+     }
+    },
+    {
+     "branch": "Neptune",
+     "owner": "Triton Fund",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 100000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Neptune",
+     "owner": "Triton Fund",
+     "asset": "ARES",
+     "kind": "own",
+     "bal": 1000.0,
+     "enc": {}
+    }
+   ]
+  ],
+  [
+   288.0002777777778,
+   [
+    {
+     "branch": "Mercury",
+     "owner": "Helios Traders",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 40000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Mercury",
+     "owner": "Helios Traders",
+     "asset": "ARES",
+     "kind": "own",
+     "bal": 1000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Earth",
+     "owner": "Terra Capital",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 150000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Mars",
+     "owner": "Ares Habitat Treasury",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 40000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Mars",
+     "owner": "Ares Habitat Treasury",
+     "asset": "ARES",
+     "kind": "own",
+     "bal": 3000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Ceres",
+     "owner": "Ceres Iron Works",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 27500.0,
+     "enc": {}
+    },
+    {
+     "branch": "Ceres",
+     "owner": "Jupiter Branch",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 57500.0,
+     "enc": {}
+    },
+    {
+     "branch": "Jupiter",
+     "owner": "Callisto Foundry",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 85000.0,
+     "enc": {
+      "JUP-1": 75000.0
+     }
+    },
+    {
+     "branch": "Neptune",
+     "owner": "Triton Fund",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 100000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Neptune",
+     "owner": "Triton Fund",
+     "asset": "ARES",
+     "kind": "own",
+     "bal": 1000.0,
+     "enc": {}
+    }
+   ]
+  ],
+  [
+   359.63673862291256,
+   [
+    {
+     "branch": "Mercury",
+     "owner": "Helios Traders",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 40000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Mercury",
+     "owner": "Helios Traders",
+     "asset": "ARES",
+     "kind": "own",
+     "bal": 1000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Earth",
+     "owner": "Terra Capital",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 150000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Mars",
+     "owner": "Ares Habitat Treasury",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 40000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Mars",
+     "owner": "Ares Habitat Treasury",
+     "asset": "ARES",
+     "kind": "own",
+     "bal": 3000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Ceres",
+     "owner": "Ceres Iron Works",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 27500.0,
+     "enc": {}
+    },
+    {
+     "branch": "Ceres",
+     "owner": "Jupiter Branch",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 57500.0,
+     "enc": {}
+    },
+    {
+     "branch": "Jupiter",
+     "owner": "Callisto Foundry",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 85000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Jupiter",
+     "owner": "Callisto Foundry",
+     "asset": "USD",
+     "kind": "claim",
+     "bal": 57500.0,
+     "enc": {}
+    },
+    {
+     "branch": "Neptune",
+     "owner": "Triton Fund",
+     "asset": "USD",
+     "kind": "own",
+     "bal": 100000.0,
+     "enc": {}
+    },
+    {
+     "branch": "Neptune",
+     "owner": "Triton Fund",
+     "asset": "ARES",
+     "kind": "own",
+     "bal": 1000.0,
+     "enc": {}
+    }
+   ]
+  ]
+ ],
+ "opening": [
+  [
+   "Terra Capital",
+   "Earth",
+   150000,
+   0
+  ],
+  [
+   "Ares Habitat Treasury",
+   "Mars",
+   40000,
+   3000
+  ],
+  [
+   "Ceres Iron Works",
+   "Ceres",
+   85000,
+   0
+  ],
+  [
+   "Callisto Foundry",
+   "Jupiter",
+   85000,
+   0
+  ],
+  [
+   "Triton Fund",
+   "Neptune",
+   100000,
+   1000
+  ],
+  [
+   "Helios Traders",
+   "Mercury",
+   40000,
+   1000
+  ]
+ ],
+ "open": 0.6885650469337745,
+ "discharge": 288.0002777777778,
+ "backed": 288.0002777777778,
+ "spendable": 359.63673862291256,
+ "payoff": {
+  "price": 123,
+  "clipped": 123,
+  "to_long": 57500.0
+ },
+ "value_settled": 250000.0,
+ "completed_tx": 1,
+ "exposure": "75000 per side (cap x entry x multiplier x contracts)",
+ "capital_eff": 0.6,
+ "comm_eff": 202.0,
+ "utilization": 0.3,
+ "trace": [
+  {
+   "t": -72.0,
+   "actor": "Jupiter Branch",
+   "know": "Plans to trade with Ceres; knows geometry and maintenance",
+   "action": "Sends SYN toward Ceres",
+   "packet": "Jupiter $\\to$ B $\\to$ Ceres",
+   "arrival": "",
+   "state": "No financial state (h < 0)"
+  },
+  {
+   "t": 0.0,
+   "actor": "Ceres Iron Price Board",
+   "know": "Ceres Iron price",
+   "action": "Releases print h 0 = 100 locally",
+   "packet": "local",
+   "arrival": "",
+   "state": "entry price fixed at 100"
+  },
+  {
+   "t": 0.0002777777777777778,
+   "actor": "Ceres Branch",
+   "know": "Ceres Iron Works' order by local access; h 0 print = 100 = entry",
+   "action": "Posts firm offer O-F: short 25 at 100, expiry h 48",
+   "packet": "local",
+   "arrival": "",
+   "state": "Ceres Iron Works \\$75{,}000 reserved (max loss)"
+  },
+  {
+   "t": 0.0002777777777777778,
+   "actor": "Jupiter Branch",
+   "know": "Callisto orders long 25 at the h 0 print; free balance covers the max loss; offer life passes R5",
+   "action": "Locks \\$75{,}000 at home; sends LOCK JUP-1",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres; Jupiter$\\to$B h 0.0006; B$\\to$Ceres h 0.3470",
+   "arrival": "h 0.6886",
+   "state": "Callisto \\$75{,}000 locked (pledge at home)"
+  },
+  {
+   "t": 0.6885650469337745,
+   "actor": "Ceres Branch",
+   "know": "Holds Ceres Iron Works' offer; LOCK matches; before freeze",
+   "action": "Records the position; replies COMMIT",
+   "packet": "BB Ceres $\\to$ B $\\to$ Jupiter; Ceres$\\to$B h 0.6891; B$\\to$Jupiter h 1.0313",
+   "arrival": "h 1.3772",
+   "state": "Position open: long 25 Callisto Foundry / short Ceres Iron Works. Margins locked: \\$75{,}000 at Jupiter (pledged to Ceres) + \\$75{,}000 here = \\$150{,}000"
+  },
+  {
+   "t": 1.3771693238179985,
+   "actor": "Jupiter Branch",
+   "know": "COMMIT arrived: position recorded at Ceres",
+   "action": "Keeps the lock as a pledge; only a SETTLE ends it",
+   "packet": "",
+   "arrival": "",
+   "state": "Callisto Foundry \\$75{,}000 pledged to Ceres (unchanged)"
+  },
+  {
+   "t": 122.0,
+   "actor": "Jupiter Branch",
+   "know": "Session idle 120 h",
+   "action": "Sends keep-alive",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres; Jupiter$\\to$B h 122.0003; B$\\to$Ceres h 122.3478",
+   "arrival": "h 122.6886",
+   "state": "unchanged"
+  },
+  {
+   "t": 244.0,
+   "actor": "Jupiter Branch",
+   "know": "Session idle 120 h",
+   "action": "Sends keep-alive",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres; Jupiter$\\to$B h 244.0003; B$\\to$Ceres h 264.0000",
+   "arrival": "h 264.3400",
+   "state": "unchanged"
+  },
+  {
+   "t": 288.0002777777778,
+   "actor": "Ceres Branch",
+   "know": "Settling print h 288 = 123 by local access; clipped to 123",
+   "action": "Records the payoff (discharge); sends SETTLE once",
+   "packet": "BB Ceres $\\to$ B $\\to$ Jupiter; Ceres$\\to$B h 364.1365; B$\\to$Jupiter h 364.4765",
+   "arrival": "h 364.8258",
+   "state": "\\$57{,}500 of Ceres Iron Works' margin $\\to$ Jupiter Branch's account here; \\$17{,}500 released to Ceres Iron Works"
+  },
+  {
+   "t": 313.3783649320452,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission",
+   "arrival": "",
+   "state": "unchanged"
+  },
+  {
+   "t": 313.37871613232744,
+   "actor": "Ceres Branch",
+   "know": "No data ACK for SETTLE JUP-1 within R\\textsubscript{e}",
+   "action": "Endpoint attempt 2 of SETTLE JUP-1",
+   "packet": "attempt 1: Ceres$\\to$B h 288.0006 lost, 289.6806 lost, 291.3606 lost, 293.0406 lost",
+   "arrival": "lost",
+   "state": "unchanged"
+  },
+  {
+   "t": 315.7783649320452,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission",
+   "arrival": "",
+   "state": "unchanged"
+  },
+  {
+   "t": 318.17836493204516,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission",
+   "arrival": "",
+   "state": "unchanged"
+  },
+  {
+   "t": 320.57836493204513,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission",
+   "arrival": "",
+   "state": "unchanged"
+  },
+  {
+   "t": 322.9783649320451,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission",
+   "arrival": "",
+   "state": "unchanged"
+  },
+  {
+   "t": 325.3783649320451,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission",
+   "arrival": "",
+   "state": "unchanged"
+  },
+  {
+   "t": 327.77836493204506,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission",
+   "arrival": "",
+   "state": "unchanged"
+  },
+  {
+   "t": 330.17836493204504,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission",
+   "arrival": "",
+   "state": "unchanged"
+  },
+  {
+   "t": 332.578364932045,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission",
+   "arrival": "",
+   "state": "unchanged"
+  },
+  {
+   "t": 334.978364932045,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission",
+   "arrival": "",
+   "state": "unchanged"
+  },
+  {
+   "t": 337.378364932045,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission",
+   "arrival": "",
+   "state": "unchanged"
+  },
+  {
+   "t": 338.75735912722826,
+   "actor": "Ceres Branch",
+   "know": "No data ACK for SETTLE JUP-1 within R\\textsubscript{e}",
+   "action": "Endpoint attempt 3 of SETTLE JUP-1",
+   "packet": "attempt 2: Ceres$\\to$B h 313.3790 lost, 315.0587 lost, 316.7384 lost, 318.4181 lost",
+   "arrival": "lost",
+   "state": "unchanged"
+  },
+  {
+   "t": 339.77836493204495,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission",
+   "arrival": "",
+   "state": "unchanged"
+  },
+  {
+   "t": 342.17836493204493,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission",
+   "arrival": "",
+   "state": "unchanged"
+  },
+  {
+   "t": 344.5783649320449,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission",
+   "arrival": "",
+   "state": "unchanged"
+  },
+  {
+   "t": 346.9783649320449,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission",
+   "arrival": "",
+   "state": "unchanged"
+  },
+  {
+   "t": 349.37836493204486,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission",
+   "arrival": "",
+   "state": "unchanged"
+  },
+  {
+   "t": 351.77836493204484,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission",
+   "arrival": "",
+   "state": "unchanged"
+  },
+  {
+   "t": 354.1783649320448,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission; Jupiter$\\to$B h 354.1786; B$\\to$Ceres h 354.5284 lost, 356.2075 lost, 357.8867 lost, 359.5658",
+   "arrival": "h 359.9052",
+   "state": "unchanged"
+  },
+  {
+   "t": 356.5783649320448,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission; Jupiter$\\to$B h 356.5786; B$\\to$Ceres h 356.9284 lost, 358.6075",
+   "arrival": "h 358.9469",
+   "state": "unchanged"
+  },
+  {
+   "t": 358.9469461639355,
+   "actor": "Ceres Branch",
+   "know": "JUP-1 already decided: SETTLE",
+   "action": "Repeats recorded SETTLE",
+   "packet": "BB Ceres $\\to$ B $\\to$ Jupiter; Ceres$\\to$B h 358.9475; B$\\to$Jupiter h 359.2875",
+   "arrival": "h 359.6367",
+   "state": "unchanged"
+  },
+  {
+   "t": 358.97836493204477,
+   "actor": "Jupiter Branch",
+   "know": "Still holds the lock; no recorded answer one endpoint timer on",
+   "action": "Resubmits LOCK unchanged (recovery reserve)",
+   "packet": "BB Jupiter $\\to$ B $\\to$ Ceres, resubmission; Jupiter$\\to$B h 358.9786; B$\\to$Ceres h 359.3284",
+   "arrival": "h 359.6678",
+   "state": "unchanged"
+  },
+  {
+   "t": 359.63673862291256,
+   "actor": "Jupiter Branch",
+   "know": "SETTLE arrived: settling print 123, clipped 123",
+   "action": "Applies SETTLE",
+   "packet": "",
+   "arrival": "",
+   "state": "\\$75{,}000 pledge returned to Callisto Foundry; plus \\$57{,}500 credited (claim on Jupiter Branch backed by its holding at Ceres). All spendable. Pledge ended."
+  },
+  {
+   "t": 364.1362143088278,
+   "actor": "Ceres Branch",
+   "know": "No data ACK for SETTLE JUP-1 within R\\textsubscript{e}",
+   "action": "Endpoint attempt 4 of SETTLE JUP-1",
+   "packet": "attempt 3: Ceres$\\to$B h 338.7576 lost, 340.4371 lost, 342.1165 lost, 343.7958 lost",
+   "arrival": "lost",
+   "state": "unchanged"
+  }
+ ]
+}

@@ -1,0 +1,268 @@
+[
+ {
+  "fault": "F1",
+  "audit": true,
+  "product": "VM",
+  "detected": [
+   "conflicting decision: DECLINE after COMMIT"
+  ],
+  "locks": {
+   "EAR-1": "released"
+  },
+  "totals": {
+   "Terra Capital": {
+    "USD": 125000.0,
+    "ARES": 200.0
+   },
+   "Triton Fund": {
+    "USD": 125000.0,
+    "ARES": 800.0
+   },
+   "Callisto Foundry": {
+    "USD": 85000.0,
+    "ARES": 0
+   },
+   "Ceres Iron Works": {
+    "USD": 85000.0,
+    "ARES": 0
+   }
+  },
+  "invariants": "hold",
+  "still_encumbered": {
+   "USD": 0.0,
+   "ARES": 0.0
+  },
+  "locked_usd_hours": 208740.660206141,
+  "client_delta": {}
+ },
+ {
+  "fault": "F1",
+  "audit": false,
+  "product": "VM",
+  "detected": [],
+  "locks": {
+   "EAR-1": "released"
+  },
+  "totals": {
+   "Terra Capital": {
+    "USD": 125000.0,
+    "ARES": 200.0
+   },
+   "Triton Fund": {
+    "USD": 125000.0,
+    "ARES": 800.0
+   },
+   "Callisto Foundry": {
+    "USD": 85000.0,
+    "ARES": 0
+   },
+   "Ceres Iron Works": {
+    "USD": 85000.0,
+    "ARES": 0
+   }
+  },
+  "invariants": "hold",
+  "still_encumbered": {
+   "USD": 0.0,
+   "ARES": 0.0
+  },
+  "locked_usd_hours": 208740.660206141,
+  "client_delta": {}
+ },
+ {
+  "fault": "F2",
+  "audit": true,
+  "product": "FF",
+  "detected": [
+   "SETTLE amount differs from the payoff recomputed from the settling print"
+  ],
+  "locks": {
+   "JUP-1": "settled"
+  },
+  "totals": {
+   "Terra Capital": {
+    "USD": 150000.0,
+    "ARES": 0
+   },
+   "Triton Fund": {
+    "USD": 100000.0,
+    "ARES": 1000.0
+   },
+   "Callisto Foundry": {
+    "USD": 27500.0,
+    "ARES": 0
+   },
+   "Ceres Iron Works": {
+    "USD": 142500.0,
+    "ARES": 0
+   }
+  },
+  "invariants": "hold",
+  "still_encumbered": {
+   "USD": 0.0,
+   "ARES": 0.0
+  },
+  "locked_usd_hours": 43251691.43829562,
+  "client_delta": {}
+ },
+ {
+  "fault": "F2",
+  "audit": false,
+  "product": "FF",
+  "detected": [],
+  "locks": {
+   "JUP-1": "settled"
+  },
+  "totals": {
+   "Terra Capital": {
+    "USD": 150000.0,
+    "ARES": 0
+   },
+   "Triton Fund": {
+    "USD": 100000.0,
+    "ARES": 1000.0
+   },
+   "Callisto Foundry": {
+    "USD": 15000.0,
+    "ARES": 0
+   },
+   "Ceres Iron Works": {
+    "USD": 142500.0,
+    "ARES": 0
+   }
+  },
+  "invariants": "BROKEN: Ceres USD claims 57,500 vs backing 70,000",
+  "still_encumbered": {
+   "USD": 0.0,
+   "ARES": 0.0
+  },
+  "locked_usd_hours": 43200729.166666664,
+  "client_delta": {
+   "Callisto Foundry": {
+    "USD": -12500.0,
+    "ARES": 0
+   }
+  }
+ },
+ {
+  "fault": "F3",
+  "audit": true,
+  "product": "VM",
+  "detected": [
+   "COMMIT echoes terms that differ from the LOCK"
+  ],
+  "locks": {
+   "EAR-1": "released"
+  },
+  "totals": {
+   "Terra Capital": {
+    "USD": 125000.0,
+    "ARES": 200.0
+   },
+   "Triton Fund": {
+    "USD": 125000.0,
+    "ARES": 800.0
+   },
+   "Callisto Foundry": {
+    "USD": 85000.0,
+    "ARES": 0
+   },
+   "Ceres Iron Works": {
+    "USD": 85000.0,
+    "ARES": 0
+   }
+  },
+  "invariants": "hold",
+  "still_encumbered": {
+   "USD": 0.0,
+   "ARES": 0.0
+  },
+  "locked_usd_hours": 208740.660206141,
+  "client_delta": {}
+ },
+ {
+  "fault": "F3",
+  "audit": false,
+  "product": "VM",
+  "invariants": "BROKEN (check failed): unbacked claims on Earth Branch ARES: 200.0 > held 0 + pending 0",
+  "detected": []
+ },
+ {
+  "fault": "F4",
+  "audit": true,
+  "product": "FF",
+  "detected": [],
+  "locks": {
+   "JUP-1": "locked"
+  },
+  "totals": {
+   "Terra Capital": {
+    "USD": 150000.0,
+    "ARES": 0
+   },
+   "Triton Fund": {
+    "USD": 100000.0,
+    "ARES": 1000.0
+   },
+   "Callisto Foundry": {
+    "USD": 85000.0,
+    "ARES": 0
+   },
+   "Ceres Iron Works": {
+    "USD": 142500.0,
+    "ARES": 0
+   }
+  },
+  "invariants": "hold",
+  "still_encumbered": {
+   "USD": 75000.0,
+   "ARES": 0.0
+  },
+  "locked_usd_hours": 171599979.1666667,
+  "client_delta": {
+   "Callisto Foundry": {
+    "USD": 57500.0,
+    "ARES": 0
+   }
+  }
+ },
+ {
+  "fault": "F4",
+  "audit": false,
+  "product": "FF",
+  "detected": [],
+  "locks": {
+   "JUP-1": "locked"
+  },
+  "totals": {
+   "Terra Capital": {
+    "USD": 150000.0,
+    "ARES": 0
+   },
+   "Triton Fund": {
+    "USD": 100000.0,
+    "ARES": 1000.0
+   },
+   "Callisto Foundry": {
+    "USD": 85000.0,
+    "ARES": 0
+   },
+   "Ceres Iron Works": {
+    "USD": 142500.0,
+    "ARES": 0
+   }
+  },
+  "invariants": "hold",
+  "still_encumbered": {
+   "USD": 75000.0,
+   "ARES": 0.0
+  },
+  "locked_usd_hours": 171599979.1666667,
+  "client_delta": {
+   "Callisto Foundry": {
+    "USD": 57500.0,
+    "ARES": 0
+   }
+  }
+ }
+]

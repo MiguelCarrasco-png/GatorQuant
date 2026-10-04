@@ -477,10 +477,10 @@
  "max_wait": 0.000833333333333507,
  "last_packet": 15.953156392221583,
  "rx_gaps": {
-  "Earth on Earth-Mars": 71.99574365147274,
-  "Mars on Earth-Mars": 70.86266552452858,
   "Neptune on Neptune-Mars": 72.01186534670565,
-  "Mars on Neptune-Mars": 63.78824393043918
+  "Mars on Neptune-Mars": 63.78824393043918,
+  "Earth on Earth-Mars": 71.99574365147274,
+  "Mars on Earth-Mars": 70.86266552452858
  },
  "snaps": [
   [
@@ -1091,7 +1091,7 @@
   {
    "t": 0.0002777777777777778,
    "actor": "Earth Branch",
-   "know": "Terra's acceptance of O-1 (terms as advertised); free balance covers it; offer life covers a second attempt (R5); knows nothing of Neptune's state",
+   "know": "Terra accepts O-1; free balance covers it; offer life passes R5; knows nothing of Neptune",
    "action": "Locks \\$25{,}000; sends LOCK EAR-1",
    "packet": "BB Earth $\\to$ A $\\to$ Mars; Earth$\\to$A h 0.0006; A$\\to$Mars h 0.3138",
    "arrival": "h 0.5655",

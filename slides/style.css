@@ -1,0 +1,71 @@
+@import '@fontsource-variable/archivo/wdth.css';
+
+:root {
+  --fog: #eef1f6;
+  --ink: #16224a;
+  --ink-2: #5e6a86;
+  --rule: #c9d1e0;
+  --ultra: #2a3bd1;
+  --night: #18206b;
+  --night-ink: #e9edfb;
+  --night-ink-2: #a9b2df;
+  --saffron: #f4b41a;
+  --slidev-theme-primary: var(--ultra);
+}
+
+.slidev-layout, .slidev-page {
+  font-family: 'Archivo Variable', sans-serif;
+  font-variant-numeric: tabular-nums;
+  background: var(--fog);
+  color: var(--ink);
+  padding: 0;
+}
+
+.slide { position: absolute; inset: 0; overflow: hidden; background: var(--fog); padding: 60px 84px 72px; box-sizing: border-box; display: flex; flex-direction: column; }
+.slide.night { background: var(--night); color: var(--night-ink); }
+
+/* Slide titles: plain description of the slide's job, set wide and heavy. */
+h2.title { font-family: 'Archivo Variable', sans-serif; font-weight: 800; font-size: 54px; line-height: 1.05; font-stretch: expanded; letter-spacing: -.015em; color: var(--ultra); margin: 0; }
+.night h2.title { color: var(--saffron); }
+h1.cover { font-family: 'Archivo Variable', sans-serif; font-weight: 800; font-size: 76px; line-height: 1.02; font-stretch: expanded; letter-spacing: -.02em; color: var(--ultra); margin: 0; border: 0; }
+
+.lede { font-size: 27px; line-height: 1.38; color: var(--ink); max-width: 860px; margin: 22px 0 0; font-stretch: 100%; }
+.night .lede { color: var(--night-ink); }
+.lede.small { font-size: 22px; color: var(--ink-2); }
+.night .lede.small { color: var(--night-ink-2); }
+strong.hl { color: var(--ultra); font-weight: 700; }
+.night strong.hl { color: var(--saffron); }
+
+.foot { position: absolute; left: 84px; right: 84px; bottom: 28px; display: flex; justify-content: space-between; font-size: 15px; color: var(--ink-2); }
+.night .foot { color: var(--night-ink-2); }
+
+.stat-row { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 48px; margin-top: 48px; }
+.stat .n { font-family: 'Archivo Variable', sans-serif; font-weight: 800; font-size: 76px; line-height: 1; font-stretch: expanded; color: var(--ultra); }
+.night .stat .n { color: var(--saffron); }
+.stat .n small { font-size: 30px; font-weight: 600; margin-left: 4px; }
+.stat .l { font-size: 19px; line-height: 1.4; color: var(--ink-2); margin-top: 12px; max-width: 300px; }
+.night .stat .l { color: var(--night-ink-2); }
+
+.cols { display: grid; gap: 40px 64px; margin-top: 40px; }
+.cols.two { grid-template-columns: 1fr 1fr; }
+.cols.three { grid-template-columns: 1fr 1fr 1fr; }
+.item h3 { font-family: 'Archivo Variable', sans-serif; font-weight: 700; font-size: 27px; line-height: 1.15; font-stretch: semi-expanded; margin: 0 0 8px; color: var(--ink); }
+.item p { font-size: 19px; line-height: 1.45; color: var(--ink-2); margin: 0; }
+.item .big { font-family: 'Archivo Variable', sans-serif; font-weight: 800; font-size: 44px; line-height: 1; font-stretch: expanded; color: var(--ultra); margin-bottom: 6px; }
+
+table.tbl { border-collapse: collapse; width: 100%; font-size: 22px; margin-top: 36px; }
+table.tbl th { text-align: left; font-size: 16px; font-weight: 600; color: var(--ink-2); padding: 0 20px 10px 0; border-bottom: 2px solid var(--ink); }
+table.tbl td { padding: 16px 20px 16px 0; border-bottom: 1px solid var(--rule); vertical-align: top; color: var(--ink-2); }
+table.tbl td:first-child { color: var(--ultra); font-weight: 800; font-stretch: expanded; }
+table.tbl td:nth-child(2) { color: var(--ink); font-weight: 500; }
+
+ol.rules { list-style: none; padding: 0; margin: 40px 0 0; counter-reset: r; }
+ol.rules li { font-family: 'Archivo Variable', sans-serif; font-weight: 700; font-size: 46px; line-height: 1.25; font-stretch: semi-expanded; color: var(--night-ink); }
+ol.rules li span { display: block; font: 400 21px/1.4 'Archivo Variable', sans-serif; color: var(--night-ink-2); margin: 2px 0 22px; }
+
+.stat-stack { margin-top: 28px; max-width: 520px; position: relative; }
+.stat-stack .stat { display: grid; grid-template-columns: 150px 1fr; gap: 20px; align-items: baseline; padding: 14px 0; }
+.stat-stack .stat .n { font-size: 50px; }
+.stat-stack .stat .n small { font-size: 22px; }
+.stat-stack .stat .l { margin-top: 0; font-size: 17px; }
+.slide > h2, .slide > p, .slide > .cols, .slide > .stat-stack { position: relative; }

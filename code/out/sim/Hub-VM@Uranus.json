@@ -1091,7 +1091,7 @@
   {
    "t": 0.0002777777777777778,
    "actor": "Uranus Branch",
-   "know": "Terra's acceptance of O-1 (terms as advertised); free balance covers it; offer life covers a second attempt (R5); knows nothing of Neptune's state",
+   "know": "Terra accepts O-1; free balance covers it; offer life passes R5; knows nothing of Neptune",
    "action": "Locks \\$25{,}000; sends LOCK URA-1",
    "packet": "BB Uranus $\\to$ A $\\to$ Mars; Uranus$\\to$A h 0.0006; A$\\to$Mars h 2.3254",
    "arrival": "h 2.5771",
