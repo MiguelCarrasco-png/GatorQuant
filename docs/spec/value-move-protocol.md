@@ -131,3 +131,13 @@ Callisto Foundry (Jupiter, long) accepts a firm offer from Ceres Iron Works (Cer
 - Sessions per Branch pair, the quota budget and interim-print forwarding → *Institutions chartered and backbone quota budget* (issue 5, resolved: per-Branch 66/24 h slices with 10 for recovery; each run opens its trade pair at h −72 on a foresight-pinned route; keep-alive at 120 h idle; Ceres Branch forwards interim prints to Jupiter over the backbone).
 - Contract size, cap, print schedule → *Ceres Iron future — exact terms, margin rule, price paths*.
 - Using an inter-Branch balance in a later deal (e.g. Triton paying someone at Earth) is a new deal under this same protocol. Fees and replenishment are still unmapped (fog).
+
+## 8. Amendments of 2026-10-04 (hardening round; issue 16)
+
+These supersede the matching text above.
+
+- **R8 (recovery).** Only the lock holder resends. After one `R_e` with no recorded answer (for a pledge: after the settling print plus `R_e`) it resubmits its LOCK, batched with every other probed lock to the same peer (14 records per packet), then every `P = 24/10 = 2.4 h` per packet (stretched to `P x ceil(n/14)` for `n` open locks), at once on any packet from the peer (at most hourly), and from a fresh session if none is up (after one handshake round trip). A newer copy replaces older ones; a closed deal drops its copies. The decider repeats a recorded answer at most once an hour per deal. The referee's SETTLE is one application message; transport retries it at `R_e`.
+- **R22 (extension, tested).** The lock holder applies COMMIT/DECLINE only if the echoed terms equal its LOCK, applies SETTLE only if the amount equals the payoff recomputed from the settling print carried in the record (value in 4 reserved bytes), logs a second different outcome for a closed deal. Detection, not enforcement.
+- **R23 (extension, tested).** No settling print 24 h after maturity: the referee voids the contract and every margin returns.
+- **R24 (extension, analysed).** Griefing cap: refuse a (client, offer holder) pair for 7 days after 3 reason-1 declines in 24 h.
+- **Offers expire:** an offer still open at its expiry hour frees its reservation (R4).

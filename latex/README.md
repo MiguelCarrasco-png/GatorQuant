@@ -44,3 +44,14 @@ PDFs are git-ignored; rebuild them rather than committing them.
 - Work through the checklist comments at the top of `paper.tex` and `appendix.tex`.
 
 Each section file starts with its page budget from the brief (s.8). Paper: 5 + 2 + 2 + 2 + 1. Appendix: E1 1.5, S1/E2/E3 5, S2 2, S3 1, E4 1.5, E5 1.
+
+## Hardening-round scripts (issue 16)
+
+Run from `code/` after `scenarios.py`; each writes into `latex/generated/` (never edit by hand):
+
+```bash
+python stack_scan.py && python probe_sweep.py && python faulty.py && python quota_test.py && python griefing.py
+python fuzz.py 1500 && python report_extra.py
+```
+
+`fuzz.py 1500` runs 4,500 fault-injected runs (about 20 minutes on 8 cores). Appendix and paper are at exactly 12 pages; check page counts after any edit.
