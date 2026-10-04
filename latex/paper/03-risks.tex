@@ -7,12 +7,20 @@ all, and who sees prices first. We rank by the worst effect we measured on locke
 rank-1 to rank-5 risk was found by a run that made it bind; most come from an interaction between two of our own
 rules or between a rule and the transport.
 
-\begin{table}[H]\centering
-\setlength{\tabcolsep}{3pt}
-\begin{tabularx}{\linewidth}{c>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}
+{\setlength{\tabcolsep}{3pt}
+\begin{xltabular}{\linewidth}{c>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}
+\caption{Ranked risk register. Ranks 1--5 come from runs that bind; 6--10 from analysis.}\label{tab:risks}\\
 \toprule
 \# & Risk & Test that binds (appendix) & Treatment and residual\\
 \midrule
+\endfirsthead
+\multicolumn{4}{l}{\emph{Table \thetable, continued}}\\
+\toprule
+\# & Risk & Test that binds (appendix) & Treatment and residual\\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
 1 & Referee cut off across maturity & S2: 72 h isolation of Ceres, h 286--358, on the falling run. SETTLE needs 4
 endpoint attempts; Callisto's refund and Ceres Branch's \$57{,}500 land at h \SimSTwoSpendable, \SimSTwoLost\ h late;
 \SimSTwoExtraDollarHours\ extra \$-hours; \SimSTwoFailed\ launches fail. Worst of five candidate incidents. & Pull rule
@@ -51,11 +59,7 @@ print never travels before settlement (the referee sees it locally).\\
 rate, batching, then a local queue; never a lock without quota to send it.\\
 10 & Clock drift between settlements & Deployment: Mars clocks gain 477.6 $\mu$s/day on Earth. & R17: one TDB
 timescale for every deadline.\\
-\bottomrule
-\end{tabularx}
-\caption{Ranked risk register. Ranks 1--5 come from runs that bind; 6--10 from analysis.}
-\label{tab:risks}
-\end{table}
+\end{xltabular}}
 
 \textbf{Interactions we found between rules.}
 (a) \emph{Pull rule $\times$ endpoint timer.} The pull rule makes recovery safe, but it waits for $R_e$, so recovery

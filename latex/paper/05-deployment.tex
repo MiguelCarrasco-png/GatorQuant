@@ -7,12 +7,20 @@ The two effects that could change \emph{which} outcome settles (a deadline decid
 cannot arrive) are answered by rules R17 and R10/R12. ``Derived'' marks our own estimate from the cited formula with
 circular, coplanar orbits: order of magnitude, not an ephemeris value.
 
-\begin{table}[H]\centering
-\setlength{\tabcolsep}{3pt}
-\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{2.2cm}>{\raggedright\arraybackslash}p{3.6cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{4.3cm}}
+{\setlength{\tabcolsep}{3pt}
+\begin{xltabular}{\linewidth}{>{\raggedright\arraybackslash}p{2.2cm}>{\raggedright\arraybackslash}p{3.6cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{4.3cm}}
+\caption{Effects the baseline omits. Full derivations and links: \texttt{docs/research/deployment-effects.md}.}\label{tab:deploy}\\
 \toprule
 Effect & Size estimate & Source and assumptions & Effect on our guarantees\\
 \midrule
+\endfirsthead
+\multicolumn{4}{l}{\emph{Table \thetable, continued}}\\
+\toprule
+Effect & Size estimate & Source and assumptions & Effect on our guarantees\\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
 Solar conjunction (corona) & NASA pauses Mars commanding $\approx$14 d when the Sun is within 2$^\circ$; the
 baseline's 0.10 AU sphere blocks Earth--Mars direct $\approx$41 d (derived) & JPL 2015 and NASA 2023 moratorium
 notices; DSN 810-005 module 202 (scintillation $\propto 1/\sin(\mathrm{SEP})^{1.225}$) & Timing only. The baseline is
@@ -32,10 +40,7 @@ moving Kepler model.\\
 Shapiro delay & 63 $\mu$s one-way at the 0.10 AU edge (Earth--Mars, derived) to $\approx$124 $\mu$s grazing the limb
 & Shapiro, \emph{PRL} 13 (1964); Bertotti et al., \emph{Nature} 425 (2003) & None: 4--5 orders below the 1 s local
 access.\\
-\bottomrule
-\end{tabularx}
-\caption{Effects the baseline omits. Full derivations and links: \texttt{docs/research/deployment-effects.md}.}
-\end{table}
+\end{xltabular}}
 
 \textbf{Where our assumptions stop.} All orbital statements are about fixed Kepler ellipses, which drift from the
 real solar system over decades; our E4 and E5 results are claims about the model. We assume Branches follow their
