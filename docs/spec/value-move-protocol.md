@@ -103,6 +103,7 @@ If none of these applies, commit. Either way, record the decision durably first,
 
 **Route and timing rules** (from the E4 scan and the deployment research):
 - Every deadline, offer expiry and decision time is in TDB, the one shared timescale.
+- **Offer life** (added 2026-10-03 while drafting the paper, rule R5): the initiator accepts a remote firm offer only if its remaining life is at least R_e + T0 + 3·ΣR_h on the pinned route (T0, R_e = 2·T0 + 24 h and each hop's R_h = 2 × flight + 1 h, all at enqueue). That is the latest a second endpoint attempt can arrive without being abandoned, so a decline needs two abandoned attempts. Otherwise the initiator refuses locally and locks nothing. At h 0: 68 h Earth→Neptune, 86 h Uranus→Neptune, 36 h Jupiter→Ceres. The traced offers use 96 h (VM) and 48 h (future). Monte Carlo (`code/e2_latency.py`): a 24 h offer would be declined 7.8% of the time from Earth, a 48 h offer 0.6%, and under this rule 0.00%.
 - Pin a session's route by foresight: choose a route that is open for the next 24 h, not simply the fastest one now.
 - Never launch on a link whose reverse direction closes within one R_h.
 - Closures at Mars, Jupiter, Saturn and Ceres can outlast the 30-day packet lifetime. Nothing waits in a queue behind such a closure. The initiator re-routes or resubmits on a fresh session.

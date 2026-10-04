@@ -1,21 +1,207 @@
 % Budget: 5 pages. Brief s.10: architecture, operating rulebook, supported products, responsibilities.
 \section{Architecture and operating rulebook}
 
-\subsection{Institutions and ledgers}
-\pending{one Branch per settlement, one home ledger each, no hub; who is chartered (<= 12), what each is responsible for. Glossary terms from CONTEXT.md.}
+\textbf{The design in one paragraph.} Every settlement has one \emph{Branch}, and every NeoDollar and share sits on
+exactly one Branch's \emph{home ledger}. Nothing is ever owed across light-lag without being locked first: before a
+cross-planet deal or a price contract opens, each side's full obligation is locked on its own home ledger
+(\emph{money on the table}). A cross-planet deal touches exactly two ledgers: the initiator's Branch \emph{locks},
+the Branch holding the offer \emph{decides once} and commits, and the initiator \emph{releases} when the commit
+arrives. A price contract is refereed by the Branch where its price is published, and a remote side's margin stays
+\emph{pledged at home} until the referee's \emph{Settle} arrives. No timer ever ends a lock, and only the side holding
+a lock ever resends. There are no margin calls, no credit and no central hub. Rules are numbered R1--R21 and cited by
+number in both documents. \implemented\ marks an exact procedure of this design, exercised in our simulator unless
+noted; \extension\ marks future work that no guarantee relies on.
 
-\subsection{Opening balance sheet}
-\gen{balance_sheet.tex}
-\pending{one line on why these accounts and locations; totals within the limits of s.6.}
+\subsection{Institutions, accounts and ledgers}
 
-\subsection{Cross-planet value move: lock, commit, release}
-\pending{message-by-message protocol; states; what each actor knows, does and owes when a message is lost, delayed, duplicated or contradicted. Spendable, backed-claim and discharge moments named.}
+\begin{table}[h]\centering\small
+\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.1cm}>{\raggedright\arraybackslash}p{2.6cm}X}
+\toprule
+Institution (10 of 12 chartered) & Where & Responsible for\\
+\midrule
+Branch $\times$ 9 (operators) & one at each settlement, at its gateway & The home ledger for every asset held there; posting
+local deals; holding firm offers; locking, deciding and releasing cross-planet deals; refereeing every contract whose
+price publishes there; enforcing its own backbone quota slice. Starts with nothing; never takes market risk.\\
+Ceres Iron Price Board & Ceres & Signs and releases the daily Ceres Iron print locally at Ceres. Holds no money and
+never uses the backbone.\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Saturn has no client account but has a Branch, so any account there is served from hour 0. The six client accounts
+are the principals of the opening balance sheet; each talks only to its own Branch, by local access (1 s, lossless,
+no quota). An \emph{inter-Branch account} is a balance one Branch holds on another Branch's ledger, for example
+\emph{Earth Branch at Neptune: 200 Ares}. It is a claim, not new money, and nets to zero across the system.
+
+\textbf{Opening balance sheet} (hour 0, authoritative; every run starts from it, a declared reset):
+\begin{center}\small\gen{balance_sheet.tex}\end{center}
+Six accounts at six settlements; totals exactly at the limits (\$500{,}000, 5{,}000 shares). We put the value move
+at the far ends of the system (Earth and Neptune, 4.17 h one way through Relay A), and put the price contract's
+\emph{loser-to-be} on a different planet from its referee in both runs: Callisto Foundry at Jupiter is long, Ceres
+Iron Works at Ceres is short, so the falling run makes the remote side pay. The two \$85{,}000 accounts are sized so
+that the one pair can lock 30\% of all cash at once (scale requirement, \S6 of the brief) and still keep \$10{,}000
+free each.
+
+\subsection{Operating rulebook}
+
+\textbf{Ledger rules} (all \implemented).
+\begin{description}[leftmargin=2.2em,style=sameline]
+\item[R1] \emph{One home ledger.} Only the Branch of a settlement changes balances held there. Ledgers, deal
+counters, recorded decisions and packet IDs are durable; they survive crashes and resets.
+\item[R2] \emph{Free balance only.} A Branch executes a client instruction only against \emph{free} balance
+(balance minus reserved minus locked). Anything else is refused locally and nothing is sent. Clients cannot unlock,
+reserve or move a locked asset; only the Branch record changes listed in R6--R10 can. This is what stops a client
+from spending a pledged asset twice, whatever it claims to know.
+\item[R3] \emph{Local deals.} A deal between two clients of one Branch is one atomic posting on one ledger, with no
+network message and no quota.
+\item[R4] \emph{Firm offers.} A client posts an offer at its own Branch with terms and an expiry hour; the Branch
+reserves the assets until the offer fills, is withdrawn locally, or expires. A cross-planet deal always accepts a firm
+offer. An offer on a price contract expires no later than the contract's freeze (R12).
+\item[R5] \emph{Offer life.} An initiator Branch accepts a remote offer only if a second endpoint attempt, unless it
+too is abandoned, must arrive before expiry: $\text{expiry} - t \ge R_e + T_0 + 3\sum R_h$ on its pinned route
+($R_e = 2T_0 + 24$\,h, $R_h = 2\times$hop flight $+$ 1\,h, all at enqueue). Otherwise it refuses locally and locks
+nothing. A decline then needs two abandoned attempts (\S\ref{sec:risks}). At h 0 this is \EtwoLifeEarthNeptune\ h
+from Earth to Neptune and \EtwoLifeJupiterCeres\ h from Jupiter to Ceres.
+\end{description}
+
+\textbf{Cross-planet deal: lock, commit, release} (all \implemented). Figure~\ref{fig:lcr} shows the traced value move.
+\begin{description}[leftmargin=2.2em,style=sameline]
+\item[R6] \emph{Lock.} The initiator Branch locks its client's leg and sends LOCK with the full terms and a never-reused
+deal ID (initiator Branch + 8-byte counter). A lock ends only on COMMIT, DECLINE or SETTLE recorded for that deal,
+never on a timer.
+\item[R7] \emph{Decide once.} The Branch holding the offer decides on the \emph{first} arrival of the LOCK. It declines
+only for: (1) offer filled, withdrawn or expired at arrival; (2) terms differ from the offer; (3) LOCK carries ABORT
+and the deal is undecided; (4) malformed record or unknown account. Otherwise it commits. It records the decision
+durably \emph{before} replying, and answers every later copy with the same recorded decision and original terms.
+On COMMIT it moves the offered asset to the initiator Branch's inter-Branch account and credits its own client the
+proceeds as a claim on itself, backed by the initiator's lock. That client may spend it at once.
+\item[R8] \emph{Only the lock holder resends.} The deciding or refereeing Branch never resends on its own (except
+SETTLE, sent once). If the lock holder still holds a lock after the expected reply time plus $R_e$ it resubmits the
+same LOCK (\emph{pull rule}); the answer is the recorded one, so resubmission is always safe.
+\item[R9] \emph{Release.} On COMMIT the initiator debits its client's lock to the deciding Branch's inter-Branch
+account and credits its client the bought asset as a claim backed by its own inter-Branch holding there. On DECLINE
+the lock returns to the client's free balance. A trade is complete at the later of the two spendable moments.
+\end{description}
+
+\begin{figure}[h]\centering
+\begin{tikzpicture}[x=1cm,y=-0.62cm,font=\footnotesize,>={Stealth[length=2mm]}]
+\foreach \x/\n in {0/Earth Branch (Terra),4.5/Relay A,9.0/Neptune Branch (Triton)} {
+  \node[font=\footnotesize\bfseries] at (\x,-0.6) {\n}; \draw[gray] (\x,0) -- (\x,8.6); }
+\draw[->] (0,0.4) -- node[above,sloped] {LOCK EAR-1, h 0.0006} (4.5,1.0);
+\draw[->] (4.5,1.0) -- node[above,sloped] {h 0.3138 $\to$ 4.1751 (27.86 AU)} (9.0,4.2);
+\draw[->] (9.0,4.6) -- node[above,sloped] {COMMIT EAR-1, h 4.1756 $\to$ 8.0372} (4.5,7.8);
+\draw[->] (4.5,7.8) -- node[above,sloped] {h 8.0378 $\to$ 8.3499} (0,8.4);
+\node[anchor=east,align=right] at (-0.15,0.4) {h 0.0003: lock \$25{,}000};
+\node[anchor=east,align=right] at (-0.15,8.4) {h 8.3499: release;\\Terra's 200 Ares spendable};
+\node[anchor=west,align=left] at (9.15,0.4) {h 0.0003: offer O-1\\reserves 200 Ares};
+\node[anchor=west,align=left] at (9.15,4.4) {h 4.1751: decide once,\\record, commit; Triton's\\\$25{,}000 spendable};
+\end{tikzpicture}
+\caption{Traced value move (VM, \conditional): Terra Capital at Earth buys 200 Ares from Triton Fund at Neptune at
+\$125. Two backbone data packets, 28 launches including transport overhead, 3 quota packets.}\label{fig:lcr}
+\end{figure}
+
+\textbf{What each actor knows, does and owes.} Table~\ref{tab:faults} covers loss, delay, duplication,
+contradiction and the brief's three incident kinds. In every row the money stays where R2 and R6 put it, so a fault
+can cost time but never assets.
+
+\begin{table}[h]\centering\small
+\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.0cm}X>{\raggedright\arraybackslash}p{4.4cm}}
+\toprule
+Event & What happens (who knows what) & Who owes what meanwhile\\
+\midrule
+LOCK lost (transport ends with status unknown) & Initiator knows only that no reply came. It resubmits the same
+LOCK (RESUBMISSION flag, 1 quota packet, may use the recovery reserve), on a fresh session if needed. No cap on
+tries. & Client's leg stays locked: it loses the use of it, never the money.\\
+COMMIT or DECLINE lost & Decider has decided and does nothing more. Initiator's next LOCK copy (R8) returns the
+recorded answer. & Decider's client already spendable; initiator owes the release on arrival.\\
+LOCK delayed past expiry & Decline reason 1. R5 makes this need two abandoned attempts. & Lock returns on DECLINE.\\
+Duplicate LOCK; duplicate reply & Recorded answer resent; no second decision. Replies for a closed deal ignored. & ---\\
+Contradiction (same deal ID, other terms) & Decider replies with the recorded decision and original terms; new
+terms ignored; initiator logs a protocol error. & Unchanged.\\
+ABORT from the client & A flag on a LOCK copy. Decline if undecided; otherwise the recorded COMMIT is resent and
+the deal stands. & ---\\
+72 h gateway isolation & Neither side learns of it except by silence. Locks stay; local trading at the isolated
+settlement continues (R3); resubmissions resume once launches succeed. & Locked \$ $\times$ hours reported as the
+cost (S2: \SimSTwoExtraDollarHours\ extra \$-h).\\
+6 h forced loss & Transport hop and endpoint retries cover it; a deal ending status-unknown follows row 1. & ---\\
+Endpoint reset & The reset Branch knows. Sessions die; durable records survive (R1). It handshakes new sessions (1
+quota each, recovery reserve) and resubmits a LOCK for every deal it holds locked. & Unchanged.\\
+\bottomrule
+\end{tabularx}
+\caption{Message faults and incidents. Proofs of the no-double-spend and no-loss claims are in \S\ref{sec:guar}.}
+\label{tab:faults}
+\end{table}
+
+\textbf{Message format.} Payload $\le 960$ B, fixed width: a 16-byte batch header (sender, receiver, count, and a
+\emph{low-water mark}: every deal of this sender with this receiver numbered below it is closed) plus up to 14
+records of 64 B. One record layout serves LOCK, COMMIT, DECLINE and SETTLE: type, flags (ABORT, RESUBMISSION),
+deal ID, offer or contract ID, both accounts, two legs (asset, quantity), time, reason or amount. Replies echo the
+full LOCK terms, so a mismatch is detected rather than silently accepted. Records waiting for the same peer share a
+packet.
 
 \subsection{Products}
-\pending{Ares Habitat share trade with cross-planet DvP; Ceres Iron capped future: terms, official print, referee Branch.}
 
-\subsection{Margin, valuation and default rule}
-\pending{the one margin rule, stated here before any price path is traced; both directions; funded default.}
+\textbf{Ares Habitat shares (equity)} \implemented. Unit: one share; 5{,}000 exist. Location: the home ledger where
+held. Traded locally (R3) or cross-planet by delivery versus payment (R6--R9) at the price in a firm offer. No
+maturity, margin or valuation: each side delivers what it already holds, so neither side has exposure beyond the
+price it chose. A buyer at another settlement holds a claim on its own Branch, backed by that Branch's inter-Branch
+holding at the issuing ledger; it can sell it or move it on under the same rules. \textbf{Cash transfer}
+\implemented\ (same records with one leg empty; not separately traced).
 
-\subsection{Message classification and quota budget}
-\pending{which messages are official coordination (backbone, shared 600) vs client communication (direct, 12 per principal); route pinning rule (pin with foresight, see appendix E4).}
+\textbf{Ceres Iron capped future (futures)} \implemented. Cash-settled on Ceres Iron, \$ per tonne. Price source: the
+Ceres Iron Price Board, one signed print daily at h 0, 24, \ldots, 288, released locally at Ceres. Referee Branch:
+Ceres. Entry \$100 (the h 0 print); multiplier 100 t (notional \$10{,}000 per contract); cap $\pm30\%$, so the
+settling price is clipped to [70, 130]. The \emph{settling print} is the h 288 print only (maturity); interim prints
+are information and move no money. Payoff to the long $= 25 \times 100 \times (\mathrm{clip}(P_{288}) - 100)$, the
+short the opposite. No early close-out; held to maturity. Traced position: Callisto Foundry (Jupiter) long 25,
+Ceres Iron Works (Ceres) short 25, notional \$250{,}000.
+\begin{description}[leftmargin=2.2em,style=sameline]
+\item[R10] \emph{Pledge at home; referee settles.} The remote side's Branch locks its maximum loss on its own ledger
+and sends LOCK; the referee decides it as in R7 against the local side's firm offer. \emph{Position open} = the COMMIT
+record at the referee (both margins encumbered, position recorded). The remote lock is not released by COMMIT; only
+SETTLE ends it. At the settling print the referee computes the clipped payoff $Y$, records it (\emph{discharge}) and
+sends SETTLE once. If the short wins, the referee credits it $Y$ at once as a claim backed by the remote pledge, and
+SETTLE tells the remote Branch to pay $Y$ from the pledge to the referee's inter-Branch account and return the rest.
+If the long wins, the referee moves $Y$ from the short's margin to the remote Branch's inter-Branch account and SETTLE
+tells the remote Branch to return the pledge and credit its client $Y$. The pull rule (R8) recovers a lost SETTLE.
+\item[R11] \emph{The margin rule}, stated before either price path and identical in both: \emph{margin per side =
+cap $\times$ entry $\times$ multiplier $\times$ contracts} = \$3{,}000 per contract, \$75{,}000 for 25, locked in full
+before the position opens. An order is refused if free balance is below its margin. There are no margin calls, no
+variation payments and no interim valuation. At maturity the loser's lock pays the winner
+$100 \times 25 \times |\mathrm{clip}(P_{288}) - 100|$ and the rest of each lock is released. The rule uses only the
+contract terms and positions, never a price that has not been published. Default is impossible by construction: the
+largest possible payoff is already encumbered, so a loser whose Branch is cut off is a \emph{funded default} at
+worst, with the winner holding a backed claim until SETTLE lands.
+\item[R12] \emph{Prints and freeze.} The referee receives each print by local access. It forwards interim prints to
+every Branch with an open pledge over the backbone (information only, 1 packet each); that Branch hands them to its
+clients locally. From h 264 (24 h before the settling print) the referee accepts no new positions; offers on the
+contract expire by then (R4).
+\end{description}
+
+\textbf{General framework} \extension. Any product whose maximum loss per side is fixed by its terms fits R10--R11
+unchanged: an option writer pledges the deliverable or the capped payoff, a bond issuer pledges the coupons and
+principal, a lender's cash moves by R6--R9 against a pledged collateral lock, a short sale is a borrow plus a sale.
+Products with unbounded loss (naked shorts, uncapped futures) are not offered, because they would need credit across
+light-lag.
+
+\subsection{Communication rules}
+
+\begin{description}[leftmargin=2.2em,style=sameline]
+\item[R13] \emph{Classification.} LOCK, COMMIT, DECLINE, SETTLE and forwarded prints create or carry shared exchange
+records, so they are official coordination and travel only on the backbone between Branches. Client instructions go
+to the client's own Branch by local access. No rule uses the direct service; clients may use it for their own
+observations under their own quota (12 per 24 h, 60 s apart, enforced at the sending gateway).
+\item[R14] \emph{Quota slices.} No Branch can see the system-wide rolling count, so each enforces a fixed slice of
+66 originated packets per rolling 24 h ($9 \times 66 = 594 \le 600$). Ten of the 66 are a \emph{recovery reserve}
+usable only by resubmissions and replacement handshakes, so new trade can never stop a lock holder from resending.
+\item[R15] \emph{Sessions.} A Branch handshakes the session for a planned pair 72 h ahead (room for one lost SYN on
+the slowest pair before use), on the route pinned by \emph{foresight}: the fastest simple route of at most three links
+that stays open from now until planned use + 24 h, not simply the fastest now. The lock holder sends a one-record
+keep-alive after 120 h idle, inside the 168 h session expiry.
+\item[R16] \emph{Re-route.} Before each send a Branch checks its pinned route in both directions. If a known
+geometric closure would hold the packet more than 24 h at any hop, it opens a fresh session on the foresight route
+(1 quota) and sends there; scheduled maintenance is waited out. It never launches on a link whose reverse direction
+closes within one $R_h$, because the hop receipt could not come back (appendix E4).
+\item[R17] \emph{One timescale.} Every expiry, freeze, print hour and decision time is in TDB hours from the epoch;
+no ledger uses its local proper time (\S\ref{sec:deploy}).
+\end{description}

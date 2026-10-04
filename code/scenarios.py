@@ -30,14 +30,14 @@ OPENING = [  # owner, settlement, NeoDollars, Ares shares
 OPEN_SESSIONS_H = -72.0
 
 # Value move: Terra buys 200 Ares from Triton's firm offer at $125 (delivery vs payment)
-VM_SHARES, VM_PRICE, VM_OFFER_EXPIRY = 200, 125, 24.0
+VM_SHARES, VM_PRICE, VM_OFFER_EXPIRY = 200, 125, 96.0
 VM_CASH = VM_SHARES * VM_PRICE
 
 # Ceres Iron capped future
 ENTRY, MULT, CONTRACTS, CAP = 100.0, 100, 25, 0.30
 MARGIN = CAP * ENTRY * MULT * CONTRACTS                  # 75,000 per side
 PRINT_HOURS = [24 * k for k in range(13)]                # 0 .. 288
-SETTLE_H, FREEZE_H, FUT_OFFER_EXPIRY = 288.0, 264.0, 24.0
+SETTLE_H, FREEZE_H, FUT_OFFER_EXPIRY = 288.0, 264.0, 48.0
 RISING = [100, 103, 107, 111, 115, 118, 121, 124, 126, 125, 124, 124, 123]
 FALLING = [100, 97, 93, 89, 85, 82, 79, 76, 74, 75, 76, 76, 77]
 CAPPED = RISING[:-1] + [140]
@@ -296,6 +296,15 @@ class World:
         self.sessions = []
         self.reroute = True
 
+    def offer_life_ok(self, frm, to, t, expiry):
+        """Offer-life rule R5: the initiator accepts a remote offer only if a second endpoint attempt, if it is not
+        abandoned, is sure to arrive before expiry: expiry - t >= R_e + T0 + 3 * sum(R_h) on its pinned route, with
+        R_e = 2 T0 + 24 h and R_h = 2 x hop flight + 1 h (all at enqueue). Otherwise refused locally, nothing locked."""
+        path = self.sim.sessions[(frm, to)].path(frm)
+        T0 = self.sim.geo.T0(path, t)
+        rh = sum(2 * self.sim.geo.flight(a, b, t)[0] + 1.0 for a, b in zip(path[:-1], path[1:]))
+        return expiry - t >= (2 * T0 + 24.0) + T0 + 3 * rh
+
     def branch_of(self, owner):
         return next(s for o, s, _, _ in self.opening if o == owner)
 
@@ -362,6 +371,7 @@ class World:
                           state="unchanged")
 
         def accept(t):
+            assert hub or self.offer_life_ok(buyer_at, seller_at, t, VM_OFFER_EXPIRY)
             ok = self.sim.book(t, lambda L: L.encumber(buyer_at, "Terra Capital", "USD", VM_CASH, deal))
             assert ok
             B.locks[deal] = dict(state="locked", t=t)
@@ -369,8 +379,8 @@ class World:
             rec = dict(type="LOCK", product="hub-offer" if hub else "share", side="buy", deal=deal, offer="O-1",
                        shares=VM_SHARES, price=VM_PRICE, cash=VM_CASH, buyer="Terra Capital", seller_branch=seller_at)
             self.send(t, buyer_at, "Mars" if hub else seller_at, [rec], f"LOCK {deal}",
-                      know="Terra's acceptance of O-1 (terms as advertised); free balance covers it; knows nothing "
-                           "of Neptune's state", action=f"Locks {money(VM_CASH)}; sends LOCK {deal}",
+                      know="Terra's acceptance of O-1 (terms as advertised); free balance covers it; offer life "
+                           "covers a second attempt (R5); knows nothing of Neptune's state", action=f"Locks {money(VM_CASH)}; sends LOCK {deal}",
                       state=f"Terra {money(VM_CASH)} locked for {deal}")
 
         self.sim.at(SEC, lambda t: post_offer(t))
@@ -396,12 +406,14 @@ class World:
                      "local", "", f"Ceres Iron Works {money(MARGIN)} reserved (max loss)")
 
         def accept(t):
+            assert self.offer_life_ok(J, C, t, FUT_OFFER_EXPIRY)
             assert self.sim.book(t, lambda L: L.encumber(J, "Callisto Foundry", "USD", MARGIN, deal))
             self.apps[J].locks[deal] = dict(state="locked", t=t)
             self.marks["lock"] = t
             self.send(t, J, C, [dict(type="LOCK", product="future", deal=deal, offer="O-F", contracts=CONTRACTS,
                                      margin=MARGIN, buyer="Callisto Foundry")], f"LOCK {deal}",
-                      know="Callisto's order (long 25, entry = h 0 print); free balance covers the max loss",
+                      know="Callisto's order (long 25, entry = h 0 print); free balance covers the max loss; offer life "
+                           "covers a second attempt (R5)",
                       action=f"Locks {money(MARGIN)} at home; sends LOCK {deal}",
                       state=f"Callisto {money(MARGIN)} locked (pledge at home)")
 
@@ -431,8 +443,8 @@ class World:
                     L.unencumber(C, pos["short"], "USD", f"{pos['deal']}/short")
                     L.issue_claim(C, pos["short"], "USD", Y)
                     L.add_pending(pos["deal"], C, "USD", Y, J)
-                st = (f"Payoff {money(Y)} to Ceres Iron Works: credited now, spendable (claim backed by Callisto's "
-                      f"pledge at Jupiter); its own {money(MARGIN)} margin released")
+                st = (f"Payoff {money(Y)} to Ceres Iron Works: backed claim now (backed by Callisto's pledge at "
+                      f"Jupiter), usable at Ceres; its own {money(MARGIN)} margin released")
             else:       # long wins Y: paid from the short margin into Jupiter Branch's account here
                 rel, credit = 0.0, Y
 

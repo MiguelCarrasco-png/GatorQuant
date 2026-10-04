@@ -816,7 +816,7 @@
    "t": 0.0002777777777777778,
    "actor": "Neptune Branch",
    "know": "Triton's offer arrives by local access (1 s)",
-   "action": "Posts firm offer O-1: sell 200 Ares at \\$125, expiry h 24",
+   "action": "Posts firm offer O-1: sell 200 Ares at \\$125, expiry h 96",
    "packet": "local",
    "arrival": "",
    "state": "Triton 200 Ares reserved for O-1"
@@ -824,7 +824,7 @@
   {
    "t": 0.0002777777777777778,
    "actor": "Venus Branch",
-   "know": "Terra's acceptance of O-1 (terms as advertised); free balance covers it; knows nothing of Neptune's state",
+   "know": "Terra's acceptance of O-1 (terms as advertised); free balance covers it; offer life covers a second attempt (R5); knows nothing of Neptune's state",
    "action": "Locks \\$25{,}000; sends LOCK VEN-1",
    "packet": "BB Venus $\\to$ A $\\to$ Neptune; Venus$\\to$A h 0.0006; A$\\to$Neptune h 0.3638",
    "arrival": "h 4.2251",
@@ -833,7 +833,7 @@
   {
    "t": 4.225071766510283,
    "actor": "Neptune Branch",
-   "know": "Holds Triton Fund's firm offer O-1; LOCK terms match; before expiry h 24",
+   "know": "Holds Triton Fund's firm offer O-1; LOCK terms match; before expiry h 96",
    "action": "Commits VEN-1; records it durably, then replies",
    "packet": "BB Neptune $\\to$ A $\\to$ Venus; Neptune$\\to$A h 4.2256; A$\\to$Venus h 8.0878",
    "arrival": "h 8.4496",

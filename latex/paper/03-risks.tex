@@ -1,4 +1,74 @@
 % Budget: 2 pages.
-\section{Risks we found and how we treat them}
+\section{Risks we found and how we treat them}\label{sec:risks}
 
-\pending{ranked risk register. Candidates: far-pair latency; lossy direct service beyond ~10 AU; Ceres-local information advantage before each print; blocking lock under isolation; Mercury solar-conjunction closures. Rank from S2 and E4 results.}
+Because every obligation is locked in full before it exists, no risk below can make a balance wrong or leave a
+winner unpaid (G1--G3). What remains is risk to \emph{service}: how long money stays locked, whether a deal happens at
+all, and who sees prices first. We rank by the worst effect we measured on locked capital and lost service. Every
+rank-1 to rank-5 risk was found by a run that made it bind; most come from an interaction between two of our own
+rules or between a rule and the transport.
+
+\begin{table}[H]\centering\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabularx}{\linewidth}{c>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}
+\toprule
+\# & Risk & Test that binds (appendix) & Treatment and residual\\
+\midrule
+1 & Referee cut off across maturity & S2: 72 h isolation of Ceres, h 286--358, on the falling run. SETTLE needs 4
+endpoint attempts; Callisto's refund and Ceres Branch's \$57{,}500 land at h \SimSTwoSpendable, \SimSTwoLost\ h late;
+\SimSTwoExtraDollarHours\ extra \$-hours; \SimSTwoFailed\ launches fail. Worst of five candidate incidents. & Pull rule
+(R8) plus the recovery reserve (R14): the pledge holder keeps asking and always has quota to. The Ceres winner is paid
+at the print regardless. \emph{Residual:} after the isolation ends nobody sends until the next $R_e$ timer fires
+(h 358 $\to$ 364.1); see interaction (a).\\
+2 & A pinned route closes for weeks mid-contract & E5 hard epoch h \EfiveHardH: Jupiter--Relay A closes 6 h before
+maturity for \EfiveClosureDays\ d. Queuing SETTLE behind it would hold \$132{,}500 of payoff and pledge for
+\EfiveNaiveLate\ h, past the 30-day packet lifetime. & R16 re-routes on any known closure over 24 h: one extra
+handshake, SETTLE \EfiveLate\ h later than an open route. Nothing is suspended.\\
+3 & Pinning the fastest route & E4: a route pinned for being fastest now loses the whole next 24 h window at every
+settlement at some epoch (worst \EfourWorstNaivePair, \EfourWorstNaive\%). & Foresight pinning (R15): 100\%
+availability for every ordered pair in every window of 200 years. Rests on the model.\\
+4 & Short offer life turns one lost packet into a failed deal & With a 24 h offer and $R_e = 32.4$ h (Earth--Neptune),
+a lost LOCK attempt cannot be retried before expiry, and 8.7 h hop retries make even the first attempt late: E2's
+Monte Carlo declines \EtwoVMEarthDeclineTwentyFour\% of trades (\EtwoVMUranusDeclineTwentyFour\% from Uranus). A 48 h
+offer still loses \EtwoVMEarthDeclineFortyEight\%. &
+Offer-life rule (R5): offer life $\ge R_e + T_0 + 3\sum R_h$; a decline then needs two abandoned attempts
+($\le 1.6\times10^{-3}$). Monte Carlo: \EtwoVMEarthDecline\% declined (Earth), \EtwoVMUranusDecline\% (Uranus). Our
+traced offers live 96 h (VM) and 48 h (future).\\
+5 & Lossy service beyond $\sim$10 AU & E2: Neptune$\leftrightarrow$Relay A loses \SimWorstLaunchLossPct\% per launch;
+a hop is abandoned with probability $\SimWorstHopAbandon$; all four endpoint attempts fail with probability
+$\SimWorstUnknown$ (Uranus--Neptune, our worst pinned route). & Backbone only (R13): hop and endpoint retries absorb it; status-unknown leads to resubmission
+(R8), funded by the reserve. Direct copies would be lost 89\% of the time at 28 AU and are never relied on.\\
+6 & Ceres clients see prices first & A Ceres client sees each print 0.5--4.1 h before remote clients and can post or
+withdraw offers locally at once; a remote taker can hit a stale offer. & Freeze (R12): no position opens in the 24 h
+before the settling print, so no one trades on it. Interim prints move no money. \emph{Residual:} adverse selection
+on interim prints; minimum quote life is an \extension.\\
+7 & A lock blocks its owner while the peer is silent & Same as 1 seen from the initiator: ABORT cannot unlock, a lock
+outlives any timer. & Deliberate: a timer that unlocked one side while the other might have committed would allow a
+double spend. Cost reported as \$-hours; bounded by the outage plus one $R_e$ (G4).\\
+8 & Maintenance delays information & FR: the h 240 print is held by B--Ceres maintenance [240, 264) and reaches
+Jupiter at h \SimPrintTwoFortyArrives\ with the h 264 print. & Information only; no money depends on it. The settling
+print never travels before settlement (the referee sees it locally).\\
+9 & Demand above a Branch's quota slice & Not reached: peak use 2 of 66 per Branch per 24 h. & R18: declared demand
+rate, batching, then a local queue; never a lock without quota to send it.\\
+10 & Clock drift between settlements & Deployment: Mars clocks gain 477.6 $\mu$s/day on Earth. & R17: one TDB
+timescale for every deadline.\\
+\bottomrule
+\end{tabularx}
+\caption{Ranked risk register. Ranks 1--5 come from runs that bind; 6--10 from analysis.}
+\label{tab:risks}
+\end{table}
+
+\textbf{Interactions we found between rules.}
+(a) \emph{Pull rule $\times$ endpoint timer.} The pull rule makes recovery safe, but it waits for $R_e$, so recovery
+after an isolation lags reconnection by up to one $R_e$ (6.1 h in S2; up to 36 h on far pairs). Resubmitting as soon as
+any packet from the peer arrives would cut this; it costs quota and is an \extension.
+(b) \emph{Session pinning $\times$ known-closure waiting $\times$ 30-day lifetime.} The brief lets a sender wait
+for a known closure, and the session is pinned; together they park a SETTLE behind a 51.8-day closure until it expires
+(risk 2). R16 breaks the chain.
+(c) \emph{Offer expiry $\times$ endpoint and hop timers} (risk 4): two individually sensible numbers, 24 h and
+32.4 h, made the first retry useless, and our first fix (live $T_0 + R_e$) still failed
+\EtwoVMEarthDeclineFortyEight\% of the time because it ignored hop retries.
+(d) \emph{Reverse-link closure $\times$ hop receipt.} A packet launched just before its reverse link closes arrives,
+but its receipt cannot come back, so the sender retries into a closed link for up to four $R_h$ (E4 boundary, Earth:
+49.6 min window). R16 forbids such launches.
+(e) \emph{Freeze $\times$ maintenance.} Our freeze starts at h 264, exactly when B--Ceres maintenance ends, so Jupiter
+takers get the h 240 print only after the freeze has begun; we accept this because no money depends on it.

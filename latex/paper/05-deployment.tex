@@ -1,5 +1,44 @@
 % Budget: 1 page. Brief s.9 "Deployment assessment". Source: docs/research/deployment-effects.md
-\section{Deployment assessment}
+\section{Deployment assessment}\label{sec:deploy}
 
-\gen{deployment_effects.tex}
-\pending{effect / size estimate / source and assumptions / effect on guarantees, at least two numeric; say plainly where assumptions stop.}
+The baseline leaves out real effects on purpose. Because every obligation is locked before it exists, an effect
+that delays, loses or reorders messages can change \emph{when} a deal completes, never \emph{whether} it is funded.
+The two effects that could change \emph{which} outcome settles (a deadline decided on the wrong clock, a print that
+cannot arrive) are answered by rules R17 and R10/R12. ``Derived'' marks our own estimate from the cited formula with
+circular, coplanar orbits: order of magnitude, not an ephemeris value.
+
+\begin{table}[H]\centering\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{2.2cm}>{\raggedright\arraybackslash}p{3.6cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{4.3cm}}
+\toprule
+Effect & Size estimate & Source and assumptions & Effect on our guarantees\\
+\midrule
+Solar conjunction (corona) & NASA pauses Mars commanding $\approx$14 d when the Sun is within 2$^\circ$; the
+baseline's 0.10 AU sphere blocks Earth--Mars direct $\approx$41 d (derived) & JPL 2015 and NASA 2023 moratorium
+notices; DSN 810-005 module 202 (scintillation $\propto 1/\sin(\mathrm{SEP})^{1.225}$) & Timing only. The baseline is
+conservative here. A degraded but open link raises loss, which retries absorb (R8). A print is never needed remotely
+before settlement, because the referee sees it locally.\\
+Relativistic clock rate & Mars clocks gain 477.6\,$\mu$s/day on Earth ($\pm$226.8 seasonal); $\approx$174 ms/yr if
+never re-synchronised (derived) & Ashby \& Patla, \emph{Astron.\ J.} 171 (2025); Mars surface vs Earth geoid; outer
+planets larger, unsourced & Ordering only, \emph{if} every deadline is in one timescale (R17). Without R17, two
+ledgers could disagree on whether an offer had expired. Daily re-sync keeps error $<$1 ms.\\
+Rotation and ground visibility & Mars sol 24.66 h; one gateway station faces away $\approx$12.3 h per sol (derived);
+DSN needs 3 sites 120$^\circ$ apart & NASA NSSDC Mars fact sheet; JPL DSN; no relay orbiter, 0$^\circ$ mask & Timing
+only: up to $\sim$12 h added per message where a gateway has fewer than three stations. R5 and $R_e$ scale with
+$T_0$ and would need it added.\\
+Doppler shift & $v/c \approx 0.5$--$1.2\times10^{-4}$: 0.4--1.0 MHz one-way at X-band (derived peak range rates
+14--36 km/s) & DSN 810-005 module 202 eq.\ 12 & None: receivers track it; the light-time change is already in the
+moving Kepler model.\\
+Shapiro delay & 63 $\mu$s one-way at the 0.10 AU edge (Earth--Mars, derived) to $\approx$124 $\mu$s grazing the limb
+& Shapiro, \emph{PRL} 13 (1964); Bertotti et al., \emph{Nature} 425 (2003) & None: 4--5 orders below the 1 s local
+access.\\
+\bottomrule
+\end{tabularx}
+\caption{Effects the baseline omits. Full derivations and links: \texttt{docs/research/deployment-effects.md}.}
+\end{table}
+
+\textbf{Where our assumptions stop.} All orbital statements are about fixed Kepler ellipses, which drift from the
+real solar system over decades; our E4 and E5 results are claims about the model. We assume Branches follow their
+rules; a malicious or colluding Branch could, for example, commit a deal and never record it, and handling that
+(signed decisions, independent audit of inter-Branch accounts) is an \extension\ we did not design. We assume durable
+storage never loses a recorded decision; if it did, G2 would fail for that deal.

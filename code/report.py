@@ -4,6 +4,7 @@ Writes latex/generated/:
   s1_summary.tex      per-run completion, traffic, capital measures (S1)
   s1_traces.tex       compact no-loss traces: VM, FR (interim prints collapsed), FF and FR-cap from h 288
   e2_probabilities.tex  backbone loss per launch and hop abandonment for every link used; traffic and quota table
+  balance_sheet.tex   opening sheet alone (design paper)
   e3_balances.tex     opening sheet; balance changes at every ledger step for VM, FR, FF; conservation checks
   s2_stress.tex       S2 trace from h 264, maintenance comparison, Mars-hub alternative
   s3_access.tex       best route / one-way delay / 24 h availability per settlement at h 0 and h 300; VM timelines
@@ -21,6 +22,12 @@ from sim import SEC, Geometry
 ROOT = Path(__file__).resolve().parent.parent
 GEN = ROOT / "latex" / "generated"
 B = "\\"
+
+
+def sci(x, d=1):
+    """Scientific notation for prose macros: 4.0e-02 -> 4.0\times10^{-2} (used inside math mode)."""
+    m, e = f"{x:.{d}e}".split("e")
+    return m + B + "times10^{" + str(int(e)) + "}"
 
 
 def num(x, d=0):
@@ -67,10 +74,10 @@ def ttab(cols, rows, first="Measure"):
 
 # ------------------------------------------------------------------ traces
 
-TRACE_SPEC = (">{\\raggedright\\arraybackslash}p{1.15cm}>{\\raggedright\\arraybackslash}p{1.35cm}"
-              ">{\\raggedright\\arraybackslash}X>{\\raggedright\\arraybackslash}X"
-              ">{\\raggedright\\arraybackslash}p{2.9cm}>{\\raggedright\\arraybackslash}p{1.15cm}"
-              ">{\\raggedright\\arraybackslash}X")
+TRACE_SPEC = (">{\\raggedright\\arraybackslash}p{1.05cm}>{\\raggedright\\arraybackslash}p{1.0cm}"
+              ">{\\raggedright\\arraybackslash\\hsize=0.85\\hsize}X>{\\raggedright\\arraybackslash\\hsize=0.75\\hsize}X"
+              ">{\\raggedright\\arraybackslash}p{2.75cm}>{\\raggedright\\arraybackslash}p{1.0cm}"
+              ">{\\raggedright\\arraybackslash\\hsize=1.4\\hsize}X")
 TRACE_HEAD = "Time (h) & Actor & Local knowledge & Action & Packet (BB = backbone) & Arrival & Financial state after"
 
 
@@ -89,7 +96,7 @@ def collapse_prints(rows, lo=24, hi=216):
     for r in rows:
         if "Forwards it to Jupiter" in r["action"] and lo <= r["t"] < hi + 1:
             fw.append(r)
-        elif "Hands it to Callisto" in r["action"] and lo <= r["t"] < hi + 2:
+        elif "Hands it to Callisto" in r["action"]:   # every print; stated once in the forward rows
             hand.append(r)
         else:
             keep.append(r)
@@ -100,12 +107,13 @@ def collapse_prints(rows, lo=24, hi=216):
                          action=f"Forwards each to Jupiter ({len(fw)} packets; information only)",
                          packet="BB Ceres $\\to$ B $\\to$ Jupiter, one per print",
                          arrival=f"+{min(arr):.4f} to +{max(arr):.4f}",
-                         state="unchanged; Callisto gets each by local access"))
+                         state="unchanged; Jupiter Branch hands every print to Callisto by local access on "
+                               "arrival"))
     return sorted(keep, key=lambda r: r["t"])
 
 
 def trace_table(rows, caption):
-    return (B + "par" + B + "noindent" + B + "textbf{" + caption + "}" + B + "par\n" + B + "small\n" +
+    return (B + "par" + B + "noindent" + B + "textbf{" + caption + "}" + B + "par\n" + B + "footnotesize\n" +
             tabx(TRACE_SPEC, TRACE_HEAD, trace_rows(rows)) + B + "normalsize\n")
 
 
@@ -141,30 +149,32 @@ def availability(geo, route, t, step=0.05):
 
 
 def access_table():
+    """One row per settlement: best route, one-way delay (h 0, h 300) and 24 h availability (h 0, h 300) to the referee
+    (Ceres) and to the counterparty's Branch (Neptune). A route is shown once when it is the same at both hours."""
     geo = Geometry(maintenance=True)
-    out, data = [], {}
-    targets = [("Ceres", "Ceres Iron future: best route to the referee (Ceres)"),
-               ("Neptune", "Share DvP in VM: best route to the counterparty's Branch (Neptune)")]
-    for dst, title in targets:
-        rows = []
-        for s in SETTLEMENTS:
-            cells = [s]
-            for t in (0.0, 300.0):
-                if s == dst:
-                    cells += ["local", "0.0003", "100.0"]
+    data, rows = {}, []
+    for s in SETTLEMENTS:
+        cells = [s]
+        for dst in ("Ceres", "Neptune"):
+            if s == dst:
+                cells += ["local", "0.0003", "0.0003", "100.0", "100.0"]
+                for t in (0.0, 300.0):
                     data[(s, dst, t)] = None
-                    continue
+                continue
+            got = []
+            for t in (0.0, 300.0):
                 r, d = best_route_at(geo, s, dst, t)
                 av = availability(geo, r, t)
                 data[(s, dst, t)] = dict(route=r, delay=d, avail=av)
-                cells += ["via " + "".join(x[-1] for x in r[1:-1]), h(d), f"{100 * av:.1f}"]
-            rows.append(" & ".join(cells))
-        eh = (" & " + B + "multicolumn{3}{c}{h 0} & " + B + "multicolumn{3}{c}{h 300}" + B + B + "\n" +
-              B + "cmidrule(lr){2-4}" + B + "cmidrule(lr){5-7}")
-        out.append(B + "par" + B + "noindent" + B + "textbf{" + title + "}" + B + "par\n" +
-                   tab("llrrlrr", "From & route & one-way h & avail.\\ \\% & route & one-way h & avail.\\ \\%",
-                       rows, eh))
-    return ("\n" + B + "medskip\n").join(out), data
+                got.append(("via " + "".join(x[-1] for x in r[1:-1]), d, av))
+            rt = got[0][0] if got[0][0] == got[1][0] else got[0][0] + " / " + got[1][0][4:]
+            cells += [rt, h(got[0][1]), h(got[1][1]), f"{100 * got[0][2]:.1f}", f"{100 * got[1][2]:.1f}"]
+        rows.append(" & ".join(cells))
+    eh = (" & " + B + "multicolumn{5}{c}{Ceres Iron future: to the referee (Ceres)} & " + B +
+          "multicolumn{5}{c}{Share DvP: to the counterparty's Branch (Neptune)}" + B + B + "\n" +
+          B + "cmidrule(lr){2-6}" + B + "cmidrule(lr){7-11}")
+    head = "From" + " & route & h 0 & h 300 & avail.\\ h 0 & h 300" * 2
+    return tab("l" + "lrrrr" * 2, head, rows, eh), data
 
 
 # ------------------------------------------------------------------ E3 balance steps
@@ -208,7 +218,6 @@ def write_all(R):
         ("Completion / spendable h", [h(r.get("complete", r.get("spendable"))) for r in G]),
         ("Backbone packets (all launches)", [str(r["launches_total"]) for r in G]),
         ("of which quota (originated)", [str(r["originated"]) for r in G]),
-        ("Direct packets", ["0" for r in G]),
         ("Peak encumbered " + B + "$", [num(r["peak_usd"]) for r in G]),
         ("Peak encumbered Ares", [num(r["peak_ares"]) for r in G]),
         (B + "$-hours", [num(r["asset_hours"]["USD"]) for r in G]),
@@ -216,7 +225,6 @@ def write_all(R):
         ("Capital utilization " + B + "%", [f"{100 * r['utilization']:.0f}" for r in G]),
         ("Value settled " + B + "$", [num(r["value_settled"]) for r in G]),
         ("Capital efficiency", [f"{r['capital_eff']:.2f}" for r in G]),
-        ("Packets per transaction", [str(int(r["comm_eff"])) for r in G]),
     ]
     (GEN / "s1_summary.tex").write_text(ttab(runs, rows))
 
@@ -225,10 +233,10 @@ def write_all(R):
     out.append(trace_table(R["VM"]["trace"], "VM: Terra Capital (Earth) buys 200 Ares from Triton Fund (Neptune)"))
     out.append(trace_table(collapse_prints(R["FR"]["trace"]), "FR: Ceres Iron future, rising path (settles 123)"))
     ff = [x for x in R["FF"]["trace"] if x["t"] >= 287]
-    out.append(trace_table(ff, "FF: falling path (settles 77). Identical to FR before h 288 except the interim "
-                               "print values"))
     cap = [x for x in R["FR-cap"]["trace"] if x["t"] >= 287]
-    out.append(trace_table(cap, "FR-cap: settling print 140, clipped to 130 (the cap binds)"))
+    out.append(trace_table(ff + cap, "FF (falling path, settles 77; first two rows) and FR-cap (settling print 140, "
+                                     "clipped to 130: the cap binds; last two rows), from h 288. Before h 288 both "
+                                     "are identical to FR except the interim print values"))
     (GEN / "s1_traces.tex").write_text("\n\\medskip\n".join(out))
 
     # ---------- E2
@@ -236,16 +244,20 @@ def write_all(R):
     for run in ["VM", "FR", "FF", "FR-cap", "S2", "VM@Ceres", "VM@Venus", "VM@Uranus"]:
         for x in R[run]["hops"]:
             links.setdefault(x["link"], []).append(x["d"])
+    pairs = {}   # both directions of a link share one row (their distances differ by < 0.005 AU)
+    for lk, ds in links.items():
+        pairs.setdefault((" $" + B + "leftrightarrow$ ").join(sorted(lk.split("->"), key=lambda n: n.startswith("Relay"))),
+                         []).extend(ds)
     rows = []
     worst_p = 0
-    for lk in sorted(links):
-        d = np.array(links[lk])
+    for lk in sorted(pairs):
+        d = np.array(pairs[lk])
         pmax = 1 - math.exp(-0.02 * d.max())
         worst_p = max(worst_p, pmax)
-        rows.append(" & ".join([lk.replace("->", " $" + B + "to$ "), str(len(d)), f"{d.min():.3f}", f"{d.max():.3f}",
+        rows.append(" & ".join([lk, str(len(d)), f"{d.min():.3f}", f"{d.max():.3f}",
                                 f"{100 * (1 - math.exp(-0.02 * d.min())):.2f}", f"{100 * pmax:.2f}",
                                 f"{pmax ** 4:.2e}"]))
-    t1 = tab("lrrrrrr", "Directed link & launches & $d$ min AU & $d$ max AU & $p$ min \\% & $p$ max \\% & "
+    t1 = tab("lrrrrrr", "Link (both directions) & launches & $d$ min AU & $d$ max AU & $p$ min \\% & $p$ max \\% & "
              "$P$(abandon) $" + B + "le p_{" + B + "max}^4$", rows)
     runs = ["VM", "FR", "FF", "FR-cap", "S2", "VM@Ceres", "VM@Venus", "VM@Uranus"]
     G = [R[x] for x in runs]
@@ -254,7 +266,6 @@ def write_all(R):
              ("hop receipts", "RCPT")]]
     rows += [("Backbone total", [str(r["launches_total"]) for r in G]),
              ("failed (incident)", [str(r["launches_failed"]) for r in G]),
-             ("Direct total", ["0" for r in G]),
              ("Quota packets", [str(r["originated"]) for r in G]),
              ("Peak 24 h, system / 600", [str(r["quota_peak_system"]) for r in G]),
              ("Peak 24 h, one Branch / 66", [str(max(r["quota_peak_branch"].values())) for r in G]),
@@ -269,36 +280,38 @@ def write_all(R):
     seen = set()
     for run in ["VM", "VM@Ceres", "VM@Venus", "VM@Uranus", "FR"]:
         for ss in R[run]["sessions"]:
-            for rt in (ss["route"], list(reversed(ss["route"]))):
-                key = tuple(rt)
-                if key in seen:
-                    continue
-                seen.add(key)
-                hops = [f"{rt[k]}->{rt[k + 1]}" for k in range(len(rt) - 1)]
-                q = 1 - np.prod([1 - pab[x] for x in hops])
-                worst_route = max(worst_route, (q, key))
-                rows.append(" & ".join([(" $" + B + "to$ ").join(x.replace("Relay ", "") for x in rt), f"{q:.2e}",
-                                        f"{q ** 4:.2e}"]))
-    t15 = tab("lrr", "Pinned route & $P$(attempt lost) & $P$(4 lost: unknown)", rows)
-    M["SimWorstAttemptLoss"] = f"{worst_route[0]:.1e}"
-    M["SimWorstUnknown"] = f"{worst_route[0] ** 4:.1e}"
+            rt = ss["route"]
+            if tuple(rt) in seen or tuple(reversed(rt)) in seen:
+                continue
+            seen.add(tuple(rt))
+            q = 0.0   # the worse of the two directions
+            for r_ in (rt, list(reversed(rt))):
+                hops = [f"{r_[k]}->{r_[k + 1]}" for k in range(len(r_) - 1)]
+                q = max(q, 1 - np.prod([1 - pab[x] for x in hops]))
+            worst_route = max(worst_route, (q, tuple(rt)))
+            rows.append(" & ".join([(" $" + B + "leftrightarrow$ ").join(x.replace("Relay ", "") for x in rt),
+                                    f"{q:.2e}", f"{q ** 4:.2e}"]))
+    t15 = tab("lrr", "Pinned route (worse direction) & $P$(attempt lost) & $P$(4 lost: unknown)", rows)
+    M["SimWorstAttemptLoss"] = sci(worst_route[0])
+    M["SimWorstUnknown"] = sci(worst_route[0] ** 4)
     (GEN / "e2_probabilities.tex").write_text(t1 + "\n" + B + "medskip\n" + t15 + "\n" + B + "medskip\n" + t2)
     M["SimWorstLaunchLossPct"] = f"{100 * worst_p:.2f}"
-    M["SimWorstHopAbandon"] = f"{worst_p ** 4:.1e}"
+    M["SimWorstHopAbandon"] = sci(worst_p ** 4)
 
     # ---------- E3
     op = R["VM"]["opening"]
     rows = [" & ".join([esc(o), s, usd(u), num(a)]) for o, s, u, a in op]
-    rows.append(B + "midrule Total & 3+ settlements & " + usd(sum(x[2] for x in op)) + " & " + num(sum(x[3] for x in op)))
+    rows.append(B + "midrule Total & " + str(len({x[1] for x in op})) + " settlements & " + usd(sum(x[2] for x in op)) + " & " + num(sum(x[3] for x in op)))
     t0 = tab("llrr", "Account & Settlement & NeoDollars & Ares shares", rows)
+    (GEN / "balance_sheet.tex").write_text(t0)
     parts = [t0]
-    for run in ["VM", "FR", "FF", "S2"]:
-        rows = []
+    rows = []
+    for run in ["VM", "FR", "FF"]:  # S2 differs from FF only in the time of its last line (stated in the text)
+        rows.append(B + "multicolumn{2}{l}{" + B + "textbf{" + run + "}}")
         for t, diffs in changes(R[run]["snaps"]):
             rows.append(ht(t) + " & " + "; ".join(diffs))
-        parts.append(B + "par" + B + "noindent" + B + "textbf{" + run + ": every ledger change}" + B + "par\n" + B +
-                     "small\n" + tabx("rX", "Time (h) & Lines changed (balance after, amount encumbered)", rows) +
-                     B + "normalsize\n")
+    parts.append(B + "footnotesize\n" + tabx("rX", "Time (h) & Lines changed (balance after, amount encumbered)",
+                                              rows) + B + "normalsize\n")
     (GEN / "e3_balances.tex").write_text(("\n" + B + "medskip\n").join(parts))
     M["SimChecks"] = str(sum(R[r]["checks"] for r in R))
     M["SimRuns"] = str(len(R))
@@ -311,12 +324,11 @@ def write_all(R):
 
     def done(r):
         return r.get("complete", r.get("spendable"))
-    rows = [("Done h, with maintenance", [h(done(r)) for r in A_]),
-            ("Done h, maintenance removed", [h(done(r)) for r in N_]),
+    rows = [("Done h, with / without maintenance", [f"{h(done(a))} / {h(done(b))}" for a, b in zip(A_, N_)]),
             ("Backbone packets, with / without", [f"{a['launches_total']} / {b['launches_total']}" for a, b in zip(A_, N_)]),
             ("Longest known wait h, with / without", [f"{h(a['max_wait'])} / {h(b['max_wait'])}" for a, b in zip(A_, N_)]),
-            (B + "$-hours, with", [num(a["asset_hours"]["USD"]) for a in A_]),
-            (B + "$-hours, without", [num(b["asset_hours"]["USD"]) for b in N_])]
+            (B + "$-hours, with = without", [num(a["asset_hours"]["USD"]) if a["asset_hours"]["USD"] ==
+                                            b["asset_hours"]["USD"] else "differ" for a, b in zip(A_, N_)])]
     parts.append(B + "par" + B + "noindent" + B + "textbf{Maintenance comparison (natural geometry kept)}" + B + "par\n" +
                  ttab(bases, rows))
     vms = ["VM", "VM@Ceres", "VM@Venus", "VM@Uranus"]
@@ -331,7 +343,7 @@ def write_all(R):
             ("Ares-hours, home / hub", [f"{num(a['asset_hours']['ARES'])} / {num(b['asset_hours']['ARES'])}"
                                         for a, b in zip(A_, H_)])]
     parts.append(B + "par" + B + "noindent" + B + "textbf{Alternative: Mars hub ledger vs home ledgers (same funding "
-                 "and guarantees)}" + B + "par\n{" + B + "setlength{" + B + "tabcolsep}{3pt}\n" +
+                 "and guarantees)}" + B + "par\n{" + B + "small" + B + "setlength{" + B + "tabcolsep}{3pt}\n" +
                  ttab(["Earth", "Ceres", "Venus", "Uranus"], rows, "Terra at") + "}\n")
     (GEN / "s2_stress.tex").write_text(("\n" + B + "medskip\n").join(parts))
 

@@ -1493,7 +1493,7 @@
    "t": 0.0002777777777777778,
    "actor": "Ceres Branch",
    "know": "Ceres Iron Works' order by local access; h 0 print = 100 = entry",
-   "action": "Posts firm offer O-F: short 25 at 100, expiry h 24",
+   "action": "Posts firm offer O-F: short 25 at 100, expiry h 48",
    "packet": "local",
    "arrival": "",
    "state": "Ceres Iron Works \\$75{,}000 reserved (max loss)"
@@ -1501,7 +1501,7 @@
   {
    "t": 0.0002777777777777778,
    "actor": "Jupiter Branch",
-   "know": "Callisto's order (long 25, entry = h 0 print); free balance covers the max loss",
+   "know": "Callisto's order (long 25, entry = h 0 print); free balance covers the max loss; offer life covers a second attempt (R5)",
    "action": "Locks \\$75{,}000 at home; sends LOCK JUP-1",
    "packet": "BB Jupiter $\\to$ A $\\to$ Ceres; Jupiter$\\to$A h 0.0006; A$\\to$Ceres h 1.0957",
    "arrival": "h 1.5293",

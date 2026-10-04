@@ -1,6 +1,16 @@
 % Budget: 1 page.
 \section*{S3. Access at every settlement}
 
-\pending{one row per settlement and transaction type: best route to the authorities it needs, one-way delay, 24 h availability; at hour 0 and hour 300.}
-\gen{s3_access.tex}
-\pending{no-loss value-move timeline for a comparable funded client at the best, median and worst settlement, each a re-run from reset.}
+Every settlement has a Branch and every product. A cross-planet trade needs one authority, the counterparty's Branch
+(here Neptune); the Ceres Iron future needs the referee at Ceres, which is also where the price source publishes.
+Best route = fastest simple route of at most three links that can launch now; availability = fraction of the 24 h
+from that hour in which every link of the route can launch (geometry and maintenance), sampled every 3 minutes.
+For each authority the columns are: route, one-way delay (h) at h 0 and h 300, availability (\%) at h 0 and h 300.
+{\small\setlength{\tabcolsep}{4pt}\gen{s3_access.tex}}
+
+Ranked by the h 0 round trip to Neptune, the best settlement is Ceres (\SimCeresComplete\ h), the median Venus
+(\SimVenusComplete\ h, 4th of 8) and the worst Uranus (\SimUranusComplete\ h). Each is a re-run of VM from reset in
+which Terra Capital and its \$150{,}000 sit at that settlement instead of Earth; no capital is added. Every timeline
+has exactly the five steps of the VM trace in S1 (offer posted, lock and LOCK sent, commit at Neptune, COMMIT
+arrives, release); the table gives the time of each step, the packets and the locked \$-hours. Uranus is slowest
+because its link to Relay A is 16.8 AU and Neptune's is 27.9 AU; its Relay A launches also lose 28.5\% each (E2).

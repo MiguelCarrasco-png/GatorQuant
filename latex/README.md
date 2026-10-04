@@ -7,6 +7,16 @@ One Overleaf project, two root documents, so both PDFs share one preamble and on
 - `preamble.tex`: 10 pt, 1 in margins (the brief's minimums; don't go lower), `\gen{}`, `\pending{}`, `\implemented`/`\extension` labels.
 - `generated/`: tables (`*.tex`) and number macros (`*_macros.tex`) written by `code/*.py`. Never edit by hand; rerun the script.
 
+## Regenerate the numbers
+
+From `code/`, in this order (about 2 minutes in all). Each writes its part of `generated/`:
+
+```bash
+python scenarios.py && python e1_orbits.py && python e2_latency.py && python e5_epochs.py
+```
+
+`e4_scan.py` (the 200-year scan) and `s2_incident.py` take longer and only need rerunning if the geometry or the incident rules change.
+
 ## Build locally
 
 MiKTeX is installed on Miguel's machine (missing packages auto-install). From `latex/`, run each twice:

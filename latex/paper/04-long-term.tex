@@ -1,6 +1,75 @@
 % Budget: 2 pages. Brief s.9 "Rules that keep working".
-\section{Long-term operation}
+\section{Long-term operation}\label{sec:long}
 
-\pending{why procedures stay valid at any epoch: long period with no usable route and restoration; backlog after reopening; obligation maturing after the longest worked example; transport packet expiring while a commitment is unresolved.}
+No rule in \S1 names a date, a route or a planet. Rules refer to $T_0$, $R_e$, $R_h$ and closures, which every Branch
+computes from the published common geometry at the moment it acts. That is why the same rules ran unchanged at +1,
++10, +93.1 and +100 years (appendix E5). What rests on rules and what rests on the model is marked as in \S2.
 
-\pending{without reset: order and contract lifecycles incl. maturity; capital replenishment through fees (no free endowment); bounded storage and identifier sizing with lifetime and what happens at the limit; quota enforcement on both services; assumed infrastructure; accepted demand rate and what happens above it.}
+\subsection{Rules that keep working}
+
+\textbf{A long period with no usable route, and restoration} (rules). Locks do not expire (R6), so nothing financial
+happens during the gap: every obligation keeps its funded owner and its lock. On the model a settlement is never cut
+off geometrically (E4: a route of at most three links always exists), and R16 moves a session off a pinned route that
+closes, so a gap needs an incident or a failure beyond the model. On restoration each lock holder resubmits (R8) on a
+fresh session (R15). The decider's answer is already recorded (R7), so a resubmission arriving after any delay gets
+the same answer, and SETTLE carries the payoff fixed at the print, not at arrival.
+
+\textbf{A backlog after a route reopens} (rules, with stated capacity). Only lock holders have anything to send, and
+each sends at most one copy per open deal: an endpoint retry discards its earlier unlaunched copy, and a
+resubmission replaces the old one. Records to one peer share packets (14 per packet). A Branch's 10-packet recovery
+reserve alone carries 140 resubmitted deals per 24 h, and the reserve cannot be eaten by new trade (R14). The link
+capacity (1 packet/s, 10{,}000-packet queue) and the 64-packet window per peer allow 896 deal records in flight per
+peer, far above any backlog our demand rate can create.
+
+\textbf{An obligation that matures after our longest example} (rules). Maturity processing does not depend on how long
+a position has been open: the referee sees the settling print locally, records the payoff, sends SETTLE once, and the
+pledge holder pulls (R8) at print $+\,R_e$. A session is not state: if it expired during a long contract the pledge
+holder simply handshakes a new one before pulling. A contract therefore needs no traffic between opening and maturity
+except the information-only print forwards, which also keep its session alive.
+
+\textbf{A transport packet expires while a commitment is unresolved} (rules). Expiry stops forwarding; it never ends
+a lock or cancels a decision. The deal is identified by its deal ID, not its packet ID. A resubmission is a new packet
+with the same deal ID, and if the old copy arrives later it is a duplicate LOCK, answered from the record (R7).
+
+\subsection{Continuing without a reset}
+
+\textbf{Order and contract lifecycles} \implemented. Offer: posted $\to$ filled, withdrawn or expired. Deal: locked
+$\to$ committed or declined $\to$ released. Position: open $\to$ discharged at the settling print $\to$ pledge ended by
+SETTLE. Every state is on a durable ledger; none needs a reset. A new contract series (new contract ID, entry = the
+print at listing, next settling print 288 h later) is listed by the referee after each maturity \extension.
+
+\begin{description}[leftmargin=2.2em,style=sameline]
+\item[R18] \emph{Declared demand and load above it} \implemented, not reached in tests. Each Branch accepts
+\textbf{700 cross-planet deal records per rolling 24 h} (LOCKs it sends plus COMMIT, DECLINE and SETTLE replies), the
+capacity of its 56-packet trade allowance at 14 records per packet, less 10\% headroom. Below 40 originated packets in
+the window a record goes out at once. Above 40 the Branch batches: at most one packet per peer per hour, carrying every
+waiting record. Within the allowance, replies and SETTLE go first (they end other Branches' locks), then
+resubmissions, then new LOCKs. When the allowance is full, new cross-planet acceptances wait in a local FIFO queue
+\emph{without} a lock, and an acceptance that cannot leave within its offer's life (R5) is refused locally. Local
+deals (R3) are never limited. Load above 700 records therefore costs time and refusals, never an unfunded lock.
+\item[R19] \emph{Bounded storage and identifiers} \implemented. Deal counters, session counters and contract IDs are
+8 bytes and never reused. At the full system quota (600 packets $\times$ 14 records per day) an 8-byte counter lasts
+$6 \times 10^{12}$ years, which is our engineering lifetime. If a counter ever reached its limit, its Branch would
+refuse new deals and sessions locally and still settle every open one. A decider deletes its decision record for a
+deal once the initiator's low-water mark (batch header) passes it; packet IDs are kept for lifetime + 30 days, as the
+brief requires. The ledger journal itself grows by 64 bytes per record, at most 0.54 MB per day for the whole system,
+kept in archival storage (assumed infrastructure).
+\item[R20] \emph{Capital replenishment and fees} \implemented, schedule \$0 in every run. No institution needs
+capital: Branches never take a position, extend credit or guarantee anything; every guarantee is backed by a client's
+own lock. Each Branch may charge a fixed fee per cross-planet deal it initiates, published in advance, debited from
+the initiating client's free balance in the same posting as the lock and credited to the Branch's own account on its
+home ledger. Fee income pays operating costs and never backs a client obligation. Clients replenish capital only by
+trading gains and by contributions from other accounts, which are ordinary transfers under R6--R9. Nothing is
+endowed.
+\item[R21] \emph{No automatic clearing.} No obligation is ever cleared by elapsed time, a window closing or packet
+expiry. Each one keeps its funded owner (the lock holder) until a recorded COMMIT, DECLINE or SETTLE ends it.
+\end{description}
+
+\textbf{Quota enforcement on both services.} Backbone: each Branch counts its own originations in a sliding 24 h log
+and never exceeds 66 (R14), so the system never exceeds 594 of 600 without any Branch seeing another's count. Direct:
+no rule uses it; a client's own gateway enforces 12 packets per 24 h and 60 s spacing on anything it sends.
+
+\textbf{Infrastructure we assume.} A durable ledger and journal at each Branch, at its gateway; a TDB clock at each
+Branch, re-synchronised so its error stays well below 1 s (\S\ref{sec:deploy}); the common ephemeris, from which
+each Branch computes closures, $T_0$ and foresight routes; archival storage. Nothing else: no hub, no shared database,
+no trusted third party.

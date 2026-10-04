@@ -1,5 +1,42 @@
 % Budget: 2 pages.
 \section*{S2. Stress and recovery}
 
-\pending{incident kind, node, start time and why it hurts most; duration of lost service; state of every obligation during the incident; recovery (financial service resumed). Maintenance comparison or one alternative / sensitivity check under identical funding.}
+\textbf{Incident chosen: a 72 h isolation of Ceres, h 286--358, on the falling run (FF).} Ceres is the referee and
+the price source, so every price contract depends on it, and in FF the loser (Callisto) is remote, so its pledge and
+refund can only be settled by a SETTLE that must leave Ceres. We scanned every kind, node and start time
+(\texttt{code/s2\_incident.py}); the worst cases, each at its worst start:
+\begin{center}\small\gen{s2_incident.tex}\end{center}
+Retries cannot beat an isolation: an endpoint packet gets four attempts $R_e = 2T_0 + 24 = 25.4$ h apart, so the first
+three fall inside 72 h and only the fourth gets out. Any start in [272.5, 288] gives the same 76.1 h; we chose
+h 286 (inside the band, 2 h before the print) over the equally long isolation at opening because it hits a
+\emph{decided} debt rather than a position not yet open. A 6 h forced loss swallows all four hop launches
+($3R_h = 5.1$ h $< 6$ h) and costs one endpoint cycle; a reset costs 1--3 h, because durable records survive and the
+re-handshake plus pull recover it.
+
+\textbf{State of every obligation during the incident.} The position was discharged at h 288.0003 on the Ceres
+ledger, which keeps working (local access is not affected). Ceres Iron Works holds its \$57{,}500 payoff as a backed
+claim, usable at Ceres, and its own \$75{,}000 margin is free. At Jupiter, Callisto's \$75{,}000 stays locked: it
+owes \$57{,}500 of it to Ceres Branch (a recorded pending release at Ceres) and is owed the other \$17{,}500 back. No
+one can move the pledge: Callisto cannot unlock it (R2) and Jupiter Branch will not release it on a timer (R6).
+Every obligation keeps a named, funded owner throughout. Other settlements are untouched.
+
+\textbf{Lost service and recovery.} SETTLE's first three endpoint attempts (h 288, 313.4, 338.8) and Jupiter's pulls
+(h 313.4, 338.8) all fail; 20 launches are lost in all. Attempt 4 leaves Ceres at h 364.14 and arrives at Jupiter at
+h \SimSTwoSpendable: the pledge is debited \$57{,}500 to Ceres Branch's account and \$17{,}500 is spendable by
+Callisto. \textbf{Financial service resumes at h \SimSTwoSpendable}, \SimSTwoLost\ h after the no-incident run, at a
+cost of \SimSTwoExtraDollarHours\ extra locked \$-hours. Ceres's later answer to Jupiter's pull (arriving h 365.52) is
+a duplicate and is ignored. S2 ends at h 365 with every obligation settled. The 6.1 h between reconnection (h 358)
+and attempt 4 is risk 1's residual in the paper.
 \gen{s2_stress.tex}
+
+\textbf{Maintenance comparison.} Removing both maintenance windows (geometry kept) changes no completion time, no
+packet count and no \$-hour figure. The B--Neptune window [2, 26) is avoided because R15 pins the value move via
+Relay A; the B--Ceres window [240, 264) only delays the information-only h 240 print (the 24 h wait in the table).
+Maintenance costs our design nothing because foresight pinning plans around it.
+
+\textbf{Alternative design, same funding and guarantees: one Mars hub ledger.} A hub at Mars keeps every client's
+account. Far clients finish sooner (Uranus 12.37 h $\to$ 8.23 h), but every trade takes two hub legs: twice the
+packets (56 vs 28) and quota (6 vs 3), two sessions to pre-open, Ares locked twice as long (1{,}646 vs 835
+share-hours), and one settlement whose isolation stops all cross-planet trade. We keep home ledgers. A cheaper
+sensitivity check: a second pre-opened Jupiter--Ceres session on Relay A cuts the forced-loss case from 25.4 h to
+7.1 h but does nothing against isolation, so it is not worth its quota.

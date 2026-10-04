@@ -50,7 +50,8 @@ relay, but its receipt needs \EfourBndLink, which is already closed for \EfourBn
 relay keeps the packet ID, so a late retry is recognised as a duplicate and nothing is applied twice. Here the wait
 (\EfourBndDays\ days) fits inside the 30-day packet lifetime; at Mars, Jupiter, Saturn and Ceres the longest closures run longer than
 30 days, so a packet queued behind one would expire.
-\pending{confirm once the value-move protocol is locked: do not launch on a link whose reverse direction the known geometry closes within one $R_h$.}
+Our rulebook therefore forbids launching on a link whose reverse direction the known geometry closes within one
+$R_h$ (paper R16), and re-routes any send that a known closure would hold more than 24 h.
 
 \begin{table}[h]\centering\small
 \gen{e4_settlements.tex}
@@ -65,9 +66,8 @@ at hour \EfourWorstDelayAt). By availability: a naively pinned route can lose th
 (\EfourWorstNaivePair, \EfourWorstNaive\% from hour \EfourWorstNaiveAt; every settlement has such windows), because
 the fastest route at $h$ can close minutes later, and closures last from \EfourShortestH\ h up to \EfourLongestD\ days
 (\EfourLongestLink), longer than the 30-day packet lifetime. With foresight pinning, every ordered pair of
-settlements keeps \EfourWorstFore\% availability in every 24 h window of the 200 years. Routes should therefore be
-pinned by foresight, not by current speed
-\pending{cite the rulebook section once the protocol ticket adopts this}.
+settlements keeps \EfourWorstFore\% availability in every 24 h window of the 200 years. Routes are therefore
+pinned by foresight, not by current speed (paper R15).
 
 \textbf{Limits.} Fixed Kepler ellipses are the common model, not a forever ephemeris: these are statements about the
 model. Random loss is excluded (E2 covers it); incidents are excluded (S2 covers one).

@@ -1,13 +1,13 @@
 \par\noindent\textbf{S2: FF plus a 72 h isolation of Ceres, h 286--358 (from h 288)}\par
-\small
-\begin{xltabular}{\linewidth}{>{\raggedright\arraybackslash}p{1.15cm}>{\raggedright\arraybackslash}p{1.35cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{2.9cm}>{\raggedright\arraybackslash}p{1.15cm}>{\raggedright\arraybackslash}X}
+\footnotesize
+\begin{xltabular}{\linewidth}{>{\raggedright\arraybackslash}p{1.05cm}>{\raggedright\arraybackslash}p{1.0cm}>{\raggedright\arraybackslash\hsize=0.85\hsize}X>{\raggedright\arraybackslash\hsize=0.75\hsize}X>{\raggedright\arraybackslash}p{2.75cm}>{\raggedright\arraybackslash}p{1.0cm}>{\raggedright\arraybackslash\hsize=1.4\hsize}X}
 \toprule
 Time (h) & Actor & Local knowledge & Action & Packet (BB = backbone) & Arrival & Financial state after\\
 \midrule
 \endhead
 \bottomrule
 \endlastfoot
-\mbox{288.0003} & Ceres Br. & Settling print h 288 = 77 by local access; clipped to 77 & Records the payoff (discharge); sends SETTLE once & BB Ceres $\to$ B $\to$ Jupiter; Ceres$\to$B h 364.1365; B$\to$Jupiter h 364.4765 & 364.8258 & Payoff \$57{,}500 to Ceres Iron Works: credited now, spendable (claim backed by Callisto's pledge at Jupiter); its own \$75{,}000 margin released\\
+\mbox{288.0003} & Ceres Br. & Settling print h 288 = 77 by local access; clipped to 77 & Records the payoff (discharge); sends SETTLE once & BB Ceres $\to$ B $\to$ Jupiter; Ceres$\to$B h 364.1365; B$\to$Jupiter h 364.4765 & 364.8258 & Payoff \$57{,}500 to Ceres Iron Works: backed claim now (backed by Callisto's pledge at Jupiter), usable at Ceres; its own \$75{,}000 margin released\\
 \mbox{313.3784} & Jupiter Br. & Still holds the pledge at print + R\textsubscript{e} & Resubmits LOCK (pull rule; recovery reserve) & BB Jupiter $\to$ B $\to$ Ceres, resubmission; Jupiter$\to$B h 364.1360; B$\to$Ceres h 364.4858 & 364.8252 & unchanged\\
 \mbox{313.3787} & Ceres Br. & No data ACK for SETTLE JUP-1 within R\textsubscript{e} & Endpoint attempt 2 of SETTLE JUP-1 & attempt 1: Ceres$\to$B h 288.0006 lost, 289.6806 lost, 291.3606 lost, 293.0406 lost & lost & unchanged\\
 \mbox{338.7569} & Jupiter Br. & No data ACK for LOCK JUP-1 (pull) within R\textsubscript{e} & Endpoint attempt 2 of LOCK JUP-1 (pull) & attempt 1: Jupiter$\to$B h 313.3786; B$\to$Ceres h 313.7280 lost, 315.4076 lost, 317.0872 lost, 318.7669 lost & lost & unchanged\\
@@ -26,18 +26,16 @@ Time (h) & Actor & Local knowledge & Action & Packet (BB = backbone) & Arrival &
 \toprule
 Measure & VM & FR & FF & S2\\
 \midrule
-Done h, with maintenance & 8.35 & 288.69 & 288.69 & 364.83\\
-Done h, maintenance removed & 8.35 & 288.69 & 288.69 & 364.83\\
+Done h, with / without maintenance & 8.35 / 8.35 & 288.69 / 288.69 & 288.69 / 288.69 & 364.83 / 364.83\\
 Backbone packets, with / without & 28 / 28 & 124 / 124 & 124 / 124 & 164 / 164\\
 Longest known wait h, with / without & 0.00 / 0.00 & 24.00 / 0.00 & 24.00 / 0.00 & 24.00 / 0.00\\
-\$-hours, with & 208{,}741 & 43{,}251{,}691 & 43{,}251{,}691 & 48{,}961{,}911\\
-\$-hours, without & 208{,}741 & 43{,}251{,}691 & 43{,}251{,}691 & 48{,}961{,}911\\
+\$-hours, with = without & 208{,}741 & 43{,}251{,}691 & 43{,}251{,}691 & 48{,}961{,}911\\
 \bottomrule
 \end{tabular}\par
 
 \medskip
 \par\noindent\textbf{Alternative: Mars hub ledger vs home ledgers (same funding and guarantees)}\par
-{\setlength{\tabcolsep}{3pt}
+{\small\setlength{\tabcolsep}{3pt}
 \par\noindent
 \begin{tabular}{lrrrr}
 \toprule

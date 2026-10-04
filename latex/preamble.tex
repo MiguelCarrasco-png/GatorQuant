@@ -10,6 +10,9 @@
 \usepackage[table]{xcolor}
 \usepackage{enumitem}
 \usepackage[font=small,labelfont=bf]{caption}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
 \usepackage[hidelinks]{hyperref}
 \setlist{nosep,leftmargin=*}
 \setlength{\parskip}{0.3em}
@@ -32,3 +35,11 @@
 \genmacros{e4_macros.tex}
 \genmacros{sim_macros.tex}
 \genmacros{e5_macros.tex}
+\genmacros{e1_macros.tex}
+\genmacros{e2_latency_macros.tex}
+
+% Team identity, used on both title pages. Fill in once.
+\newcommand{\teamname}{\pending{team name}}
+\newcommand{\teammembers}{\pending{members}}
+
+% Rulebook rules are numbered R1--R20 in paper/01-architecture.tex and cited by number in both documents.

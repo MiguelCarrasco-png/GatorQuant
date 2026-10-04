@@ -477,10 +477,10 @@
  "max_wait": 0.000833333333333507,
  "last_packet": 15.953156392221583,
  "rx_gaps": {
-  "Neptune on Neptune-Mars": 72.01186534670565,
-  "Mars on Neptune-Mars": 63.78824393043918,
   "Uranus on Uranus-Mars": 72.00293746989433,
-  "Mars on Uranus-Mars": 66.84994383557775
+  "Mars on Uranus-Mars": 66.84994383557775,
+  "Neptune on Neptune-Mars": 72.01186534670565,
+  "Mars on Neptune-Mars": 63.78824393043918
  },
  "snaps": [
   [
@@ -1074,7 +1074,7 @@
    "t": 0.0002777777777777778,
    "actor": "Neptune Branch",
    "know": "Triton's offer arrives by local access (1 s)",
-   "action": "Posts firm offer O-1: sell 200 Ares at \\$125, expiry h 24",
+   "action": "Posts firm offer O-1: sell 200 Ares at \\$125, expiry h 96",
    "packet": "local",
    "arrival": "",
    "state": "Triton 200 Ares reserved for O-1"
@@ -1091,7 +1091,7 @@
   {
    "t": 0.0002777777777777778,
    "actor": "Uranus Branch",
-   "know": "Terra's acceptance of O-1 (terms as advertised); free balance covers it; knows nothing of Neptune's state",
+   "know": "Terra's acceptance of O-1 (terms as advertised); free balance covers it; offer life covers a second attempt (R5); knows nothing of Neptune's state",
    "action": "Locks \\$25{,}000; sends LOCK URA-1",
    "packet": "BB Uranus $\\to$ A $\\to$ Mars; Uranus$\\to$A h 0.0006; A$\\to$Mars h 2.3254",
    "arrival": "h 2.5771",

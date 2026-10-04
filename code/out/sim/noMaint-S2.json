@@ -1529,7 +1529,7 @@
    "t": 0.0002777777777777778,
    "actor": "Ceres Branch",
    "know": "Ceres Iron Works' order by local access; h 0 print = 100 = entry",
-   "action": "Posts firm offer O-F: short 25 at 100, expiry h 24",
+   "action": "Posts firm offer O-F: short 25 at 100, expiry h 48",
    "packet": "local",
    "arrival": "",
    "state": "Ceres Iron Works \\$75{,}000 reserved (max loss)"
@@ -1537,7 +1537,7 @@
   {
    "t": 0.0002777777777777778,
    "actor": "Jupiter Branch",
-   "know": "Callisto's order (long 25, entry = h 0 print); free balance covers the max loss",
+   "know": "Callisto's order (long 25, entry = h 0 print); free balance covers the max loss; offer life covers a second attempt (R5)",
    "action": "Locks \\$75{,}000 at home; sends LOCK JUP-1",
    "packet": "BB Jupiter $\\to$ B $\\to$ Ceres; Jupiter$\\to$B h 0.0006; B$\\to$Ceres h 0.3470",
    "arrival": "h 0.6886",
@@ -1766,7 +1766,7 @@
    "action": "Records the payoff (discharge); sends SETTLE once",
    "packet": "BB Ceres $\\to$ B $\\to$ Jupiter; Ceres$\\to$B h 364.1365; B$\\to$Jupiter h 364.4765",
    "arrival": "h 364.8258",
-   "state": "Payoff \\$57{,}500 to Ceres Iron Works: credited now, spendable (claim backed by Callisto's pledge at Jupiter); its own \\$75{,}000 margin released"
+   "state": "Payoff \\$57{,}500 to Ceres Iron Works: backed claim now (backed by Callisto's pledge at Jupiter), usable at Ceres; its own \\$75{,}000 margin released"
   },
   {
    "t": 313.3783649320452,
