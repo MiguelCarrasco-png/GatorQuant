@@ -39,7 +39,9 @@
 \genmacros{e2_latency_macros.tex}
 
 % Team identity, used on both title pages. Fill in once.
-\newcommand{\teamname}{\pending{team name}}
-\newcommand{\teammembers}{\pending{members}}
+% Leave \teamname empty to print members only.
+\newcommand{\teamname}{}
+\newcommand{\teammembers}{Tony Pham \& Miguel Carrasco}
+\newcommand{\teamline}{\ifx\teamname\empty\teammembers\else\teamname\ --- \teammembers\fi}
 
 % Rulebook rules are numbered R1--R20 in paper/01-architecture.tex and cited by number in both documents.

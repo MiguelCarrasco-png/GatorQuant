@@ -49,7 +49,7 @@ resubmissions, then new LOCKs. When the allowance is full, new cross-planet acce
 deals (R3) are never limited. Load above 700 records therefore costs time and refusals, never an unfunded lock.
 \item[R19] \emph{Bounded storage and identifiers} \implemented. Deal counters, session counters and contract IDs are
 8 bytes and never reused. At the full system quota (600 packets $\times$ 14 records per day) an 8-byte counter lasts
-$6 \times 10^{12}$ years, which is our engineering lifetime. If a counter ever reached its limit, its Branch would
+$6 \times 10^{12}$ years, far beyond the 200-year horizon we design and test for (E4). If a counter ever reached its limit, its Branch would
 refuse new deals and sessions locally and still settle every open one. A decider deletes its decision record for a
 deal once the initiator's low-water mark (batch header) passes it; packet IDs are kept for lifetime + 30 days, as the
 brief requires. The ledger journal itself grows by 64 bytes per record, at most 0.54 MB per day for the whole system,
