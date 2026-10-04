@@ -35,6 +35,7 @@ GEN = ROOT / "latex" / "generated"
 
 SEC = 1 / 3600
 MAINT = {frozenset(("Relay B", "Neptune")): (2.0, 26.0), frozenset(("Relay B", "Ceres")): (240.0, 264.0)}
+PROBE_H = 2.4             # R8': resubmission pace (24 h / recovery reserve of 10)
 SETTLE_H = 288.0           # settling print
 OPEN_H = 0.0               # both orders at h 0
 SHORT_WINS = 57_500.0      # FF: Ceres Iron Works (short) wins Y = 25*100*(100-77)
@@ -170,14 +171,18 @@ def release_time(inc, start=SETTLE_H, ref="Ceres", holder="Jupiter", route=None,
         if a2 is not None and (best is None or a2 < best):
             best, how = a2, "failover on second session"
     if probes:
+        # R8': after print + R_e the holder resubmits every PROBE_H (the pace its recovery reserve affords), each
+        # resubmission being a fresh data packet with its own four endpoint attempts.
         p = start + 2 * T0(back, start) + 24.0  # print + R_e
-        for k in range(8):
+        k = 0
+        while k < 60 and (best is None or p < best):
             la, _, _ = endpoint_send(back, p, inc)
             if la is not None:
                 ra, _, _ = endpoint_send(route, la, inc)
                 if ra is not None and (best is None or ra < best):
-                    best, how = ra, f"holder pull #{k + 1}"
-            p += 2 * T0(back, p) + 24.0
+                    best, how = ra, f"holder resubmission #{k + 1}"
+            p += PROBE_H
+            k += 1
     return best, how
 
 
@@ -186,12 +191,14 @@ def open_time(inc, holder="Jupiter", ref="Ceres", route=None):
     route = route or pick_route(holder, ref, OPEN_H)
     base, _, _ = endpoint_send(route, OPEN_H + SEC, None)
     arr, _, _ = endpoint_send(route, OPEN_H + SEC, inc)
-    p = OPEN_H + SEC
-    for _ in range(8):  # holder keeps resubmitting every R_e
-        p += 2 * T0(route, p) + 24.0
+    p = OPEN_H + SEC + 2 * T0(route, OPEN_H + SEC) + 24.0
+    k = 0
+    while k < 60 and (arr is None or p < arr):   # R8': the holder resubmits every PROBE_H after one R_e
         a, _, _ = endpoint_send(route, p, inc)
         if a is not None and (arr is None or a < arr):
             arr = a
+        p += PROBE_H
+        k += 1
     return base, arr
 
 

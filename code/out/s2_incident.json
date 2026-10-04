@@ -9,22 +9,22 @@
   "R_e_h": 25.37843834677244,
   "scans": {
     "isolation@Ceres": {
-      "worst_start": 272.5,
-      "worst_release": 364.8254739544144,
-      "how": "referee SETTLE attempt 4",
-      "delay_h": 76.13625477823877,
+      "worst_start": 288.0,
+      "worst_release": 361.31556091252133,
+      "how": "holder resubmission #19",
+      "delay_h": 72.6263417363457,
       "plateau": [
-        272.5,
+        288.0,
         288.0
       ]
     },
     "isolation@Jupiter": {
-      "worst_start": 272.5,
-      "worst_release": 364.8254739544144,
-      "how": "referee SETTLE attempt 4",
-      "delay_h": 76.13625477823877,
+      "worst_start": 288.0,
+      "worst_release": 361.7361232126845,
+      "how": "holder resubmission #10",
+      "delay_h": 73.04690403650886,
       "plateau": [
-        272.5,
+        288.0,
         288.0
       ]
     },
@@ -92,15 +92,15 @@
   "ranking": [
     {
       "name": "72 h isolation, Ceres or Jupiter, over the h 288 print",
-      "lost_h": 76.13625477823877,
-      "extra_dollar_h": 5710219.108367908,
+      "lost_h": 72.6263417363457,
+      "extra_dollar_h": 5446975.630225927,
       "locked": 75000.0,
       "note": "pledge $75,000 held after outcome known"
     },
     {
       "name": "72 h isolation, Ceres or Jupiter, from h 0 (opening)",
-      "lost_h": 76.1302740487611,
-      "extra_dollar_h": 11419541.107314164,
+      "lost_h": 71.94187844801897,
+      "extra_dollar_h": 10791281.767202845,
       "locked": 150000.0,
       "note": "both margins idle, no position yet"
     },
@@ -131,11 +131,11 @@
     "node": "Ceres",
     "start_h": 286.0,
     "end_h": 358.0,
-    "release_h": 364.8254739544144,
-    "how": "referee SETTLE attempt 4",
+    "release_h": 359.3360819017686,
+    "how": "holder resubmission #9",
     "baseline_release_h": 288.68921917617564,
-    "lost_service_h": 76.13625477823877,
-    "asset_hours_extra": 5710219.108367908,
+    "lost_service_h": 70.64686272559294,
+    "asset_hours_extra": 5298514.70441947,
     "refund_stuck": 17500.0,
     "endpoint_attempts_h": [
       288.0,
@@ -143,7 +143,7 @@
       338.75708133371734,
       364.1359365071829
     ],
-    "with_second_session": 364.8254739544144,
+    "with_second_session": 359.3360819017686,
     "relayB_forced_with_second_session": 295.76040329486574
   }
 }

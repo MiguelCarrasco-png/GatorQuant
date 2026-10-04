@@ -1,0 +1,704 @@
+[
+ {
+  "iso": 286.0,
+  "reset_node": "Ceres",
+  "reset_after": 0.0,
+  "forced": [
+   "Jupiter",
+   358.0
+  ],
+  "spendable": 386.8282068680741,
+  "usd_h": 50612094.681772225,
+  "launches": 720,
+  "failed": 125,
+  "originated": 61
+ },
+ {
+  "iso": 286.0,
+  "reset_node": "Jupiter",
+  "reset_after": 0.0,
+  "forced": [
+   "Jupiter",
+   358.0
+  ],
+  "spendable": 386.1382204151643,
+  "usd_h": 50560345.69780399,
+  "launches": 617,
+  "failed": 136,
+  "originated": 68
+ },
+ {
+  "iso": 272.5,
+  "reset_node": "Ceres",
+  "reset_after": 0.0,
+  "forced": [
+   "Jupiter",
+   344.0
+  ],
+  "spendable": 373.32778728657445,
+  "usd_h": 49599563.21315975,
+  "launches": 598,
+  "failed": 76,
+  "originated": 55
+ },
+ {
+  "iso": 272.5,
+  "reset_node": "Jupiter",
+  "reset_after": 0.0,
+  "forced": [
+   "Jupiter",
+   344.0
+  ],
+  "spendable": 372.63786137854606,
+  "usd_h": 49547818.77005762,
+  "launches": 512,
+  "failed": 84,
+  "originated": 59
+ },
+ {
+  "iso": 286.0,
+  "reset_node": "Jupiter",
+  "reset_after": 2.0,
+  "forced": [
+   "Jupiter",
+   358.0
+  ],
+  "spendable": 367.8553716791131,
+  "usd_h": 49189132.04260015,
+  "launches": 530,
+  "failed": 153,
+  "originated": 50
+ },
+ {
+  "iso": 286.0,
+  "reset_node": "Jupiter",
+  "reset_after": 5.0,
+  "forced": [
+   "Jupiter",
+   358.0
+  ],
+  "spendable": 367.45777459660695,
+  "usd_h": 49159312.26141219,
+  "launches": 582,
+  "failed": 157,
+  "originated": 54
+ },
+ {
+  "iso": 286.0,
+  "reset_node": "Ceres",
+  "reset_after": 2.0,
+  "forced": [
+   "Jupiter",
+   358.0
+  ],
+  "spendable": 364.4327385271383,
+  "usd_h": 48932434.55620204,
+  "launches": 602,
+  "failed": 157,
+  "originated": 45
+ },
+ {
+  "iso": 286.0,
+  "reset_node": "Ceres",
+  "reset_after": 5.0,
+  "forced": [
+   "Jupiter",
+   358.0
+  ],
+  "spendable": 364.4327385271383,
+  "usd_h": 48932434.55620204,
+  "launches": 602,
+  "failed": 157,
+  "originated": 44
+ },
+ {
+  "iso": 286.0,
+  "reset_node": "Ceres",
+  "reset_after": 0.0,
+  "forced": null,
+  "spendable": 361.4486210550959,
+  "usd_h": 48708625.745798856,
+  "launches": 563,
+  "failed": 113,
+  "originated": 43
+ },
+ {
+  "iso": 286.0,
+  "reset_node": "Ceres",
+  "reset_after": 0.0,
+  "forced": [
+   "Jupiter",
+   344.0
+  ],
+  "spendable": 361.4486210550959,
+  "usd_h": 48708625.745798856,
+  "launches": 568,
+  "failed": 120,
+  "originated": 43
+ },
+ {
+  "iso": 286.0,
+  "reset_node": "Jupiter",
+  "reset_after": 0.0,
+  "forced": null,
+  "spendable": 360.7588206590923,
+  "usd_h": 48656890.716098584,
+  "launches": 403,
+  "failed": 113,
+  "originated": 44
+ },
+ {
+  "iso": 286.0,
+  "reset_node": "Jupiter",
+  "reset_after": 0.0,
+  "forced": [
+   "Jupiter",
+   344.0
+  ],
+  "spendable": 360.7588206590923,
+  "usd_h": 48656890.716098584,
+  "launches": 408,
+  "failed": 120,
+  "originated": 44
+ },
+ {
+  "iso": 286.0,
+  "reset_node": "Ceres",
+  "reset_after": 2.0,
+  "forced": null,
+  "spendable": 359.3363596739772,
+  "usd_h": 48550206.142214954,
+  "launches": 527,
+  "failed": 113,
+  "originated": 42
+ },
+ {
+  "iso": 286.0,
+  "reset_node": "Ceres",
+  "reset_after": 2.0,
+  "forced": [
+   "Jupiter",
+   344.0
+  ],
+  "spendable": 359.3363596739772,
+  "usd_h": 48550206.142214954,
+  "launches": 532,
+  "failed": 120,
+  "originated": 42
+ },
+ {
+  "iso": 286.0,
+  "reset_node": "Ceres",
+  "reset_after": 5.0,
+  "forced": null,
+  "spendable": 359.3363596739772,
+  "usd_h": 48550206.142214954,
+  "launches": 531,
+  "failed": 113,
+  "originated": 43
+ },
+ {
+  "iso": 286.0,
+  "reset_node": "Ceres",
+  "reset_after": 5.0,
+  "forced": [
+   "Jupiter",
+   344.0
+  ],
+  "spendable": 359.3363596739772,
+  "usd_h": 48550206.142214954,
+  "launches": 536,
+  "failed": 120,
+  "originated": 43
+ },
+ {
+  "iso": 286.0,
+  "reset_node": "Jupiter",
+  "reset_after": 2.0,
+  "forced": null,
+  "spendable": 359.3363596739772,
+  "usd_h": 48550206.142214954,
+  "launches": 411,
+  "failed": 113,
+  "originated": 42
+ },
+ {
+  "iso": 286.0,
+  "reset_node": "Jupiter",
+  "reset_after": 2.0,
+  "forced": [
+   "Jupiter",
+   344.0
+  ],
+  "spendable": 359.3363596739772,
+  "usd_h": 48550206.142214954,
+  "launches": 416,
+  "failed": 120,
+  "originated": 42
+ },
+ {
+  "iso": 286.0,
+  "reset_node": "Jupiter",
+  "reset_after": 5.0,
+  "forced": null,
+  "spendable": 359.3363596739772,
+  "usd_h": 48550206.142214954,
+  "launches": 419,
+  "failed": 113,
+  "originated": 44
+ },
+ {
+  "iso": 286.0,
+  "reset_node": "Jupiter",
+  "reset_after": 5.0,
+  "forced": [
+   "Jupiter",
+   344.0
+  ],
+  "spendable": 359.3363596739772,
+  "usd_h": 48550206.142214954,
+  "launches": 424,
+  "failed": 120,
+  "originated": 44
+ },
+ {
+  "iso": 280.0,
+  "reset_node": "Ceres",
+  "reset_after": 0.0,
+  "forced": null,
+  "spendable": 355.4484902875647,
+  "usd_h": 48258615.93823402,
+  "launches": 488,
+  "failed": 92,
+  "originated": 37
+ },
+ {
+  "iso": 280.0,
+  "reset_node": "Ceres",
+  "reset_after": 0.0,
+  "forced": [
+   "Jupiter",
+   344.0
+  ],
+  "spendable": 355.4484902875647,
+  "usd_h": 48258615.93823402,
+  "launches": 488,
+  "failed": 92,
+  "originated": 37
+ },
+ {
+  "iso": 280.0,
+  "reset_node": "Ceres",
+  "reset_after": 0.0,
+  "forced": [
+   "Jupiter",
+   358.0
+  ],
+  "spendable": 355.4484902875647,
+  "usd_h": 48258615.93823402,
+  "launches": 495,
+  "failed": 100,
+  "originated": 37
+ },
+ {
+  "iso": 280.0,
+  "reset_node": "Jupiter",
+  "reset_after": 0.0,
+  "forced": null,
+  "spendable": 354.7587160853194,
+  "usd_h": 48206882.87306562,
+  "launches": 388,
+  "failed": 92,
+  "originated": 44
+ },
+ {
+  "iso": 280.0,
+  "reset_node": "Jupiter",
+  "reset_after": 0.0,
+  "forced": [
+   "Jupiter",
+   344.0
+  ],
+  "spendable": 354.7587160853194,
+  "usd_h": 48206882.87306562,
+  "launches": 400,
+  "failed": 92,
+  "originated": 45
+ },
+ {
+  "iso": 280.0,
+  "reset_node": "Jupiter",
+  "reset_after": 0.0,
+  "forced": [
+   "Jupiter",
+   358.0
+  ],
+  "spendable": 354.7587160853194,
+  "usd_h": 48206882.87306562,
+  "launches": 388,
+  "failed": 92,
+  "originated": 44
+ },
+ {
+  "iso": 272.5,
+  "reset_node": "Jupiter",
+  "reset_after": 2.0,
+  "forced": [
+   "Jupiter",
+   344.0
+  ],
+  "spendable": 354.3542848688855,
+  "usd_h": 48176550.531833075,
+  "launches": 466,
+  "failed": 102,
+  "originated": 47
+ },
+ {
+  "iso": 272.5,
+  "reset_node": "Jupiter",
+  "reset_after": 5.0,
+  "forced": [
+   "Jupiter",
+   344.0
+  ],
+  "spendable": 353.95725465670574,
+  "usd_h": 48146773.265919596,
+  "launches": 452,
+  "failed": 104,
+  "originated": 44
+ },
+ {
+  "iso": 280.0,
+  "reset_node": "Ceres",
+  "reset_after": 2.0,
+  "forced": [
+   "Jupiter",
+   344.0
+  ],
+  "spendable": 353.11393983077426,
+  "usd_h": 48083524.653974734,
+  "launches": 472,
+  "failed": 92,
+  "originated": 40
+ },
+ {
+  "iso": 280.0,
+  "reset_node": "Ceres",
+  "reset_after": 5.0,
+  "forced": [
+   "Jupiter",
+   344.0
+  ],
+  "spendable": 353.11393983077426,
+  "usd_h": 48083524.653974734,
+  "launches": 476,
+  "failed": 92,
+  "originated": 41
+ },
+ {
+  "iso": 280.0,
+  "reset_node": "Jupiter",
+  "reset_after": 2.0,
+  "forced": [
+   "Jupiter",
+   344.0
+  ],
+  "spendable": 353.11393983077426,
+  "usd_h": 48083524.653974734,
+  "launches": 392,
+  "failed": 92,
+  "originated": 40
+ },
+ {
+  "iso": 280.0,
+  "reset_node": "Jupiter",
+  "reset_after": 5.0,
+  "forced": [
+   "Jupiter",
+   344.0
+  ],
+  "spendable": 353.11393983077426,
+  "usd_h": 48083524.653974734,
+  "launches": 384,
+  "failed": 92,
+  "originated": 41
+ },
+ {
+  "iso": 280.0,
+  "reset_node": "Ceres",
+  "reset_after": 2.0,
+  "forced": null,
+  "spendable": 353.0946184872783,
+  "usd_h": 48082075.55321254,
+  "launches": 468,
+  "failed": 92,
+  "originated": 39
+ },
+ {
+  "iso": 280.0,
+  "reset_node": "Ceres",
+  "reset_after": 2.0,
+  "forced": [
+   "Jupiter",
+   358.0
+  ],
+  "spendable": 353.0946184872783,
+  "usd_h": 48082075.55321254,
+  "launches": 475,
+  "failed": 100,
+  "originated": 39
+ },
+ {
+  "iso": 280.0,
+  "reset_node": "Ceres",
+  "reset_after": 5.0,
+  "forced": null,
+  "spendable": 353.0946184872783,
+  "usd_h": 48082075.55321254,
+  "launches": 472,
+  "failed": 92,
+  "originated": 40
+ },
+ {
+  "iso": 280.0,
+  "reset_node": "Ceres",
+  "reset_after": 5.0,
+  "forced": [
+   "Jupiter",
+   358.0
+  ],
+  "spendable": 353.0946184872783,
+  "usd_h": 48082075.55321254,
+  "launches": 492,
+  "failed": 108,
+  "originated": 40
+ },
+ {
+  "iso": 280.0,
+  "reset_node": "Jupiter",
+  "reset_after": 2.0,
+  "forced": null,
+  "spendable": 353.0946184872783,
+  "usd_h": 48082075.55321254,
+  "launches": 372,
+  "failed": 92,
+  "originated": 39
+ },
+ {
+  "iso": 280.0,
+  "reset_node": "Jupiter",
+  "reset_after": 2.0,
+  "forced": [
+   "Jupiter",
+   358.0
+  ],
+  "spendable": 353.0946184872783,
+  "usd_h": 48082075.55321254,
+  "launches": 372,
+  "failed": 92,
+  "originated": 39
+ },
+ {
+  "iso": 280.0,
+  "reset_node": "Jupiter",
+  "reset_after": 5.0,
+  "forced": null,
+  "spendable": 353.0946184872783,
+  "usd_h": 48082075.55321254,
+  "launches": 372,
+  "failed": 92,
+  "originated": 40
+ },
+ {
+  "iso": 280.0,
+  "reset_node": "Jupiter",
+  "reset_after": 5.0,
+  "forced": [
+   "Jupiter",
+   358.0
+  ],
+  "spendable": 353.0946184872783,
+  "usd_h": 48082075.55321254,
+  "launches": 390,
+  "failed": 96,
+  "originated": 40
+ },
+ {
+  "iso": 272.5,
+  "reset_node": "Ceres",
+  "reset_after": 2.0,
+  "forced": [
+   "Jupiter",
+   344.0
+  ],
+  "spendable": 350.9902062274836,
+  "usd_h": 47924244.63372794,
+  "launches": 482,
+  "failed": 102,
+  "originated": 40
+ },
+ {
+  "iso": 272.5,
+  "reset_node": "Ceres",
+  "reset_after": 5.0,
+  "forced": [
+   "Jupiter",
+   344.0
+  ],
+  "spendable": 350.9902062274836,
+  "usd_h": 47924244.63372794,
+  "launches": 468,
+  "failed": 104,
+  "originated": 36
+ },
+ {
+  "iso": 272.5,
+  "reset_node": "Ceres",
+  "reset_after": 0.0,
+  "forced": null,
+  "spendable": 347.9483283052576,
+  "usd_h": 47696103.78956098,
+  "launches": 428,
+  "failed": 68,
+  "originated": 35
+ },
+ {
+  "iso": 272.5,
+  "reset_node": "Ceres",
+  "reset_after": 0.0,
+  "forced": [
+   "Jupiter",
+   358.0
+  ],
+  "spendable": 347.9483283052576,
+  "usd_h": 47696103.78956098,
+  "launches": 435,
+  "failed": 76,
+  "originated": 35
+ },
+ {
+  "iso": 272.5,
+  "reset_node": "Jupiter",
+  "reset_after": 0.0,
+  "forced": null,
+  "spendable": 347.2585865498271,
+  "usd_h": 47644373.1579037,
+  "launches": 352,
+  "failed": 68,
+  "originated": 41
+ },
+ {
+  "iso": 272.5,
+  "reset_node": "Jupiter",
+  "reset_after": 0.0,
+  "forced": [
+   "Jupiter",
+   358.0
+  ],
+  "spendable": 347.2585865498271,
+  "usd_h": 47644373.1579037,
+  "launches": 352,
+  "failed": 68,
+  "originated": 41
+ },
+ {
+  "iso": 272.5,
+  "reset_node": "Ceres",
+  "reset_after": 2.0,
+  "forced": null,
+  "spendable": 345.89467362939433,
+  "usd_h": 47542079.68887124,
+  "launches": 404,
+  "failed": 68,
+  "originated": 35
+ },
+ {
+  "iso": 272.5,
+  "reset_node": "Ceres",
+  "reset_after": 2.0,
+  "forced": [
+   "Jupiter",
+   358.0
+  ],
+  "spendable": 345.89467362939433,
+  "usd_h": 47542079.68887124,
+  "launches": 411,
+  "failed": 76,
+  "originated": 35
+ },
+ {
+  "iso": 272.5,
+  "reset_node": "Ceres",
+  "reset_after": 5.0,
+  "forced": null,
+  "spendable": 345.89467362939433,
+  "usd_h": 47542079.68887124,
+  "launches": 412,
+  "failed": 68,
+  "originated": 37
+ },
+ {
+  "iso": 272.5,
+  "reset_node": "Ceres",
+  "reset_after": 5.0,
+  "forced": [
+   "Jupiter",
+   358.0
+  ],
+  "spendable": 345.89467362939433,
+  "usd_h": 47542079.68887124,
+  "launches": 419,
+  "failed": 76,
+  "originated": 37
+ },
+ {
+  "iso": 272.5,
+  "reset_node": "Jupiter",
+  "reset_after": 2.0,
+  "forced": null,
+  "spendable": 345.89467362939433,
+  "usd_h": 47542079.68887124,
+  "launches": 336,
+  "failed": 68,
+  "originated": 36
+ },
+ {
+  "iso": 272.5,
+  "reset_node": "Jupiter",
+  "reset_after": 2.0,
+  "forced": [
+   "Jupiter",
+   358.0
+  ],
+  "spendable": 345.89467362939433,
+  "usd_h": 47542079.68887124,
+  "launches": 336,
+  "failed": 68,
+  "originated": 36
+ },
+ {
+  "iso": 272.5,
+  "reset_node": "Jupiter",
+  "reset_after": 5.0,
+  "forced": null,
+  "spendable": 345.89467362939433,
+  "usd_h": 47542079.68887124,
+  "launches": 344,
+  "failed": 68,
+  "originated": 37
+ },
+ {
+  "iso": 272.5,
+  "reset_node": "Jupiter",
+  "reset_after": 5.0,
+  "forced": [
+   "Jupiter",
+   358.0
+  ],
+  "spendable": 345.89467362939433,
+  "usd_h": 47542079.68887124,
+  "launches": 344,
+  "failed": 68,
+  "originated": 37
+ }
+]

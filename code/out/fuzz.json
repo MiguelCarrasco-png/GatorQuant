@@ -1,0 +1,47 @@
+{
+ "summary": {
+  "VM": {
+   "runs": 150,
+   "failures": 0,
+   "ledger_steps": 600,
+   "committed": 150,
+   "declined": 0,
+   "launches": 35249,
+   "loss": 8187,
+   "dup": 433,
+   "reorder": 546,
+   "contradiction": 154,
+   "reset": 103,
+   "crash": 114
+  },
+  "FR": {
+   "runs": 150,
+   "failures": 0,
+   "ledger_steps": 750,
+   "committed": 150,
+   "declined": 0,
+   "launches": 266980,
+   "loss": 51512,
+   "dup": 4740,
+   "reorder": 6280,
+   "contradiction": 145,
+   "reset": 105,
+   "crash": 105
+  },
+  "FF": {
+   "runs": 150,
+   "failures": 0,
+   "ledger_steps": 750,
+   "committed": 150,
+   "declined": 0,
+   "launches": 273327,
+   "loss": 48933,
+   "dup": 4248,
+   "reorder": 6395,
+   "contradiction": 157,
+   "reset": 104,
+   "crash": 108
+  }
+ },
+ "failures": []
+}

@@ -12,7 +12,7 @@ import json
 import sys
 from pathlib import Path
 
-from sim import SEC, Incident, Sim
+from sim import SEC, Incident, Sim, Stack
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "code" / "out" / "sim"
@@ -45,12 +45,36 @@ KEEPALIVE_IDLE = 120.0
 RESERVE_PER_DAY = 10                                     # recovery reserve of one Branch slice (packets / 24 h)
 PROBE_H = 24.0 / RESERVE_PER_DAY                         # R8': resubmission pace once status is unknown, 2.4 h
 CONTACT_GAP_H = 1.0                                      # R8': resubmit on contact at most once per hour
+AUDIT_ON = True                                          # R20 [EXTENSION]: echo check and SETTLE recompute
 PROBE_ON = True                                          # False reproduces the superseded timer-only rule
 
 
 def money(x):
     return f"\\${x:,.0f}".replace(",", "{,}")
 
+
+
+TERM_KEYS = ("deal", "offer", "product", "shares", "price", "cash", "contracts", "margin", "buyer")
+
+
+def echo_ok(lock_rec, r):
+    """R20: a reply must echo the LOCK's terms exactly (spec section 2)."""
+    return all(r.get(k) == lock_rec.get(k) for k in TERM_KEYS if k in lock_rec and k != "price") and (
+        lock_rec.get("product") != "share" or r.get("price") == lock_rec.get("price"))
+
+
+def payoff_of(print_value):
+    clipped = min(max(print_value, ENTRY * (1 - CAP)), ENTRY * (1 + CAP))
+    y = CONTRACTS * MULT * (clipped - ENTRY)
+    return clipped, y
+
+
+def settle_ok(r):
+    """R20 audit: the lock holder recomputes the payoff from the signed settling print in the SETTLE record."""
+    clipped, y = payoff_of(r["price"])
+    Y = abs(y)
+    rel, credit = (Y, 0.0) if y < 0 else (0.0, Y)
+    return abs(r["release"] - rel) < 1e-6 and abs(r["credit"] - credit) < 1e-6 and abs(r["clipped"] - clipped) < 1e-9
 
 # ======================================================================== applications
 
@@ -62,6 +86,8 @@ class Branch:
         self.decisions = {}     # deal -> recorded answer record (deciding / referee side)
         self.locks = {}         # deal -> dict (initiator / pledge-holder side)
         self.offers = {}        # offer id -> dict
+        self.errors = []        # detected protocol errors: (t, deal, what)
+        self.decided_n = {}     # deal -> number of decisions recorded (must stay 1)
 
     @property
     def me(self):
@@ -154,6 +180,7 @@ class Branch:
         if reason:
             ans = dict(r, type="DECLINE", reason=reason, time=t)
             self.decisions[deal] = ans
+            self.decided_n[deal] = self.decided_n.get(deal, 0) + 1
             w.send(t, self.name, peer, [ans], f"DECLINE {deal}", know="LOCK fails the offer check",
                    action=f"Declines (reason {reason})", state="offer unchanged")
             return
@@ -168,6 +195,7 @@ class Branch:
         w.sim.book(t, book)
         ans = dict(r, type="COMMIT", time=t)
         self.decisions[deal] = ans
+        self.decided_n[deal] = self.decided_n.get(deal, 0) + 1
         w.marks.setdefault("commit", t)
         w.send(t, self.name, peer, [ans], f"COMMIT {deal}",
                know=f"Holds {off['owner']}'s firm offer {r['offer']}; LOCK terms match; before expiry h {off['expiry']:g}",
@@ -185,6 +213,7 @@ class Branch:
         if reason:
             ans = dict(r, type="DECLINE", reason=reason, time=t)
             self.decisions[deal] = ans
+            self.decided_n[deal] = self.decided_n.get(deal, 0) + 1
             w.send(t, self.name, peer, [ans], f"DECLINE {deal}", know="LOCK fails the offer check",
                    action=f"Declines (reason {reason})", state="offer unchanged")
             return
@@ -196,6 +225,7 @@ class Branch:
         w.sim.book(t, book)
         ans = dict(r, type="COMMIT", time=t)
         self.decisions[deal] = ans
+        self.decided_n[deal] = self.decided_n.get(deal, 0) + 1
         w.position = dict(deal=deal, long=r["buyer"], short=off["owner"], holder=peer, opened=t)
         w.marks["open"] = t
         w.send(t, self.name, peer, [ans], f"COMMIT {deal}",
@@ -207,8 +237,18 @@ class Branch:
     def rx_COMMIT(self, sim, t, peer, r, pkt):
         w, deal = self.w, r["deal"]
         lk = self.locks.get(deal)
-        if lk is None or lk["state"] != "locked":
+        if lk is None:
+            return
+        if AUDIT_ON and lk["state"] != "locked":
+            if lk.get("outcome") not in (None, "COMMIT"):
+                self.errors.append((t, deal, "conflicting decision: COMMIT after " + lk["outcome"]))
             return                                       # duplicate after close: ignored
+        if lk["state"] != "locked":
+            return
+        if AUDIT_ON and not echo_ok(lk["rec"], r):
+            self.errors.append((t, deal, "COMMIT echoes terms that differ from the LOCK"))
+            return                                       # not applied; the lock stays and probing continues
+        lk["outcome"] = "COMMIT"
         if r["product"] == "future":
             lk["state"] = "pledged"
             w.row(t, self.me, "COMMIT arrived: position recorded at Ceres", "Keeps the lock as a pledge; "
@@ -231,8 +271,18 @@ class Branch:
 
     def rx_DECLINE(self, sim, t, peer, r, pkt):
         lk = self.locks.get(r["deal"])
-        if lk is None or lk["state"] != "locked":
+        if lk is None:
             return
+        if AUDIT_ON and lk["state"] != "locked":
+            if lk.get("outcome") not in (None, "DECLINE"):
+                self.errors.append((t, r["deal"], "conflicting decision: DECLINE after " + lk["outcome"]))
+            return
+        if lk["state"] != "locked":
+            return
+        if AUDIT_ON and not echo_ok(lk["rec"], r):
+            self.errors.append((t, r["deal"], "DECLINE echoes terms that differ from the LOCK"))
+            return
+        lk["outcome"] = "DECLINE"
         lk["state"] = "free"
         self.w.sim.book(t, lambda L: L.unencumber(self.name, r["buyer"], "USD", r["deal"]))
         self.w.row(t, self.me, "DECLINE arrived", "Unlocks", "", "", f"{r['buyer']} {money(r['cash'])} free again")
@@ -250,6 +300,10 @@ class Branch:
         lk = self.locks.get(deal)
         if lk is None or lk["state"] != "pledged":
             return                                       # duplicate SETTLE: ignored
+        if AUDIT_ON and not settle_ok(r):
+            self.errors.append((t, deal, "SETTLE amount differs from the payoff recomputed from the settling print"))
+            return                                       # not applied; the lock stays and probing continues
+        lk["outcome"] = "SETTLE"
         lk["state"] = "settled"
         to_ref, back, credit = r["release"], MARGIN - r["release"], r["credit"]
 
@@ -353,6 +407,22 @@ class World:
         T0 = self.sim.geo.T0(path, t)
         rh = sum(2 * self.sim.geo.flight(a, b, t)[0] + 1.0 for a, b in zip(path[:-1], path[1:]))
         return expiry - t >= (2 * T0 + 24.0) + T0 + 3 * rh
+
+    def reset(self, t, node):
+        """R19 (spec section 5, endpoint reset): sessions are gone; the node handshakes a new one with each peer
+        (1 SYN quota each) and resubmits a LOCK for every deal it holds Locked."""
+        peers = self.sim.reset_node(t, node)
+        app = self.apps.get(node)
+        for p in peers:
+            route = self.sim.geo.pin_route(node, p, t, t + 24.0)
+            self.sessions.append((node, p, route))
+            self.sim.open_session(t, node, p, route, know=f"{node} Branch restarted: sessions lost; durable ledger, "
+                                  "deal counter and decisions survive", state="unchanged (reset)")
+        self.marks.setdefault("resets", []).append(t)
+        if app is not None:
+            for deal, lk in app.locks.items():
+                if lk["state"] in ("locked", "pledged") and lk.get("peer") in peers:
+                    app._resub(t, deal, "restarted")
 
     def branch_of(self, owner):
         return next(s for o, s, _, _ in self.opening if o == owner)
@@ -535,21 +605,35 @@ class World:
 
 # ======================================================================== runs and reporting
 
+STACK = dict(iso_start=286.0, reset_node="Ceres", reset_after=0.0, forced_node="Jupiter", forced_start=358.0)  # worst of code/stack_scan.py
+
+
 def make(run):
     base = run.replace("noMaint-", "").replace("Hub-", "")
     maint = not run.startswith("noMaint-")
-    inc = Incident("isolation", "Ceres", 286.0, 72.0) if base == "S2" else None
+    inc, resets = None, []
+    iso = Incident("isolation", "Ceres", 286.0, 72.0)
+    if base in ("S2", "S2-FR"):
+        inc = iso
+    elif base == "S2-ST":                                   # stacked: isolation + endpoint reset + forced loss
+        k = STACK
+        iso = Incident("isolation", "Ceres", k["iso_start"], 72.0)
+        inc = Stack(iso, Incident("forced", k["forced_node"], k["forced_start"], 6.0)) if k["forced_node"] else iso
+        resets = [(k["iso_start"] + 72.0 + k["reset_after"], k["reset_node"])]
     reloc = base.split("@")[1] if "@" in base else None
     w = World(run, maintenance=maint, incident=inc, relocate=reloc)
     if base.startswith("VM"):
         w.script_vm(hub=run.startswith("Hub-"))
     else:
-        w.script_future({"FR": RISING, "FF": FALLING, "FR-cap": CAPPED, "S2": FALLING}[base])
+        w.script_future({"FR": RISING, "FF": FALLING, "FR-cap": CAPPED, "S2": FALLING, "S2-FR": RISING,
+                         "S2-ST": RISING}[base])
+        for t, node in resets:
+            w.sim.at(t, lambda t_, n=node: w.reset(t_, n))
     w.kind = "vm" if base.startswith("VM") else "future"
     return w
 
 
-RUNS = ["VM", "FR", "FF", "FR-cap", "S2", "VM@Ceres", "VM@Venus", "VM@Uranus",
+RUNS = ["VM", "FR", "FF", "FR-cap", "S2", "S2-FR", "S2-ST", "VM@Ceres", "VM@Venus", "VM@Uranus",
         "noMaint-VM", "noMaint-FR", "noMaint-FF", "noMaint-S2",
         "Hub-VM", "Hub-VM@Ceres", "Hub-VM@Venus", "Hub-VM@Uranus"]
 

@@ -163,6 +163,19 @@ class Incident:
         return f"{self.dur:g} h {'isolation' if self.kind == 'isolation' else 'forced loss'} of {self.node}, h {self.start:g}-{self.start + self.dur:g}"
 
 
+class Stack:
+    """Several incidents at once (a stacked incident): a launch fails if any member kills it."""
+
+    def __init__(self, *incs):
+        self.incs = incs
+
+    def kills(self, a, b, te):
+        return any(i.kills(a, b, te) for i in self.incs)
+
+    def label(self):
+        return " + ".join(i.label() for i in self.incs)
+
+
 # ======================================================================== ledger
 
 class Ledger:
@@ -365,6 +378,7 @@ class Sim:
         self.trace = []                # compact trace rows
         self.snaps = [(0.0, self.ledger.snapshot())]
         self.now = -1e9
+        self.loss = None               # fuzzing: callable(a, b, te) -> True if this launch is randomly lost
 
     # ---- event loop
     def at(self, t, fn, *args, order=99):
@@ -419,7 +433,7 @@ class Sim:
             pkt.first_launched = True
         f, d, _ = self.geo.flight(a, b, te)
         st["launches"] += 1
-        failed = bool(self.incident and self.incident.kills(a, b, te))
+        failed = bool(self.incident and self.incident.kills(a, b, te)) or bool(self.loss and self.loss(a, b, te))
         rec = dict(t=te, link=f"{a}->{b}", kind=pkt.kind, pid=pkt.pid, n=st["launches"], flight=f, d=d,
                    p_loss=1 - math.exp(-0.02 * d), arrival=None if failed else te + f, failed=failed,
                    session=pkt.session.sid, wait=te - t_ready - SEC, label=pkt.label)
@@ -463,7 +477,7 @@ class Sim:
 
         def emit(te_):
             f, d, _ = self.geo.flight(frm, to, te_)
-            failed = bool(self.incident and self.incident.kills(frm, to, te_))
+            failed = bool(self.incident and self.incident.kills(frm, to, te_)) or bool(self.loss and self.loss(frm, to, te_))
             rec = dict(t=te_, link=f"{frm}->{to}", kind="RCPT", pid=pkt.pid, n=1, flight=f, d=d,
                        p_loss=1 - math.exp(-0.02 * d), arrival=None if failed else te_ + f, failed=failed,
                        session=pkt.session.sid, wait=te_ - t_ready - SEC, label=f"receipt {pkt.label}")
@@ -553,8 +567,24 @@ class Sim:
         s.next_seq[branch] += 1
         return self._ep_send(t, s, branch, "DATA", quota=True, seq=seq, records=records, label=label)
 
+    def reset_node(self, t, node):
+        """Endpoint reset: every session `node` held is gone at `node`; durable ledgers survive. Returns the peers
+        whose sessions died (the node must handshake new ones). Packets still in flight to the old session are dropped
+        on arrival, and the node's own unacknowledged data is forgotten (its timers lapse)."""
+        peers = []
+        for s in set(self.sessions.values()):
+            if node in (s.a, s.b) and s.retired is None:
+                s.dead = getattr(s, "dead", set()) | {node}
+                s.state[node] = "closed"
+                s.unacked[node].clear()
+                peers.append(s.peer(node))
+                self.ev(t, node, "endpoint reset", session=s.sid)
+        return peers
+
     def endpoint_rx(self, t, pkt):
         s, me = pkt.session, pkt.dst
+        if me in getattr(s, "dead", ()):
+            return                                   # the node reset: this session no longer exists there
         s.last_rx[me] = t
         s.rx_times[me].append(t)
         k = pkt.kind
