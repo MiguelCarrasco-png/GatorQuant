@@ -1,0 +1,26 @@
+[
+ {
+  "run": "VM",
+  "withdrawn_at": 0.5,
+  "state": "free",
+  "unlocked_h": 8.349904186023418,
+  "usd_hours": 208740.660206141,
+  "locked": 25000
+ },
+ {
+  "run": "VM@Uranus",
+  "withdrawn_at": 0.5,
+  "state": "free",
+  "unlocked_h": 12.373652685932807,
+  "usd_hours": 309334.37270387576,
+  "locked": 25000
+ },
+ {
+  "run": "FR",
+  "withdrawn_at": 0.5,
+  "state": "free",
+  "unlocked_h": 1.3771693238179985,
+  "usd_hours": 140746.03261968322,
+  "locked": 75000.0
+ }
+]

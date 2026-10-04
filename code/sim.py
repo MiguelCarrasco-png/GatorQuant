@@ -561,7 +561,11 @@ class Sim:
         s = self.sessions[(branch, peer)]
         assert len(records) <= 14
         if s.state[branch] != "established":
-            s.outbox[branch].append((records, label))
+            # a copy of the same record already waiting is redundant (R8': copies are identical)
+            have = {(r["type"], r.get("deal"), r.get("flags")) for recs, _ in s.outbox[branch] for r in recs}
+            records = [r for r in records if (r["type"], r.get("deal"), r.get("flags")) not in have]
+            if records:
+                s.outbox[branch].append((records, label))
             return None
         seq = s.next_seq[branch]
         s.next_seq[branch] += 1
@@ -623,6 +627,17 @@ class Sim:
         app = self.apps.get(me)
         if app is not None and hasattr(app, "on_contact"):
             app.on_contact(self, t, s, pkt)
+
+    def cancel_deal(self, node, deal):
+        """The lock holder's deal ended: its outstanding copies of that deal's LOCK need no more endpoint retries."""
+        for s in set(self.sessions.values()):
+            if node in (s.a, s.b):
+                for seq, p in list(s.unacked[node].items()):
+                    if any(r.get("deal") == deal and r["type"] == "LOCK" for r in p.records):
+                        p.discarded = True
+                        del s.unacked[node][seq]
+                s.outbox[node] = [(rs, lb) for rs, lb in s.outbox[node]
+                                  if not any(r.get("deal") == deal and r["type"] == "LOCK" for r in rs)]
 
     def _flush(self, t, s, me):
         box, s.outbox[me] = s.outbox[me], []

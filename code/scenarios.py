@@ -44,6 +44,8 @@ CAPPED = RISING[:-1] + [140]
 KEEPALIVE_IDLE = 120.0
 RESERVE_PER_DAY = 10                                     # recovery reserve of one Branch slice (packets / 24 h)
 PROBE_H = 24.0 / RESERVE_PER_DAY                         # R8': resubmission pace once status is unknown, 2.4 h
+VOID_GRACE_H = 24.0                                      # R21 [EXTENSION]: referee voids a contract 24 h after a missing settling print
+REPLY_GAP_H = 1.0                                        # R8': a decided answer is repeated at most once an hour
 CONTACT_GAP_H = 1.0                                      # R8': resubmit on contact at most once per hour
 AUDIT_ON = True                                          # R20 [EXTENSION]: echo check and SETTLE recompute
 PROBE_ON = True                                          # False reproduces the superseded timer-only rule
@@ -71,6 +73,8 @@ def payoff_of(print_value):
 
 def settle_ok(r):
     """R20 audit: the lock holder recomputes the payoff from the signed settling print in the SETTLE record."""
+    if r.get("void"):                                    # R21: no settling print; every margin returns in full
+        return r["release"] == 0 and r["credit"] == 0
     clipped, y = payoff_of(r["price"])
     Y = abs(y)
     rel, credit = (Y, 0.0) if y < 0 else (0.0, Y)
@@ -86,6 +90,7 @@ class Branch:
         self.decisions = {}     # deal -> recorded answer record (deciding / referee side)
         self.locks = {}         # deal -> dict (initiator / pledge-holder side)
         self.offers = {}        # offer id -> dict
+        self.last_reply = {}    # deal -> hour the recorded answer was last sent
         self.errors = []        # detected protocol errors: (t, deal, what)
         self.decided_n = {}     # deal -> number of decisions recorded (must stay 1)
 
@@ -95,8 +100,19 @@ class Branch:
 
     # ---------------- records arriving
     def on_records(self, sim, t, s, pkt):
+        """Handle every record of one arriving packet; the replies it provokes to the same peer share packets
+        (up to 14 records each), as the batching rule says."""
+        w = self.w
+        outer = w._batch
+        w._batch = {}
         for r in pkt.records:
             getattr(self, "rx_" + r["type"])(sim, t, s.peer(self.name), r, pkt)
+        pending, w._batch = w._batch, outer
+        for (frm, to), items in pending.items():
+            for k in range(0, len(items), 14):
+                chunk = items[k:k + 14]
+                first = chunk[0]
+                w.send(t, frm, to, [c[0] for c in chunk], first[1], **first[2])
 
     def on_unknown(self, sim, t, s, pkt):
         """Endpoint attempts ran out with status unknown. Recovery is the lock holder's probe loop (arm / _probe), so
@@ -120,16 +136,36 @@ class Branch:
         lk = self.locks[deal]
         lk.update(peer=peer, rec=rec, probing=False, last_sub=t)
         s = self.w.sim.sessions[(self.name, peer)]
-        self.w.sim.at(t + 2 * self.w.sim.geo.T0(s.path(self.name), t) + 24.0, self._probe, deal)
+        lk["due"] = t + 2 * self.w.sim.geo.T0(s.path(self.name), t) + 24.0
+        self.w.sim.at(lk["due"], self._probe, deal)
 
     def _resub(self, t, deal, why):
+        """Resubmit LOCK for `deal` and, in the same packet (up to 14 records), for every other lock to the same peer
+        that is already being probed. One packet per peer per probe, however many locks are open."""
         lk = self.locks[deal]
-        lk["last_sub"] = t
+        peer = lk["peer"]
+        iv = self._interval(peer)
+        batch = [deal] + [d for d, o in self.locks.items() if d != deal and o.get("peer") == peer
+                          and o["state"] in ("locked", "pledged")
+                          and ((not o.get("probing") and o.get("due", 1e18) <= t + 1e-9)
+                               or (o.get("probing") and t - o["last_sub"] >= iv - 1e-6))
+                          and not (o["rec"].get("product") == "future" and o["state"] == "pledged" and t < SETTLE_H)]
+        batch = batch[:14]
+        for d in batch:
+            self.locks[d]["probing"] = True
+            self.locks[d]["last_sub"] = t
+            self.w.sim.cancel_deal(self.name, d)          # this copy supersedes every earlier copy still being retried
         self.w.marks.setdefault("resubs", []).append(t)
-        rec = dict(lk["rec"], flags="RESUBMISSION")
-        self.w.send(t, self.name, lk["peer"], [rec], f"LOCK {deal} (resub)",
+        recs = [dict(self.locks[d]["rec"], flags="RESUBMISSION") for d in batch]
+        self.w.send(t, self.name, peer, recs, f"LOCK {deal} (resub)",
                     know=f"Still holds the lock; {why}", action="Resubmits LOCK unchanged (recovery reserve)",
                     state="unchanged", resub=True)
+
+    def _interval(self, peer):
+        """Probe pace: PROBE_H per packet, stretched so that all open locks to this peer (14 per packet) still fit in the
+        recovery reserve: 24 h x packets needed / reserve."""
+        n = sum(1 for o in self.locks.values() if o.get("peer") == peer and o["state"] in ("locked", "pledged"))
+        return PROBE_H * max(1, -(-n // 14))
 
     def _probe(self, t, deal):
         lk = self.locks[deal]
@@ -141,9 +177,21 @@ class Branch:
             if t < due - 1e-9:
                 self.w.sim.at(due, self._probe, deal)
                 return
+        iv = self._interval(lk["peer"])
+        if lk.get("probing") and t - lk["last_sub"] < iv - 1e-6:
+            self.w.sim.at(lk["last_sub"] + iv, self._probe, deal)           # a batch already carried this lock
+            return
         lk["probing"] = True
+        sess = self.w.sim.sessions[(self.name, lk["peer"])]
+        if sess.state[self.name] != "established" and t - sess.opened >= self._interval(lk["peer"]) - 1e-6:
+            # R8': the session is not up (a reset peer's handshake is stuck): the holder opens its own fresh one, 1 SYN
+            route = self.w.sim.geo.pin_route(self.name, lk["peer"], t, t + 24.0)
+            self.w.sessions.append((self.name, lk["peer"], route))
+            self.w.sim.open_session(t, self.name, lk["peer"], route,
+                                    know=f"No established session to {lk['peer']}; lock still open",
+                                    state="unchanged (fresh session)")
         self._resub(t, deal, "no recorded answer one endpoint timer on" if lk["last_sub"] < t else "still unanswered")
-        self.w.sim.at(t + PROBE_H, self._probe, deal)
+        self.w.sim.at(t + self._interval(lk["peer"]), self._probe, deal)
 
     def on_contact(self, sim, t, s, pkt):
         """R8': any packet from the peer while a lock is open and being probed triggers an immediate resubmission."""
@@ -159,6 +207,9 @@ class Branch:
         w, deal = self.w, r["deal"]
         if deal in self.decisions:                       # duplicate / resubmission / pull: repeat the recorded answer
             ans = self.decisions[deal]
+            if t - self.last_reply.get(deal, -1e9) < REPLY_GAP_H:
+                return                                   # the same answer is already on its way (R8')
+            self.last_reply[deal] = t
             w.send(t, self.name, peer, [ans], f"{ans['type']} {deal} (recorded answer)",
                    know=f"{deal} already decided: {ans['type']}", action=f"Repeats recorded {ans['type']}",
                    state="unchanged")
@@ -251,10 +302,12 @@ class Branch:
         lk["outcome"] = "COMMIT"
         if r["product"] == "future":
             lk["state"] = "pledged"
+            self.w.sim.cancel_deal(self.name, deal)
             w.row(t, self.me, "COMMIT arrived: position recorded at Ceres", "Keeps the lock as a pledge; "
                   "only a SETTLE ends it", "", "", f"{r['buyer']} {money(MARGIN)} pledged to Ceres (unchanged)")
             return
         lk["state"] = "released"
+        self.w.sim.cancel_deal(self.name, deal)
         seller_at = r["seller_branch"]
 
         def book(L):
@@ -284,8 +337,9 @@ class Branch:
             return
         lk["outcome"] = "DECLINE"
         lk["state"] = "free"
+        self.w.sim.cancel_deal(self.name, r["deal"])
         self.w.sim.book(t, lambda L: L.unencumber(self.name, r["buyer"], "USD", r["deal"]))
-        self.w.row(t, self.me, "DECLINE arrived", "Unlocks", "", "", f"{r['buyer']} {money(r['cash'])} free again")
+        self.w.row(t, self.me, "DECLINE arrived", "Unlocks", "", "", f"{r['buyer']} {money(r.get('cash', r.get('margin', 0)))} free again")
 
     # ---------------- pledge holder (Jupiter)
     def rx_PRINT(self, sim, t, peer, r, pkt):
@@ -305,6 +359,7 @@ class Branch:
             return                                       # not applied; the lock stays and probing continues
         lk["outcome"] = "SETTLE"
         lk["state"] = "settled"
+        self.w.sim.cancel_deal(self.name, deal)
         to_ref, back, credit = r["release"], MARGIN - r["release"], r["credit"]
 
         def book(L):
@@ -322,7 +377,8 @@ class Branch:
         else:
             st = (f"{money(MARGIN)} pledge returned to {r['buyer']}; plus {money(credit)} credited (claim on "
                   f"Jupiter Branch backed by its holding at Ceres). All spendable. Pledge ended.")
-        w.row(t, self.me, f"SETTLE arrived: settling print {r['price']:g}, clipped {r['clipped']:g}",
+        w.row(t, self.me, ("SETTLE arrived: contract voided, no settling print" if r.get("void") else
+                           f"SETTLE arrived: settling print {r['price']:g}, clipped {r['clipped']:g}"),
               "Applies SETTLE", "", "", st)
 
 
@@ -398,6 +454,8 @@ class World:
         self.deal_ctr = {}
         self.sessions = []
         self.reroute = True
+        self._batch = None
+        self.void = False
 
     def offer_life_ok(self, frm, to, t, expiry):
         """Offer-life rule R5: the initiator accepts a remote offer only if a second endpoint attempt, if it is not
@@ -431,6 +489,10 @@ class World:
         self.sim.row(t, actor, know, action, packet, arrival, state)
 
     def send(self, t, frm, to, records, label, know="", action="", state="", resub=False):
+        if self._batch is not None and not resub and len(records) == 1:
+            self._batch.setdefault((frm, to), []).append(
+                (records[0], label, dict(know=know, action=action, state=state, resub=resub)))
+            return None
         s = self.sim.sessions[(frm, to)]
         if self.reroute and self.sim.geo.route_stalled(s.path(frm), t):
             # Protocol route rule: never queue behind a known closure longer than 24 h; re-pin by foresight and
@@ -550,11 +612,33 @@ class World:
                 self.sim.at(tb, lambda t2: self.send(t2, C, J, [dict(type="PRINT", h=h, price=p)], f"PRINT h{h}",
                             know=f"Interim print h {h} = {p:g} by local access", action="Forwards it to Jupiter "
                             "(information only)", state="unchanged"))
+            elif self.void:
+                self.sim.at(SETTLE_H + VOID_GRACE_H, void_settle)
             else:
                 self.sim.at(tb, lambda t2: settle(t2, p))
 
+        def void_settle(t):
+            pos = self.position
+            if pos is None:
+                return
+
+            def book(L):
+                L.unencumber(C, pos["short"], "USD", f"{pos['deal']}/short")
+            self.sim.book(t, book)
+            self.marks["discharge"] = self.marks["backed"] = t
+            ans = dict(type="SETTLE", product="future", deal=pos["deal"], price=None, clipped=None, release=0.0,
+                       credit=0.0, buyer=pos["long"], void=True)
+            self.apps[C].decisions[pos["deal"]] = ans
+            self.payoff = dict(price=None, clipped=None, to_long=0.0)
+            self.send(t, C, J, [ans], f"SETTLE {pos['deal']} (void)",
+                      know=f"No settling print by h {SETTLE_H + VOID_GRACE_H:g} (Price Board silent for {VOID_GRACE_H:g} h)",
+                      action="Voids the contract; returns Ceres Iron's margin; sends SETTLE (void)",
+                      state=f"Ceres Iron Works' {money(MARGIN)} margin free; no payoff")
+
         def settle(t, p):
             pos = self.position
+            if pos is None:
+                return                                   # offer withdrawn or declined: no position, nothing to settle
             clipped = min(max(p, ENTRY * (1 - CAP)), ENTRY * (1 + CAP))
             y = CONTRACTS * MULT * (clipped - ENTRY)        # to the long
             Y = abs(y)
@@ -622,18 +706,19 @@ def make(run):
         resets = [(k["iso_start"] + 72.0 + k["reset_after"], k["reset_node"])]
     reloc = base.split("@")[1] if "@" in base else None
     w = World(run, maintenance=maint, incident=inc, relocate=reloc)
+    w.void = base == "VOID"
     if base.startswith("VM"):
         w.script_vm(hub=run.startswith("Hub-"))
     else:
         w.script_future({"FR": RISING, "FF": FALLING, "FR-cap": CAPPED, "S2": FALLING, "S2-FR": RISING,
-                         "S2-ST": RISING}[base])
+                         "S2-ST": RISING, "VOID": RISING}[base])
         for t, node in resets:
             w.sim.at(t, lambda t_, n=node: w.reset(t_, n))
     w.kind = "vm" if base.startswith("VM") else "future"
     return w
 
 
-RUNS = ["VM", "FR", "FF", "FR-cap", "S2", "S2-FR", "S2-ST", "VM@Ceres", "VM@Venus", "VM@Uranus",
+RUNS = ["VM", "FR", "FF", "FR-cap", "S2", "S2-FR", "S2-ST", "VOID", "VM@Ceres", "VM@Venus", "VM@Uranus",
         "noMaint-VM", "noMaint-FR", "noMaint-FF", "noMaint-S2",
         "Hub-VM", "Hub-VM@Ceres", "Hub-VM@Venus", "Hub-VM@Uranus"]
 

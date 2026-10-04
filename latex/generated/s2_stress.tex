@@ -1,4 +1,16 @@
-\par\noindent\textbf{S2: FF plus a 72 h isolation of Ceres, h 286--358 (from h 288)}\par
+\begin{tabularx}{\linewidth}{lXXXX}\toprule
+Measure & No incident & S2-FF & S2-FR & S2-ST\\\midrule
+Financial service resumes (h) & 288.69 & 359.34 & 359.34 & 386.83\\
+Lost service vs no incident (h) & --- & 70.6 & 70.6 & 98.1\\
+Extra \$-hours locked & --- & 5{,}298{,}515 & 5{,}298{,}515 & 7{,}360{,}403\\
+Backbone launches (failed) & 124 (0) & 347 (113) & 347 (113) & 528 (125)\\
+Quota packets; peak per Branch of 66 & 15; 2 & 37; 11 & 37; 11 & 37; 11\\
+Who waits, for what & none & FF: Callisto's \$17{,}500 refund; Ceres Iron paid at the print & FR: Callisto's \$132{,}500 (payoff and pledge) & FR: Callisto's \$132{,}500, three incidents\\
+\bottomrule
+\end{tabularx}
+
+\medskip
+\par\noindent\textbf{S2-FR: the FR run plus a 72 h isolation of Ceres, h 286--358 (from h 288)}\par
 {\setlength{\tabcolsep}{3pt}
 \begin{xltabular}{\linewidth}{>{\raggedright\arraybackslash}p{1.75cm}>{\raggedright\arraybackslash\hsize=0.8\hsize}X>{\raggedright\arraybackslash\hsize=0.8\hsize}X>{\raggedright\arraybackslash\hsize=1.15\hsize}X>{\raggedright\arraybackslash\hsize=1.25\hsize}X}
 \toprule
@@ -7,74 +19,29 @@ Time (h), actor & Local knowledge & Action & Packet (BB = backbone); arrival & F
 \endhead
 \bottomrule
 \endlastfoot
-\mbox{288.0003}\newline Ceres Br. & Settling print h 288 = 77 by local access; clipped to 77 & Records the payoff (discharge); sends SETTLE once & BB Ceres $\to$ B $\to$ Jupiter; Ceres$\to$B h 364.1365; B$\to$Jupiter h 364.4765; arrives h 364.8258 & Payoff \$57{,}500 to Ceres Iron Works: backed claim now (backed by Callisto's pledge at Jupiter), usable at Ceres; its own \$75{,}000 margin released\\
-\mbox{313.3784}\newline Jupiter Br. & Still holds the lock; no recorded answer one endpoint timer on & Resubmits LOCK unchanged (recovery reserve) & BB Jupiter $\to$ B $\to$ Ceres, resubmission; Jupiter$\to$B h 364.1360; B$\to$Ceres h 364.4858; arrives h 364.8252 & unchanged\\
-\mbox{313.3787}\newline Ceres Br. & No data ACK for SETTLE JUP-1 within R\textsubscript{e} & Endpoint attempt 2 of SETTLE JUP-1 & attempt 1: Ceres$\to$B h 288.0006 lost, 289.6806 lost, 291.3606 lost, 293.0406 lost; lost & unchanged\\
-\mbox{315.7784}\newline Jupiter Br. & Still holds the lock; no recorded answer one endpoint timer on & Resubmits LOCK unchanged (recovery reserve) & BB Jupiter $\to$ B $\to$ Ceres, resubmission; Jupiter$\to$B h 366.5360; B$\to$Ceres h 366.8859; arrives h 367.2253 & unchanged\\
-\mbox{318.1784}\newline Jupiter Br. & Still holds the lock; no recorded answer one endpoint timer on & Resubmits LOCK unchanged (recovery reserve) & BB Jupiter $\to$ B $\to$ Ceres, resubmission; Jupiter$\to$B h 368.9361; B$\to$Ceres h 369.2860; arrives h 369.6253 & unchanged\\
-\mbox{320.5784}\newline Jupiter Br. & Still holds the lock; no recorded answer one endpoint timer on & Resubmits LOCK unchanged (recovery reserve) & BB Jupiter $\to$ B $\to$ Ceres, resubmission; Jupiter$\to$B h 371.3361; B$\to$Ceres h 371.6860; arrives h 372.0254 & unchanged\\
-\mbox{322.9784}\newline Jupiter Br. & Still holds the lock; no recorded answer one endpoint timer on & Resubmits LOCK unchanged (recovery reserve) & BB Jupiter $\to$ B $\to$ Ceres, resubmission; Jupiter$\to$B h 373.7362; B$\to$Ceres h 374.0861; arrives h 374.4254 & unchanged\\
-\mbox{325.3784}\newline Jupiter Br. & Still holds the lock; no recorded answer one endpoint timer on & Resubmits LOCK unchanged (recovery reserve) & BB Jupiter $\to$ B $\to$ Ceres, resubmission; Jupiter$\to$B h 376.1362; B$\to$Ceres h 376.4862; arrives h 376.8255 & unchanged\\
-\mbox{327.7784}\newline Jupiter Br. & Still holds the lock; no recorded answer one endpoint timer on & Resubmits LOCK unchanged (recovery reserve) & BB Jupiter $\to$ B $\to$ Ceres, resubmission; Jupiter$\to$B h 353.1573; B$\to$Ceres h 353.5071 lost, 355.1862 lost, 356.8654 lost, 358.5445; arrives h 358.8839 & unchanged\\
-\mbox{330.1784}\newline Jupiter Br. & Still holds the lock; no recorded answer one endpoint timer on & Resubmits LOCK unchanged (recovery reserve) & BB Jupiter $\to$ B $\to$ Ceres, resubmission; Jupiter$\to$B h 355.5574; B$\to$Ceres h 355.9071 lost, 357.5862 lost, 359.2654; arrives h 359.6048 & unchanged\\
-\mbox{332.5784}\newline Jupiter Br. & Still holds the lock; no recorded answer one endpoint timer on & Resubmits LOCK unchanged (recovery reserve) & BB Jupiter $\to$ B $\to$ Ceres, resubmission; Jupiter$\to$B h 357.9574; B$\to$Ceres h 358.3072; arrives h 358.6466 & unchanged\\
-\mbox{334.9784}\newline Jupiter Br. & Still holds the lock; no recorded answer one endpoint timer on & Resubmits LOCK unchanged (recovery reserve) & BB Jupiter $\to$ B $\to$ Ceres, resubmission; Jupiter$\to$B h 360.3574; B$\to$Ceres h 360.7072; arrives h 361.0466 & unchanged\\
-\mbox{337.3784}\newline Jupiter Br. & Still holds the lock; no recorded answer one endpoint timer on & Resubmits LOCK unchanged (recovery reserve) & BB Jupiter $\to$ B $\to$ Ceres, resubmission; Jupiter$\to$B h 362.7574; B$\to$Ceres h 363.1072; arrives h 363.4466 & unchanged\\
-\mbox{338.7569}\newline Jupiter Br. & No data ACK for LOCK JUP-1 (resub) within R\textsubscript{e} & Endpoint attempt 2 of LOCK JUP-1 (resub) & attempt 1: Jupiter$\to$B h 313.3786; B$\to$Ceres h 313.7280 lost, 315.4076 lost, 317.0872 lost, 318.7669 lost; lost & unchanged\\
-\mbox{338.7574}\newline Ceres Br. & No data ACK for SETTLE JUP-1 within R\textsubscript{e} & Endpoint attempt 3 of SETTLE JUP-1 & attempt 2: Ceres$\to$B h 313.3790 lost, 315.0587 lost, 316.7384 lost, 318.4181 lost; lost & unchanged\\
-\mbox{339.7784}\newline Jupiter Br. & Still holds the lock; no recorded answer one endpoint timer on & Resubmits LOCK unchanged (recovery reserve) & BB Jupiter $\to$ B $\to$ Ceres, resubmission; Jupiter$\to$B h 365.1574; B$\to$Ceres h 365.5073; arrives h 365.8467 & unchanged\\
-\mbox{341.1570}\newline Jupiter Br. & No data ACK for LOCK JUP-1 (resub) within R\textsubscript{e} & Endpoint attempt 2 of LOCK JUP-1 (resub) & attempt 1: Jupiter$\to$B h 315.7786; B$\to$Ceres h 316.1280 lost, 317.8076 lost, 319.4872 lost, 321.1668 lost; lost & unchanged\\
-\mbox{342.1784}\newline Jupiter Br. & Still holds the lock; no recorded answer one endpoint timer on & Resubmits LOCK unchanged (recovery reserve) & BB Jupiter $\to$ B $\to$ Ceres, resubmission; Jupiter$\to$B h 367.5575; B$\to$Ceres h 367.9073; arrives h 368.2467 & unchanged\\
-\mbox{343.5570}\newline Jupiter Br. & No data ACK for LOCK JUP-1 (resub) within R\textsubscript{e} & Endpoint attempt 2 of LOCK JUP-1 (resub) & attempt 1: Jupiter$\to$B h 318.1786; B$\to$Ceres h 318.5280 lost, 320.2076 lost, 321.8872 lost, 323.5667 lost; lost & unchanged\\
-\mbox{344.5784}\newline Jupiter Br. & Still holds the lock; no recorded answer one endpoint timer on & Resubmits LOCK unchanged (recovery reserve) & BB Jupiter $\to$ B $\to$ Ceres, resubmission; Jupiter$\to$B h 369.9575; B$\to$Ceres h 370.3074; arrives h 370.6467 & unchanged\\
-\mbox{345.9570}\newline Jupiter Br. & No data ACK for LOCK JUP-1 (resub) within R\textsubscript{e} & Endpoint attempt 2 of LOCK JUP-1 (resub) & attempt 1: Jupiter$\to$B h 320.5786; B$\to$Ceres h 320.9280 lost, 322.6076 lost, 324.2871 lost, 325.9667 lost; lost & unchanged\\
-\mbox{346.9784}\newline Jupiter Br. & Still holds the lock; no recorded answer one endpoint timer on & Resubmits LOCK unchanged (recovery reserve) & BB Jupiter $\to$ B $\to$ Ceres, resubmission; Jupiter$\to$B h 372.3575; B$\to$Ceres h 372.7074; arrives h 373.0468 & unchanged\\
-\mbox{348.3570}\newline Jupiter Br. & No data ACK for LOCK JUP-1 (resub) within R\textsubscript{e} & Endpoint attempt 2 of LOCK JUP-1 (resub) & attempt 1: Jupiter$\to$B h 322.9786; B$\to$Ceres h 323.3281 lost, 325.0076 lost, 326.6871 lost, 328.3666 lost; lost & unchanged\\
-\mbox{349.3784}\newline Jupiter Br. & Still holds the lock; no recorded answer one endpoint timer on & Resubmits LOCK unchanged (recovery reserve) & BB Jupiter $\to$ B $\to$ Ceres, resubmission; Jupiter$\to$B h 374.7575; B$\to$Ceres h 375.1075; arrives h 375.4468 & unchanged\\
-\mbox{350.7570}\newline Jupiter Br. & No data ACK for LOCK JUP-1 (resub) within R\textsubscript{e} & Endpoint attempt 2 of LOCK JUP-1 (resub) & attempt 1: Jupiter$\to$B h 325.3786; B$\to$Ceres h 325.7281 lost, 327.4076 lost, 329.0871 lost, 330.7665 lost; lost & unchanged\\
-\mbox{351.7784}\newline Jupiter Br. & Still holds the lock; no recorded answer one endpoint timer on & Resubmits LOCK unchanged (recovery reserve) & BB Jupiter $\to$ B $\to$ Ceres, resubmission; Jupiter$\to$B h 377.1575; B$\to$Ceres h 377.5075; arrives h 377.8468 & unchanged\\
-\mbox{353.1571}\newline Jupiter Br. & No data ACK for LOCK JUP-1 (resub) within R\textsubscript{e} & Endpoint attempt 2 of LOCK JUP-1 (resub) & attempt 1: Jupiter$\to$B h 327.7786; B$\to$Ceres h 328.1281 lost, 329.8076 lost, 331.4870 lost, 333.1665 lost; lost & unchanged\\
-\mbox{354.1784}\newline Jupiter Br. & Still holds the lock; no recorded answer one endpoint timer on & Resubmits LOCK unchanged (recovery reserve) & BB Jupiter $\to$ B $\to$ Ceres, resubmission; Jupiter$\to$B h 354.1786; B$\to$Ceres h 354.5284 lost, 356.2075 lost, 357.8867 lost, 359.5658; arrives h 359.9052 & unchanged\\
-\mbox{355.5571}\newline Jupiter Br. & No data ACK for LOCK JUP-1 (resub) within R\textsubscript{e} & Endpoint attempt 2 of LOCK JUP-1 (resub) & attempt 1: Jupiter$\to$B h 330.1786; B$\to$Ceres h 330.5281 lost, 332.2076 lost, 333.8870 lost, 335.5664 lost; lost & unchanged\\
-\mbox{356.5784}\newline Jupiter Br. & Still holds the lock; no recorded answer one endpoint timer on & Resubmits LOCK unchanged (recovery reserve) & BB Jupiter $\to$ B $\to$ Ceres, resubmission; Jupiter$\to$B h 356.5786; B$\to$Ceres h 356.9284 lost, 358.6075; arrives h 358.9469 & unchanged\\
-\mbox{357.9571}\newline Jupiter Br. & No data ACK for LOCK JUP-1 (resub) within R\textsubscript{e} & Endpoint attempt 2 of LOCK JUP-1 (resub) & attempt 1: Jupiter$\to$B h 332.5786; B$\to$Ceres h 332.9282 lost, 334.6076 lost, 336.2870 lost, 337.9664 lost; lost & unchanged\\
-\mbox{358.6466}\newline Ceres Br. & JUP-1 already decided: SETTLE & Repeats recorded SETTLE & BB Ceres $\to$ B $\to$ Jupiter; Ceres$\to$B h 358.6471; B$\to$Jupiter h 358.9871; arrives h 359.3364 & unchanged\\
-\mbox{358.8839}\newline Ceres Br. & JUP-1 already decided: SETTLE & Repeats recorded SETTLE & BB Ceres $\to$ B $\to$ Jupiter; Ceres$\to$B h 358.8845; B$\to$Jupiter h 359.2245; arrives h 359.5737 & unchanged\\
-\mbox{358.9469}\newline Ceres Br. & JUP-1 already decided: SETTLE & Repeats recorded SETTLE & BB Ceres $\to$ B $\to$ Jupiter; Ceres$\to$B h 358.9475; B$\to$Jupiter h 359.2875; arrives h 359.6367 & unchanged\\
-\mbox{358.9784}\newline Jupiter Br. & Still holds the lock; no recorded answer one endpoint timer on & Resubmits LOCK unchanged (recovery reserve) & BB Jupiter $\to$ B $\to$ Ceres, resubmission; Jupiter$\to$B h 358.9786; B$\to$Ceres h 359.3284; arrives h 359.6678 & unchanged\\
-\mbox{359.3364}\newline Jupiter Br. & SETTLE arrived: settling print 77, clipped 77 & Applies SETTLE &  & \$57{,}500 of the pledge $\to$ Ceres Branch's account here; \$17{,}500 back to Callisto Foundry, spendable. Pledge ended.\\
-\mbox{359.6048}\newline Ceres Br. & JUP-1 already decided: SETTLE & Repeats recorded SETTLE & BB Ceres $\to$ B $\to$ Jupiter; Ceres$\to$B h 359.6053; B$\to$Jupiter h 359.9453; arrives h 360.2946 & unchanged\\
-\mbox{359.6678}\newline Ceres Br. & JUP-1 already decided: SETTLE & Repeats recorded SETTLE & BB Ceres $\to$ B $\to$ Jupiter; Ceres$\to$B h 359.6684; B$\to$Jupiter h 360.0084; arrives h 360.3576 & unchanged\\
-\mbox{359.9052}\newline Ceres Br. & JUP-1 already decided: SETTLE & Repeats recorded SETTLE & BB Ceres $\to$ B $\to$ Jupiter; Ceres$\to$B h 359.9057; B$\to$Jupiter h 360.2457; arrives h 360.5950 & unchanged\\
-\mbox{360.3571}\newline Jupiter Br. & No data ACK for LOCK JUP-1 (resub) within R\textsubscript{e} & Endpoint attempt 2 of LOCK JUP-1 (resub) & attempt 1: Jupiter$\to$B h 334.9786; B$\to$Ceres h 335.3282 lost, 337.0076 lost, 338.6869 lost, 340.3663 lost; lost & unchanged\\
-\mbox{361.0466}\newline Ceres Br. & JUP-1 already decided: SETTLE & Repeats recorded SETTLE & BB Ceres $\to$ B $\to$ Jupiter; Ceres$\to$B h 361.0472; B$\to$Jupiter h 361.3871; arrives h 361.7364 & unchanged\\
-\mbox{362.7571}\newline Jupiter Br. & No data ACK for LOCK JUP-1 (resub) within R\textsubscript{e} & Endpoint attempt 2 of LOCK JUP-1 (resub) & attempt 1: Jupiter$\to$B h 337.3786; B$\to$Ceres h 337.7282 lost, 339.4076 lost, 341.0869 lost, 342.7662 lost; lost & unchanged\\
-\mbox{363.4466}\newline Ceres Br. & JUP-1 already decided: SETTLE & Repeats recorded SETTLE & BB Ceres $\to$ B $\to$ Jupiter; Ceres$\to$B h 363.4472; B$\to$Jupiter h 363.7872; arrives h 364.1364 & unchanged\\
-\mbox{364.1357}\newline Jupiter Br. & No data ACK for LOCK JUP-1 (resub) within R\textsubscript{e} & Endpoint attempt 3 of LOCK JUP-1 (resub) & attempt 2: Jupiter$\to$B h 338.7572; B$\to$Ceres h 339.1068 lost, 340.7861 lost, 342.4655 lost, 344.1448 lost; lost & unchanged\\
-\mbox{364.1362}\newline Ceres Br. & No data ACK for SETTLE JUP-1 within R\textsubscript{e} & Endpoint attempt 4 of SETTLE JUP-1 & attempt 3: Ceres$\to$B h 338.7576 lost, 340.4371 lost, 342.1165 lost, 343.7958 lost; lost & unchanged\\
-\mbox{364.8252}\newline Ceres Br. & JUP-1 already decided: SETTLE & Repeats recorded SETTLE & BB Ceres $\to$ B $\to$ Jupiter; Ceres$\to$B h 364.8258; B$\to$Jupiter h 365.1657; arrives h 365.5150 & unchanged\\
-\mbox{365.1572}\newline Jupiter Br. & No data ACK for LOCK JUP-1 (resub) within R\textsubscript{e} & Endpoint attempt 2 of LOCK JUP-1 (resub) & attempt 1: Jupiter$\to$B h 339.7786; B$\to$Ceres h 340.1282 lost, 341.8076 lost, 343.4869 lost, 345.1662 lost; lost & unchanged\\
-\mbox{365.8467}\newline Ceres Br. & JUP-1 already decided: SETTLE & Repeats recorded SETTLE & BB Ceres $\to$ B $\to$ Jupiter; Ceres$\to$B h 365.8472; B$\to$Jupiter h 366.1872; arrives h 366.5365 & unchanged\\
-\mbox{366.5358}\newline Jupiter Br. & No data ACK for LOCK JUP-1 (resub) within R\textsubscript{e} & Endpoint attempt 3 of LOCK JUP-1 (resub) & attempt 2: Jupiter$\to$B h 341.1572; B$\to$Ceres h 341.5068 lost, 343.1862 lost, 344.8654 lost, 346.5447 lost; lost & unchanged\\
-\mbox{367.2253}\newline Ceres Br. & JUP-1 already decided: SETTLE & Repeats recorded SETTLE & BB Ceres $\to$ B $\to$ Jupiter; Ceres$\to$B h 367.2258; B$\to$Jupiter h 367.5658; arrives h 367.9151 & unchanged\\
-\mbox{367.5572}\newline Jupiter Br. & No data ACK for LOCK JUP-1 (resub) within R\textsubscript{e} & Endpoint attempt 2 of LOCK JUP-1 (resub) & attempt 1: Jupiter$\to$B h 342.1786; B$\to$Ceres h 342.5283 lost, 344.2076 lost, 345.8868 lost, 347.5661 lost; lost & unchanged\\
-\mbox{368.2467}\newline Ceres Br. & JUP-1 already decided: SETTLE & Repeats recorded SETTLE & BB Ceres $\to$ B $\to$ Jupiter; Ceres$\to$B h 368.2472; B$\to$Jupiter h 368.5872; arrives h 368.9365 & unchanged\\
-\mbox{368.9358}\newline Jupiter Br. & No data ACK for LOCK JUP-1 (resub) within R\textsubscript{e} & Endpoint attempt 3 of LOCK JUP-1 (resub) & attempt 2: Jupiter$\to$B h 343.5573; B$\to$Ceres h 343.9069 lost, 345.5862 lost, 347.2654 lost, 348.9447 lost; lost & unchanged\\
-\mbox{369.6253}\newline Ceres Br. & JUP-1 already decided: SETTLE & Repeats recorded SETTLE & BB Ceres $\to$ B $\to$ Jupiter; Ceres$\to$B h 369.6259; B$\to$Jupiter h 369.9658; arrives h 370.3152 & unchanged\\
-\mbox{369.9572}\newline Jupiter Br. & No data ACK for LOCK JUP-1 (resub) within R\textsubscript{e} & Endpoint attempt 2 of LOCK JUP-1 (resub) & attempt 1: Jupiter$\to$B h 344.5786; B$\to$Ceres h 344.9283 lost, 346.6076 lost, 348.2868 lost, 349.9660 lost; lost & unchanged\\
-\mbox{370.6467}\newline Ceres Br. & JUP-1 already decided: SETTLE & Repeats recorded SETTLE & BB Ceres $\to$ B $\to$ Jupiter; Ceres$\to$B h 370.6473; B$\to$Jupiter h 370.9872; arrives h 371.3366 & unchanged\\
-\mbox{371.3358}\newline Jupiter Br. & No data ACK for LOCK JUP-1 (resub) within R\textsubscript{e} & Endpoint attempt 3 of LOCK JUP-1 (resub) & attempt 2: Jupiter$\to$B h 345.9573; B$\to$Ceres h 346.3069 lost, 347.9862 lost, 349.6654 lost, 351.3446 lost; lost & unchanged\\
-\mbox{372.0254}\newline Ceres Br. & JUP-1 already decided: SETTLE & Repeats recorded SETTLE & BB Ceres $\to$ B $\to$ Jupiter; Ceres$\to$B h 372.0259; B$\to$Jupiter h 372.3658; arrives h 372.7152 & unchanged\\
-\mbox{372.3572}\newline Jupiter Br. & No data ACK for LOCK JUP-1 (resub) within R\textsubscript{e} & Endpoint attempt 2 of LOCK JUP-1 (resub) & attempt 1: Jupiter$\to$B h 346.9786; B$\to$Ceres h 347.3283 lost, 349.0076 lost, 350.6868 lost, 352.3660 lost; lost & unchanged\\
-\mbox{373.0468}\newline Ceres Br. & JUP-1 already decided: SETTLE & Repeats recorded SETTLE & BB Ceres $\to$ B $\to$ Jupiter; Ceres$\to$B h 373.0473; B$\to$Jupiter h 373.3872; arrives h 373.7366 & unchanged\\
-\mbox{373.7359}\newline Jupiter Br. & No data ACK for LOCK JUP-1 (resub) within R\textsubscript{e} & Endpoint attempt 3 of LOCK JUP-1 (resub) & attempt 2: Jupiter$\to$B h 348.3573; B$\to$Ceres h 348.7070 lost, 350.3862 lost, 352.0654 lost, 353.7446 lost; lost & unchanged\\
-\mbox{374.4254}\newline Ceres Br. & JUP-1 already decided: SETTLE & Repeats recorded SETTLE & BB Ceres $\to$ B $\to$ Jupiter; Ceres$\to$B h 374.4260; B$\to$Jupiter h 374.7659; arrives h 375.1153 & unchanged\\
-\mbox{374.7572}\newline Jupiter Br. & No data ACK for LOCK JUP-1 (resub) within R\textsubscript{e} & Endpoint attempt 2 of LOCK JUP-1 (resub) & attempt 1: Jupiter$\to$B h 349.3786; B$\to$Ceres h 349.7283 lost, 351.4075 lost, 353.0867 lost, 354.7659 lost; lost & unchanged\\
-\mbox{375.4468}\newline Ceres Br. & JUP-1 already decided: SETTLE & Repeats recorded SETTLE & BB Ceres $\to$ B $\to$ Jupiter; Ceres$\to$B h 375.4473; B$\to$Jupiter h 375.7872; arrives h 376.1367 & unchanged\\
-\mbox{376.1359}\newline Jupiter Br. & No data ACK for LOCK JUP-1 (resub) within R\textsubscript{e} & Endpoint attempt 3 of LOCK JUP-1 (resub) & attempt 2: Jupiter$\to$B h 350.7573; B$\to$Ceres h 351.1070 lost, 352.7862 lost, 354.4654 lost, 356.1445 lost; lost & unchanged\\
-\mbox{376.8255}\newline Ceres Br. & JUP-1 already decided: SETTLE & Repeats recorded SETTLE & BB Ceres $\to$ B $\to$ Jupiter; Ceres$\to$B h 376.8260; B$\to$Jupiter h 377.1659; arrives h 377.5153 & unchanged\\
-\mbox{377.1573}\newline Jupiter Br. & No data ACK for LOCK JUP-1 (resub) within R\textsubscript{e} & Endpoint attempt 2 of LOCK JUP-1 (resub) & attempt 1: Jupiter$\to$B h 351.7786; B$\to$Ceres h 352.1284 lost, 353.8075 lost, 355.4867 lost, 357.1658 lost; lost & unchanged\\
-\mbox{377.8468}\newline Ceres Br. & JUP-1 already decided: SETTLE & Repeats recorded SETTLE & BB Ceres $\to$ B $\to$ Jupiter; Ceres$\to$B h 377.8474; B$\to$Jupiter h 378.1873; arrives h 378.5367 & unchanged\\
+\mbox{288.0003}\newline Ceres Br. & Settling print h 288 = 123 by local access; clipped to 123 & Records the payoff (discharge); sends SETTLE once & BB Ceres $\to$ B $\to$ Jupiter; Ceres$\to$B h 364.1365; B$\to$Jupiter h 364.4765; arrives h 364.8258 & \$57{,}500 of Ceres Iron Works' margin $\to$ Jupiter Branch's account here; \$17{,}500 released to Ceres Iron Works\\
+\mbox{313.3784}\newline Jupiter and Ceres Br. & No SETTLE has reached Jupiter; repeats run h 313.4--359.0 & 20 LOCK resubmissions, one every 2.4 h; 11 endpoint retries; 1 repeats of the recorded SETTLE & BB; copies launched during the incident are lost & unchanged\\
+\mbox{359.3364}\newline Jupiter Br. & SETTLE arrived: settling print 123, clipped 123 & Applies SETTLE &  & \$75{,}000 pledge returned to Callisto Foundry; plus \$57{,}500 credited (claim on Jupiter Branch backed by its holding at Ceres). All spendable. Pledge ended.\\
+\mbox{359.6678}\newline Jupiter and Ceres Br. & No SETTLE has reached Jupiter; repeats run h 359.7--364.1 & 1 endpoint retries; 1 repeats of the recorded SETTLE & BB; copies launched during the incident are lost & unchanged\\
+\end{xltabular}
+}
+
+\medskip
+\par\noindent\textbf{S2-ST: the stacked incident (isolation of Ceres h 286--358, Ceres endpoint reset at h 358, 6 h forced loss of Jupiter's links h 358--364), from h 288}\par
+{\setlength{\tabcolsep}{3pt}
+\begin{xltabular}{\linewidth}{>{\raggedright\arraybackslash}p{1.75cm}>{\raggedright\arraybackslash\hsize=0.8\hsize}X>{\raggedright\arraybackslash\hsize=0.8\hsize}X>{\raggedright\arraybackslash\hsize=1.15\hsize}X>{\raggedright\arraybackslash\hsize=1.25\hsize}X}
+\toprule
+Time (h), actor & Local knowledge & Action & Packet (BB = backbone); arrival & Financial state after\\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\mbox{288.0003}\newline Ceres Br. & Settling print h 288 = 123 by local access; clipped to 123 & Records the payoff (discharge); sends SETTLE once & BB Ceres $\to$ B $\to$ Jupiter & \$57{,}500 of Ceres Iron Works' margin $\to$ Jupiter Branch's account here; \$17{,}500 released to Ceres Iron Works\\
+\mbox{313.3784}\newline Jupiter and Ceres Br. & No SETTLE has reached Jupiter; repeats run h 313.4--358.0 & 19 LOCK resubmissions, one every 2.4 h; 11 endpoint retries & BB; copies launched during the incident are lost & unchanged\\
+\mbox{358.0000}\newline Ceres Br. & Ceres Branch restarted: sessions lost; durable ledger, deal counter and decisions survive & Sends SYN toward Jupiter & Ceres $\to$ B $\to$ Jupiter & unchanged (reset)\\
+\mbox{358.9784}\newline Jupiter and Ceres Br. & No SETTLE has reached Jupiter; repeats run h 359.0--386.1 & 13 LOCK resubmissions, one every 2.4 h; 20 endpoint retries; 1 repeats of the recorded SETTLE & BB; copies launched during the incident are lost & unchanged\\
+\mbox{386.8282}\newline Jupiter Br. & SETTLE arrived: settling print 123, clipped 123 & Applies SETTLE &  & \$75{,}000 pledge returned to Callisto Foundry; plus \$57{,}500 credited (claim on Jupiter Branch backed by its holding at Ceres). All spendable. Pledge ended.\\
+\mbox{388.1361}\newline Jupiter and Ceres Br. & No SETTLE has reached Jupiter; repeats run h 388.1--432.7 & 28 endpoint retries & BB; copies launched during the incident are lost & unchanged\\
 \end{xltabular}
 }
 
@@ -84,10 +51,10 @@ Time (h), actor & Local knowledge & Action & Packet (BB = backbone); arrival & F
 \par\noindent
 \begin{tabular}{lrrrr}
 \toprule
-Measure & VM & FR & FF & S2\\
+Measure & VM & FR & FF & S2-FR\\
 \midrule
 Done h, with / without maintenance & 8.35 / 8.35 & 288.69 / 288.69 & 288.69 / 288.69 & 359.34 / 359.34\\
-Backbone packets, with / without & 28 / 28 & 124 / 124 & 124 / 124 & 603 / 603\\
+Backbone packets, with / without & 28 / 28 & 124 / 124 & 124 / 124 & 347 / 347\\
 Longest known wait h, with / without & 0.00 / 0.00 & 24.00 / 0.00 & 24.00 / 0.00 & 24.00 / 0.00\\
 \$-hours, with = without & 208{,}741 & 43{,}251{,}691 & 43{,}251{,}691 & 48{,}550{,}206\\
 \bottomrule

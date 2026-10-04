@@ -147,6 +147,7 @@ def run_one(args):
     except AssertionError as e:
         fail = str(e)
     except Exception as e:                                   # a crash of the simulator is also a finding
+        import traceback; traceback.print_exc()
         fail = f"{type(e).__name__}: {e}"
     outcome = None
     for app in w.apps.values():
