@@ -155,6 +155,8 @@ def write_tex(R):
          f"{usd(pledge)} pledge, {usd(fr_pay)} payoff +{h(late)} h"),
         ("FF", r"A$\to$B", h(ff["end"]), str(len(ff["reroutes"])), str(ff["launches"]), num(ff["usd_h"]),
          f"short paid h 288; {usd(ff_refund)} refund +{h(late)} h"),
+        ("FR, route open (derived)", "via A", h(nom), "0", "---", num(fr["usd_h"] - pledge * late),
+         f"baseline: the {num(fr['usd_h'])} total minus the extra {num(pledge * late)}"),
         ("FR, no re-route", "via A", h(naive["spendable"]), "0", str(naive["launches"]), "",
          f"SETTLE held {num(naive_late)} h $>$ 30-day lifetime"),
     ]
@@ -175,6 +177,7 @@ def write_tex(R):
         "EfiveNaiveLate": num(naive_late), "EfiveNaiveLaunches": str(naive["launches"]),
         "EfiveRerouteAt": h(fr["reroutes"][0]), "EfiveExtraUsdH": num(pledge * late),
         "EfiveNaiveUsdH": num(pledge * naive_late),
+        "EfiveTotalUsdH": num(fr["usd_h"]), "EfiveBaseUsdH": num(fr["usd_h"] - pledge * late),
     }
     for k in OFFSETS_Y:
         r = R[f"+{k} y"]["runs"]

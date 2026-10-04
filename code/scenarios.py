@@ -44,10 +44,10 @@ CAPPED = RISING[:-1] + [140]
 KEEPALIVE_IDLE = 120.0
 RESERVE_PER_DAY = 10                                     # recovery reserve of one Branch slice (packets / 24 h)
 PROBE_H = 24.0 / RESERVE_PER_DAY                         # R8': resubmission pace once status is unknown, 2.4 h
-VOID_GRACE_H = 24.0                                      # R21 [EXTENSION]: referee voids a contract 24 h after a missing settling print
+VOID_GRACE_H = 24.0                                      # R23 [EXTENSION]: referee voids a contract 24 h after a missing settling print
 REPLY_GAP_H = 1.0                                        # R8': a decided answer is repeated at most once an hour
 CONTACT_GAP_H = 1.0                                      # R8': resubmit on contact at most once per hour
-AUDIT_ON = True                                          # R20 [EXTENSION]: echo check and SETTLE recompute
+AUDIT_ON = True                                          # R22 [EXTENSION]: echo check and SETTLE recompute
 PROBE_ON = True                                          # False reproduces the superseded timer-only rule
 
 
@@ -60,7 +60,7 @@ TERM_KEYS = ("deal", "offer", "product", "shares", "price", "cash", "contracts",
 
 
 def echo_ok(lock_rec, r):
-    """R20: a reply must echo the LOCK's terms exactly (spec section 2)."""
+    """R22: a reply must echo the LOCK's terms exactly (spec section 2)."""
     return all(r.get(k) == lock_rec.get(k) for k in TERM_KEYS if k in lock_rec and k != "price") and (
         lock_rec.get("product") != "share" or r.get("price") == lock_rec.get("price"))
 
@@ -72,8 +72,8 @@ def payoff_of(print_value):
 
 
 def settle_ok(r):
-    """R20 audit: the lock holder recomputes the payoff from the signed settling print in the SETTLE record."""
-    if r.get("void"):                                    # R21: no settling print; every margin returns in full
+    """R22 audit: the lock holder recomputes the payoff from the signed settling print in the SETTLE record."""
+    if r.get("void"):                                    # R23: no settling print; every margin returns in full
         return r["release"] == 0 and r["credit"] == 0
     clipped, y = payoff_of(r["price"])
     Y = abs(y)

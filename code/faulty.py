@@ -1,5 +1,5 @@
-"""Faulty-Branch test (S2 extension, rule R20). The brief assumes Branches follow the rules; a Branch that breaks them is an
-optional extension. We inject four faults as records that arrive at the lock holder, and run each with R20 (echo check +
+"""Faulty-Branch test (S2 extension, rule R22). The brief assumes Branches follow the rules; a Branch that breaks them is an
+optional extension. We inject four faults as records that arrive at the lock holder, and run each with R22 (echo check +
 SETTLE recompute) on and off, so the table shows what the rule detects and what it prevents.
 
   F1  double decision    the deciding Branch committed, then sends a DECLINE for the same deal
@@ -117,7 +117,7 @@ if __name__ == "__main__":
                 r["client_delta"] = {o: {a: r["totals"][o][a] - ref[o][a] for a in ("USD", "ARES")} for o in OWNERS
                                      if any(abs(r["totals"][o][a] - ref[o][a]) > 1e-6 for a in ("USD", "ARES"))}
             rows.append(r)
-            print(f, "R20 on " if audit else "R20 off", r["invariants"], "| detected:", r.get("detected"),
+            print(f, "R22 on " if audit else "R22 off", r["invariants"], "| detected:", r.get("detected"),
                   "| client delta vs honest:", r.get("client_delta"), "| locks:", r.get("locks"), flush=True)
     sc.AUDIT_ON = True
     (OUT / "faulty.json").write_text(json.dumps(rows, indent=1, default=str))
