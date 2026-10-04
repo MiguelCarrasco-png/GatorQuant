@@ -56,7 +56,7 @@ const on = (n: number) => clicks.value >= n
 .ev.shown { opacity: 1; }
 .ev .node { fill: #16224a; }
 .hr { font: 600 15px 'Archivo Variable', sans-serif; fill: #2a3bd1; }
-.tt { font: 700 23px 'Archivo Variable', sans-serif; font-stretch: 112%; fill: #16224a; }
+.tt { font-family: 'Archivo Variable', sans-serif; font-weight: 700; font-size: 23px; font-stretch: 112%; fill: #16224a; }
 .ss { font: 400 16px 'Archivo Variable', sans-serif; fill: #5e6a86; }
 .pk { fill: #2a3bd1; }
 .lbl { font: 400 14px 'Archivo Variable', sans-serif; fill: #5e6a86; opacity: 0; transition: opacity .5s .9s; }
