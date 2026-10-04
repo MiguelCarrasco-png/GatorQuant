@@ -42,6 +42,10 @@ RISING = [100, 103, 107, 111, 115, 118, 121, 124, 126, 125, 124, 124, 123]
 FALLING = [100, 97, 93, 89, 85, 82, 79, 76, 74, 75, 76, 76, 77]
 CAPPED = RISING[:-1] + [140]
 KEEPALIVE_IDLE = 120.0
+RESERVE_PER_DAY = 10                                     # recovery reserve of one Branch slice (packets / 24 h)
+PROBE_H = 24.0 / RESERVE_PER_DAY                         # R8': resubmission pace once status is unknown, 2.4 h
+CONTACT_GAP_H = 1.0                                      # R8': resubmit on contact at most once per hour
+PROBE_ON = True                                          # False reproduces the superseded timer-only rule
 
 
 def money(x):
@@ -69,15 +73,60 @@ class Branch:
             getattr(self, "rx_" + r["type"])(sim, t, s.peer(self.name), r, pkt)
 
     def on_unknown(self, sim, t, s, pkt):
-        """Endpoint attempts ran out with status unknown. Only a lock holder acts: it resubmits the LOCK unchanged
-        (RESUBMISSION flag, recovery reserve; no cap on tries). Deciding and referee Branches only answer."""
+        """Endpoint attempts ran out with status unknown. Recovery is the lock holder's probe loop (arm / _probe), so
+        this only logs. Deciding and referee Branches never resend on their own."""
         self.w.sim.ev(t, self.name, "status unknown", label=pkt.label)
-        lock = next((r for r in pkt.records if r["type"] == "LOCK"), None)
-        if lock is None or self.locks.get(lock["deal"], {}).get("state") not in ("locked", "pledged"):
+        if not PROBE_ON:
+            lock = next((r for r in pkt.records if r["type"] == "LOCK"), None)
+            if lock is None or self.locks.get(lock["deal"], {}).get("state") not in ("locked", "pledged"):
+                return
+            self.w.send(t, self.name, s.peer(self.name), [dict(lock, flags="RESUBMISSION")],
+                        f"LOCK {lock['deal']} (resub)",
+                        know=f"{pkt.label}: 4 endpoint attempts, status unknown; still holds the lock",
+                        action="Resubmits LOCK unchanged (recovery reserve)", state="unchanged", resub=True)
+
+    # ---------------- lock holder's recovery (R8 and R8')
+    def arm(self, t, deal, peer, rec):
+        """Called when a lock is created. After one endpoint timer R_e with no recorded answer the holder starts to
+        resubmit, every PROBE_H (the pace the recovery reserve affords) until the deal ends, and also at once on any
+        packet from the peer (at most one per CONTACT_GAP_H). While a future's lock is pledged and the position is
+        open, nothing is due until the settling print plus R_e."""
+        lk = self.locks[deal]
+        lk.update(peer=peer, rec=rec, probing=False, last_sub=t)
+        s = self.w.sim.sessions[(self.name, peer)]
+        self.w.sim.at(t + 2 * self.w.sim.geo.T0(s.path(self.name), t) + 24.0, self._probe, deal)
+
+    def _resub(self, t, deal, why):
+        lk = self.locks[deal]
+        lk["last_sub"] = t
+        self.w.marks.setdefault("resubs", []).append(t)
+        rec = dict(lk["rec"], flags="RESUBMISSION")
+        self.w.send(t, self.name, lk["peer"], [rec], f"LOCK {deal} (resub)",
+                    know=f"Still holds the lock; {why}", action="Resubmits LOCK unchanged (recovery reserve)",
+                    state="unchanged", resub=True)
+
+    def _probe(self, t, deal):
+        lk = self.locks[deal]
+        if lk["state"] not in ("locked", "pledged"):
             return
-        self.w.send(t, self.name, s.peer(self.name), [dict(lock, flags="RESUBMISSION")], f"LOCK {lock['deal']} (resub)",
-                    know=f"{pkt.label}: 4 endpoint attempts, status unknown; still holds the lock",
-                    action="Resubmits LOCK unchanged (recovery reserve)", state="unchanged", resub=True)
+        if lk["state"] == "pledged" and lk["rec"].get("product") == "future":
+            s = self.w.sim.sessions[(self.name, lk["peer"])]
+            due = SETTLE_H + 2 * self.w.sim.geo.T0(s.path(self.name), SETTLE_H) + 24.0
+            if t < due - 1e-9:
+                self.w.sim.at(due, self._probe, deal)
+                return
+        lk["probing"] = True
+        self._resub(t, deal, "no recorded answer one endpoint timer on" if lk["last_sub"] < t else "still unanswered")
+        self.w.sim.at(t + PROBE_H, self._probe, deal)
+
+    def on_contact(self, sim, t, s, pkt):
+        """R8': any packet from the peer while a lock is open and being probed triggers an immediate resubmission."""
+        if not PROBE_ON:
+            return
+        for deal, lk in self.locks.items():
+            if (lk.get("probing") and lk["state"] in ("locked", "pledged") and lk["peer"] == s.peer(self.name)
+                    and t - lk["last_sub"] >= CONTACT_GAP_H):
+                self._resub(t, deal, f"a packet from {lk['peer']} arrived")
 
     # ---------------- deciding Branch (share offer) and referee (future)
     def rx_LOCK(self, sim, t, peer, r, pkt):
@@ -382,6 +431,7 @@ class World:
                       know="Terra's acceptance of O-1 (terms as advertised); free balance covers it; offer life "
                            "covers a second attempt (R5); knows nothing of Neptune's state", action=f"Locks {money(VM_CASH)}; sends LOCK {deal}",
                       state=f"Terra {money(VM_CASH)} locked for {deal}")
+            B.arm(t, deal, "Mars" if hub else seller_at, rec)
 
         self.sim.at(SEC, lambda t: post_offer(t))
         self.sim.at(SEC, lambda t: accept(t))
@@ -410,8 +460,10 @@ class World:
             assert self.sim.book(t, lambda L: L.encumber(J, "Callisto Foundry", "USD", MARGIN, deal))
             self.apps[J].locks[deal] = dict(state="locked", t=t)
             self.marks["lock"] = t
-            self.send(t, J, C, [dict(type="LOCK", product="future", deal=deal, offer="O-F", contracts=CONTRACTS,
-                                     margin=MARGIN, buyer="Callisto Foundry")], f"LOCK {deal}",
+            lock_rec = dict(type="LOCK", product="future", deal=deal, offer="O-F", contracts=CONTRACTS,
+                            margin=MARGIN, buyer="Callisto Foundry")
+            self.apps[J].arm(t, deal, C, lock_rec)
+            self.send(t, J, C, [lock_rec], f"LOCK {deal}",
                       know="Callisto's order (long 25, entry = h 0 print); free balance covers the max loss; offer life "
                            "covers a second attempt (R5)",
                       action=f"Locks {money(MARGIN)} at home; sends LOCK {deal}",
@@ -463,21 +515,6 @@ class World:
             self.send(t, C, J, [ans], f"SETTLE {pos['deal']}",
                       know=f"Settling print h 288 = {p:g} by local access; clipped to {clipped:g}",
                       action="Records the payoff (discharge); sends SETTLE once", state=st)
-            # pull rule at the pledge holder: print + R_e, then every R_e while the lock is held
-            sch = self.sim.sessions[(J, C)]
-            R = 2 * self.sim.geo.T0(sch.path(J), SETTLE_H) + 24.0
-            self.sim.at(SETTLE_H + R, pull, R)
-
-        def pull(t, R):
-            lk = self.apps[J].locks[deal]
-            if lk["state"] != "pledged":
-                return
-            self.marks.setdefault("pulls", []).append(t)
-            self.send(t, J, C, [dict(type="LOCK", product="future", deal=deal, offer="O-F", contracts=CONTRACTS,
-                                     margin=MARGIN, buyer="Callisto Foundry", flags="RESUBMISSION")],
-                      f"LOCK {deal} (pull)", know="Still holds the pledge at print + R\\textsubscript{e}",
-                      action="Resubmits LOCK (pull rule; recovery reserve)", state="unchanged", resub=True)
-            # one pull; if it also ends with status unknown, on_unknown resubmits again
 
         def keepalive(t):
             s = self.sim.sessions[(J, C)]

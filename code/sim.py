@@ -590,6 +590,9 @@ class Sim:
             if cur is not None:
                 del s.unacked[me][pkt.seq]
                 self.ev(t, me, "data acknowledged", seq=pkt.seq, label=cur.label)
+        app = self.apps.get(me)
+        if app is not None and hasattr(app, "on_contact"):
+            app.on_contact(self, t, s, pkt)
 
     def _flush(self, t, s, me):
         box, s.outbox[me] = s.outbox[me], []

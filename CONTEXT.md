@@ -90,6 +90,26 @@ A backbone session handshaken before hour 0, so the first deal at hour 0 skips t
 **Keep-alive**:
 A one-record message the lock holder sends on an idle session so it does not expire before the deal is decided or settled.
 
+**Resubmit on contact**:
+The lock holder's immediate resend of its LOCK for every deal it still holds Locked, triggered by the first packet it receives from that peer after silence, instead of waiting for its endpoint timer.
+_Avoid_: reconnection retry
+
+**Signed decision**:
+A COMMIT, DECLINE or SETTLE carrying the issuing Branch's signature over the full terms it echoes, so the other Branch can detect a decision that contradicts the terms or an earlier decision. Detection only; labelled an extension because the brief assumes Branches follow the rules.
+
+**Audit**:
+The receiving Branch's recomputation of a SETTLE amount from the signed settling print and the contract terms, rejecting any instruction that does not match.
+
+**Claim**:
+A client's balance on a Branch's ledger that is backed by that Branch's inter-Branch holding or pending release at another Branch. A client never pledges a claim; only a Branch's holdings back anything.
+_Avoid_: IOU, voucher
+
+**Offer bulletin**:
+An information-only announcement of a firm offer sent over the direct service. It creates no shared record; the terms are rechecked at LOCK time, so a stale or lost bulletin can only cause a decline.
+
+**Griefing lock**:
+A lock a client induces by accepting an offer its holder is about to withdraw, tying up the acceptor's cash for one round trip without a deal.
+
 ## Relationships
 
 - Each **Settlement** has exactly one **Branch**; each **Branch** keeps one **Home ledger**.
