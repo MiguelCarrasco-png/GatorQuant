@@ -2,33 +2,24 @@
 \section*{E1. Orbital calculations}
 \addcontentsline{toc}{section}{E1}
 
-\textbf{Method} (\texttt{code/orbits.py}). Frame: heliocentric, geometric, J2000 ecliptic, AU. Time: hours $h$ since
-$t=0$ (2026-09-22 00:00 TDB); days $= h/24$; negative times use the same formulas. Each body follows its fixed Kepler
-ellipse: $M = M_0 + n\cdot\text{days} \bmod 360^\circ$; $E - e\sin E = M$ by Newton's method from $E_0 = M$ until the
-step is below $10^{-14}$ rad; $x' = a(\cos E - e)$, $y' = a\sqrt{1-e^2}\sin E$; rotation by $\omega$, $i$, $\Omega$.
-Relays: prograde circles of radius $\sqrt8$ AU in the reference plane, phases $45^\circ$ and $135^\circ$, period
-$365.2568983 \times 8^{1.5}$ d $= 1{,}737.46$ d.
+\textbf{Method} (\texttt{code/orbits.py}). Frame: heliocentric, geometric, J2000 ecliptic, AU. Time: hours $h$ since $t=0$ (2026-09-22 00:00 TDB); negative times use the same
+formulas. Each body follows its fixed Kepler ellipse: $M = M_0 + n\cdot\text{days} \bmod 360^\circ$; $E - e\sin E = M$ by Newton's method from $E_0 = M$ until the step is below
+$10^{-14}$ rad; $x' = a(\cos E - e)$, $y' = a\sqrt{1-e^2}\sin E$; rotation by $\omega$, $i$, $\Omega$. Relays: prograde circles of radius $\sqrt8$ AU in the reference plane, phases
+$45^\circ$ and $135^\circ$, period $365.2568983 \times 8^{1.5}$ d $= 1{,}737.46$ d.
 
-\textbf{Light time.} For a launch at $t_e$ from $S$ to $R$ we solve $t_a = t_e + 8.317\,\text{min/AU} \times
-|r_R(t_a) - r_S(t_e)|$ by fixed-point iteration from the frozen-receiver value until an update is below 1 ms; the
-map contracts by $|v_R|/c \le 2\times10^{-4}$, so three iterates suffice. The path $r_S(t_e) \to r_R(t_a)$ is blocked
-if its closest approach to the Sun (projection clipped to the segment) is below 0.10 AU. Serialization adds 1 s per
-launch, a relay 1 s, and local access 1 s at each end of client traffic only.
+\textbf{Light time.} For a launch at $t_e$ from $S$ to $R$ we solve $t_a = t_e + 8.317\,\text{min/AU} \times |r_R(t_a) - r_S(t_e)|$ by fixed-point iteration from the frozen-receiver
+value until an update is below 1 ms; the map contracts by $|v_R|/c \le 2\times10^{-4}$, so three iterates suffice. The path is blocked if its closest approach to the Sun (projection
+clipped to the segment) is below 0.10 AU. Serialization adds 1 s per launch, a relay 1 s, and local access 1 s at each end of client traffic only.
 
-\textbf{Epoch check, periods and radius bounds.} The worst epoch error is \EoneWorstErr\ AU (brief: $10^{-5}$).
-After one period every body returns within \EoneWorstClose\ AU, and its distance from the Sun (20{,}001 samples)
-stays inside $[a(1-e), a(1+e)]$ to \EoneRadSlack\ AU, so the last column is also $a(1-e)$--$a(1+e)$.
+\textbf{Epoch check, periods and radius bounds.} The worst epoch error is \EoneWorstErr\ AU (brief: $10^{-5}$). After one period every body returns within \EoneWorstClose\ AU, and its
+distance from the Sun (20{,}001 samples) stays inside $[a(1-e), a(1+e)]$ to \EoneRadSlack\ AU.
 \begin{center}\setlength{\tabcolsep}{3pt}\gen{e1_epoch_check.tex}\end{center}
 
 \textbf{Worked positions at a later time} (the settling print and the S3 second snapshot):
 \begin{center}\setlength{\tabcolsep}{4pt}\gen{e1_later.tex}\end{center}
 
-\textbf{Receiver motion changes the arrival time; forward and return differ.} Over every ordered pair of the 11
-nodes, hourly over h 0--2{,}000, the largest moving-vs-frozen gap is \EoneExSender\ $\to$ \EoneExReceiver\ at
-h \EoneExTe\ (a direct path, used only as the example). Frozen receiver: \EoneFrozenMin\ min; iterates \EoneItA,
-\EoneItB, \EoneItC\ min (\EoneFwdIters\ evaluations). \EoneExReceiver\ recedes at \EoneRxRadialKms\ km/s during the
-4.1 h flight, so the photon arrives \EoneFwdShiftS\ s late. The \emph{return}, emitted at the same instant, takes
-\EoneRevMin\ min (\EoneRevShiftS\ s). The \EoneAsymS\ s asymmetry is 2{,}900 times the 1 ms tolerance and exceeds the
-1 s serialization step, so it can reorder simultaneous arrivals and decide a maintenance overlap. Every hop of our
-scenario routes, each direction at its own launch time:
+\textbf{Receiver motion changes the arrival time; forward and return differ.} Over every ordered pair of the 11 nodes, hourly over h 0--2{,}000, the largest moving-vs-frozen gap is
+\EoneExSender\ $\to$ \EoneExReceiver\ at h \EoneExTe\ (a direct path, used only as the example). Frozen receiver: \EoneFrozenMin\ min; iterates \EoneItA, \EoneItB, \EoneItC\ min
+(\EoneFwdIters\ evaluations). \EoneExReceiver\ recedes at \EoneRxRadialKms\ km/s during the 4.1 h flight, so the photon arrives \EoneFwdShiftS\ s late; the \emph{return}, emitted at
+the same instant, takes \EoneRevMin\ min (\EoneRevShiftS\ s). The \EoneAsymS\ s asymmetry exceeds the 1 s serialization step, so it can reorder simultaneous arrivals and decide a maintenance overlap. Every hop of our routes, each direction at its own launch time:
 \begin{center}\gen{e1_lighttime.tex}\end{center}

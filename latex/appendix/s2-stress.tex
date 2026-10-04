@@ -1,51 +1,42 @@
 % Budget: 2.5 pages.
 \section*{S2. Stress and recovery}
 
-\textbf{Incident chosen and why.} The referee of every price contract is Ceres, so we cut Ceres off at maturity: a 72 h isolation, h 286--358,
-on the \emph{rising} run (FR), the harder one, because the winner, Callisto, is remote and waits for both its payoff and its pledge; in the falling
-run (FF) the winner Ceres Iron Works is paid locally and only Callisto's refund waits. We scanned every kind, node and start time for a single
-incident (\texttt{code/s2\_incident.py}; table below, each at its worst start) and then \emph{stacked} the three the brief allows
-(\texttt{code/stack\_scan.py}): isolation of Ceres starting h 272.5, 280 or 286; an endpoint reset of Ceres or Jupiter at the reconnection, 2 h or 5 h
-later; a 6 h forced loss of Jupiter's links at h 344 or 358 or none: \StackCombos\ combinations, each a full simulator run, chosen to hurt, not to
-please. The worst resumes service at h \StackWorstH\ (median \StackMedianH). Retries cannot beat an isolation: endpoint attempts are $R_e = 25.4$ h apart.
+\textbf{Incident chosen and why.} Ceres is the referee of every price contract, so we cut it off at maturity: a 72 h isolation, h 286--358, on the \emph{rising} run (FR), the
+harder one, because the winner Callisto is remote and waits for payoff and pledge; in FF the winner is paid locally and only Callisto's refund waits. We scanned every
+single incident (\texttt{code/s2\_incident.py}; table, each at its worst start) and then \emph{stacked} the three the brief allows (\texttt{code/stack\_scan.py}): isolation of
+Ceres from h 272.5, 280 or 286; an endpoint reset of Ceres or Jupiter at reconnection, 0, 2 or 5 h later; a 6 h forced loss of Jupiter's links at h 344 or 358 or none. Of
+\StackCombos\ full simulator runs the worst resumes service at h \StackWorstH\ (median \StackMedianH); we report that one, chosen to hurt.
 \begin{center}\gen{s2_incident.tex}\end{center}
 \begin{center}\gen{stack_scan.tex}\end{center}
 
-\textbf{What the rules did.} The timer-only version of R8 (resubmit every $R_e$) resumed at h 364.83, 76.1 h late with 164 launches. R8 as now written
-resubmits every $P = 2.4$ h in one batch per peer, on contact, and from a fresh session. Resubmitting on contact alone changes nothing in S2: both sides are silent
-from h 358 until their timers fire. Pace is the lever: the pledge holder's 10-packet reserve affords one packet per 2.4 h.
-\begin{center}\setlength{\tabcolsep}{3pt}\gen{probe_sweep.tex}\end{center}
-Pace 4.8 h costs no time and half the packets; 9.6 h loses 3 h; the stacked case ignores pace, because a stuck handshake waits one $R_e$ whatever the pace
-(interaction (f); the fresh-session rule is what moved it from 386.8 h to \SimStackSpendable\ h). Cost of R8's pace in S2-FR: \SimSTwoFRPackets\ launches
-(\SimSTwoFRFailed\ lost) and \SimSTwoFRQuota\ quota packets, against 164 and 17 for the timer-only rule.
+\textbf{What the rules did.} The timer-only version of R8 (resubmit every $R_e = 25.4$ h) resumed at h 364.83, 76.1 h late, with 164 launches. R8 as written resubmits every
+$P = 2.4$ h in one batch per peer, on contact, and from a fresh session. Contact alone changes nothing in S2: both sides are silent from h 358 until their timers fire. Pace is the lever,
+and the 10-packet reserve affords one packet per 2.4 h:
+\begin{center}\gen{probe_sweep.tex}\end{center}
+A 4.8 h pace costs no time and half the packets; 9.6 h loses 3 h. The stacked case ignores pace: a stuck handshake waits one $R_e$ whatever the pace (interaction (f)); the
+fresh-session rule moved it from 386.8 h to \SimStackSpendable\ h. R8's cost in S2-FR is \SimSTwoFRPackets\ launches (\SimSTwoFRFailed\ lost) and \SimSTwoFRQuota\ quota packets, against 164 and 17.
 
 \gen{s2_stress.tex}
 
-\textbf{State of every obligation during S2-FR.} At the print (h 288.0003) the payoff \$57{,}500 moves from Ceres Iron Works' margin to Jupiter Branch's
-account at Ceres, and its other \$17{,}500 is free: Ceres keeps working (local access is unaffected). At Jupiter, Callisto's \$75{,}000 stays locked: Jupiter Branch owes it back and
-owes the \$57{,}500 payoff as a claim backed by its new holding at Ceres, \$132{,}500 in all, which Callisto cannot touch (R2) and Jupiter Branch will not
-release on a timer (R6). Every obligation keeps a named, funded owner; the other eight settlements are untouched. \textbf{Financial service resumes at
-h \SimSTwoFRSpendable}, \SimSTwoFRLost\ h after the no-incident run, at \SimSTwoFRExtraDollarHours\ extra locked \$-hours; later answers to copies
-are duplicates and are ignored. In the stacked run service resumes at h \SimStackSpendable\ (\SimStackLost\ h late, \SimStackExtraDollarHours\ extra \$-hours).
+\textbf{State of every obligation in S2-FR.} At the print (h 288.0003) the payoff \$57{,}500 moves from Ceres Iron Works' margin to Jupiter Branch's account at Ceres and the other
+\$17{,}500 is free; Ceres keeps working. At Jupiter, Callisto's \$75{,}000 stays locked: Jupiter Branch owes it back and owes the payoff as a claim backed by its new holding at Ceres,
+\$132{,}500 in all, which Callisto cannot touch (R2) and Jupiter will not release on a timer (R6). Every obligation keeps a funded owner; the other eight settlements are untouched.
+\textbf{Service resumes at h \SimSTwoFRSpendable}, \SimSTwoFRLost\ h after the no-incident run, at \SimSTwoFRExtraDollarHours\ extra locked \$-hours; later answers are duplicates and
+ignored. In the stacked run it resumes at h \SimStackSpendable\ (\SimStackLost\ h late, \SimStackExtraDollarHours\ extra \$-hours).
 
-\textbf{Faulty-Branch test} (R22 \extension; \texttt{code/faulty.py}). The brief assumes Branches follow the rules; four injected faults show what detection buys
-and what it does not. Each fault is a record arriving at the lock holder; the rows show the run with R22 and without.
+\textbf{Faulty-Branch test} (R22 \extension; \texttt{code/faulty.py}). The brief assumes Branches follow the rules; four faults, each a record arriving at the lock holder, show what
+detection buys and what it does not.
 \begin{center}\gen{faulty_table.tex}\end{center}
-The echo check and the recompute need no new bytes: the settling print's value rides in 4 of the record's 4 reserved bytes and identities are unforgeable. They detect a
-lying referee or decider; they cannot detect silence, and nothing here enforces anything against a Branch that colludes with its own clients.
+The echo check and recompute need no new bytes (the settling print's value rides in the SETTLE's reserved bytes; identities are unforgeable). They catch a lying referee or decider, not
+silence, and nothing here stops a Branch that colludes with its own clients.
 
-\textbf{Quota exhaustion} (R14, R18; \texttt{code/quota\_test.py}). Earth Branch's slice is cut from 66 to $S$ packets per 24 h, Neptune is isolated h 1--73, and Terra tries to
-accept 40 offers at h 0 (40 locks need 3 batched packets). New locks may use $S-10$ packets (``reserve 10''); the ablation lets them use all $S$ (``reserve 0'').
+\textbf{Quota exhaustion} (R14, R18; \texttt{code/quota\_test.py}). Earth Branch's slice is cut from 66 to $S$, Neptune is isolated h 1--73, and Terra accepts 40 offers at h 0 (3 batched
+packets). New locks may use $S-10$ packets (``reserve 10''); the ablation lets them use all $S$.
 \begin{center}\gen{quota_test.tex}\end{center}
-New trade queues and is refused when its offer life runs out (12 of 40 at $S=11$); every admitted lock still ends and no window exceeds $S$. The ablation completes just as
-fast: batching makes the reserve unnecessary at these loads, so we claim it as insurance, not as something the test proved needed.
+New trade queues and is refused when its offer life runs out (12 of 40 at $S=11$); every admitted lock still ends and no window exceeds $S$. The ablation finishes as fast, so the reserve is
+insurance this test cannot show to be necessary.
 
-\textbf{Griefing and a silent Price Board.} A seller who withdraws after the buyer's LOCK is sent freezes \$25{,}000 for \GriefVMHours\ h (\GriefVMDollarHours\ \$-hours;
-\GriefUranusHours\ h from Uranus): the lock is never broken by a timer. R24 bounds repeat offenders. In run VOID no settling print exists; R23 voids the contract after
-24 h and service resumes at h \SimVoidSpendable\ (\SimVoidExtraDollarHours\ extra \$-hours, nothing paid).
-
-\textbf{Maintenance and the alternative design.} Removing both maintenance windows (geometry kept) changes no completion time, packet count or \$-hour figure in any
-run: R15 pins around the B--Neptune window and the B--Ceres window only delays the information-only h 240 print. \textbf{One Mars hub ledger} holding every client's
-account, with the same funding and guarantees: far clients finish sooner (Uranus 12.37 h $\to$ 8.23 h) but every trade takes two hub legs, twice the packets (56 vs 28)
-and quota (6 vs 3), two sessions to pre-open, Ares locked twice as long, and one settlement whose isolation stops all cross-planet trade. We keep home ledgers.
-A \emph{second} pre-opened Jupiter--Ceres session on Relay A cuts the forced-loss case from 25.4 h to 7.1 h and does nothing against isolation.
+\textbf{Griefing, silent Price Board, maintenance, hub.} A seller who withdraws after the LOCK is sent freezes \$25{,}000 for \GriefVMHours\ h (\GriefVMDollarHours\ \$-hours; \GriefUranusHours\ h
+from Uranus); R24 bounds repeat offenders. In run VOID no settling print exists; R23 voids after 24 h and service resumes at h \SimVoidSpendable\ (\SimVoidExtraDollarHours\ extra
+\$-hours, nothing paid). Removing both maintenance windows changes no completion time, packet count or \$-hour figure in any run. A \emph{Mars hub ledger} with the same funding finishes far clients sooner (Uranus 12.37 h $\to$ 8.23 h) but takes twice the packets (56 vs 28) and
+quota, two pre-opened sessions, twice the Ares-hours, and one settlement whose isolation stops all cross-planet trade; we keep home ledgers.

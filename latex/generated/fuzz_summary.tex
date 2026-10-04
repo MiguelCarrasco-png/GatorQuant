@@ -1,10 +1,17 @@
-\begin{tabular}{lrrrrrrrrrrrr}
+\begin{tabular}{lrrrr}
 \toprule
-Product & runs & ledger steps & launches & lost & dup. & reord. & contra. & resets & crashes & withdr. & commit/decl. & failed\\
+& VM & FR & FF & Total\\
 \midrule
-Value move (VM) & 150 & 600 & 35{,}249 & 8{,}187 & 433 & 546 & 154 & 103 & 114 & 0 & 150/0 & 0\\
-Future, rising (FR) & 150 & 750 & 266{,}980 & 51{,}512 & 4{,}740 & 6{,}280 & 145 & 105 & 105 & 0 & 150/0 & 0\\
-Future, falling (FF) & 150 & 750 & 273{,}327 & 48{,}933 & 4{,}248 & 6{,}395 & 157 & 104 & 108 & 0 & 150/0 & 0\\
-\midrule Total & 450 & 2{,}100 & 575{,}556 & 108{,}632 & 9{,}421 & 13{,}221 & 456 & 312 & 327 & 0 & 450/0 & 0\\
+Runs & 1{,}500 & 1{,}500 & 1{,}500 & 4{,}500\\
+Ledger steps checked & 6{,}000 & 7{,}370 & 7{,}360 & 20{,}730\\
+Launches lost & 51{,}578 & 451{,}425 & 436{,}585 & 939{,}588\\
+Duplicate batches & 2{,}499 & 41{,}723 & 40{,}038 & 84{,}260\\
+Reordered batches & 3{,}405 & 58{,}657 & 56{,}696 & 118{,}758\\
+Contradictory LOCKs & 1{,}491 & 1{,}535 & 1{,}457 & 4{,}483\\
+Endpoint resets & 1{,}149 & 1{,}145 & 1{,}117 & 3{,}411\\
+Crashes after a ledger step & 1{,}114 & 1{,}107 & 1{,}090 & 3{,}311\\
+Offer withdrawals & 286 & 130 & 140 & 556\\
+Ended committed / declined & 1211 / 289 & 1370 / 130 & 1360 / 140 & 3941 / 559\\
+Invariant or liveness failures & 0 & 0 & 0 & 0\\
 \bottomrule
 \end{tabular}

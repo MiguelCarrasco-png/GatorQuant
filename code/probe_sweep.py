@@ -9,7 +9,7 @@ OUT = Path(__file__).resolve().parent / "out"
 GEN = Path(__file__).resolve().parent.parent / "latex" / "generated"
 rows = []
 base = sc.execute("FR", out=OUT / "sweep_tmp")["spendable"]
-for pace in (1.2, 2.4, 4.8, 9.6, 25.4):
+for pace in (2.4, 4.8, 9.6, 25.4):
     sc.PROBE_H = pace
     row = dict(pace=pace)
     for run in ("S2-FR", "S2-ST"):

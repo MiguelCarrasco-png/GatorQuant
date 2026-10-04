@@ -103,14 +103,14 @@ def run(S, reserve):
 
 if __name__ == "__main__":
     rows = []
-    for S in (66, 14, 12, 11):
+    for S in (12, 11):
         for reserve in (RESERVE, 0):
             r = run(S, reserve)
             rows.append(r)
             print(r, flush=True)
     (OUT / "quota_test.json").write_text(json.dumps(rows, indent=1))
     L = [B + "begin{tabular}{rrrrrrr}", B + "toprule",
-         "Slice $S$ & reserve & admitted & still queued or refused & resubmissions blocked & peak in 24 h & last COMMIT (h)" + B + B,
+         "$S$ & reserve & admitted & refused & deferred probes & peak 24 h & last COMMIT" + B + B,
          B + "midrule"]
     for r in rows:
         L.append(f"{r['S']} & {r['reserve']} & {r['admitted']} & {N_OFFERS - r['admitted']} & {r['blocked_resub']} & "

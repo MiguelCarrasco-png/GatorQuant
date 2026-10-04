@@ -1,22 +1,14 @@
 % Budget: 1 page. Claim: Tier 3.
 \section*{E5. Shifted epochs (Tier 3 claimed)}
 
-Each run starts at $t = k \times 365.25$ d with planets and relays advanced and balances reset to the opening sheet;
-maintenance and the S2 incident are not replayed; prints and maturity shift with the run (\texttt{code/e5\_epochs.py},
-the S1 scenario code); sessions open 72 h ahead on the foresight route.
-\textbf{Tier 1.} At +1, +10 and +100 years both scenarios complete with no suspension. Delays move with geometry
-(value move 8.65--9.61 h; the future settles 0.76--1.46 h after its print); +100 y pins via Relay B.
+Each run starts at $t = k \times 365.25$ d with planets and relays advanced and balances reset to the opening sheet; maintenance and the S2 incident are not replayed; prints and maturity
+shift with the run (\texttt{code/e5\_epochs.py}); sessions open 72 h ahead on the foresight route. \textbf{Tier 1.} At +1, +10 and +100 years both scenarios complete with no suspension;
+delays move with geometry (value move 8.65--9.61 h; the future settles 0.76--1.46 h after its print); +100 y pins via Relay B.
 
-\textbf{Tier 2: the difficult epoch.} Of the 54 closures of a Jupiter or Ceres relay link in E4's 200 years, we placed
-a run so that one hits the future's pinned route between the last interim print and the settling print, making SETTLE
-the first message to meet it. The one closed longest after maturity starts at h \EfiveHardH\ (+\EfiveHardY\ y;
-\EfiveHardDate): Jupiter--Relay A closes at run hour \EfiveClosureStart, 6 h before the print, for
-\EfiveClosureDays\ days (\EfiveClosureH\ h, beyond the 30-day packet lifetime). \textbf{The rising run is harder:} the
-long, Callisto at Jupiter, is paid only when SETTLE crosses the closed link; in the falling run only its refund waits.
+\textbf{Tier 2: the difficult epoch.} Of the 54 closures of a Jupiter or Ceres relay link in E4's 200 years we placed a run so that one hits the future's pinned route between the last interim print and the settling print, making SETTLE the first message to meet it: h \EfiveHardH (+\EfiveHardY y; \EfiveHardDate), Jupiter--Relay A closes at run hour \EfiveClosureStart, 6 h before the print, for \EfiveClosureDays days (\EfiveClosureH h, beyond the 30-day packet lifetime). The rising run is harder: Callisto, the long at Jupiter, is paid only when SETTLE crosses the closed link.
 
-\textbf{Tier 3: both directions.} R16 sees the closure before SETTLE is sent (h \EfiveRerouteAt), opens a fresh
-session via Relay B, and SETTLE is spendable at h \EfiveFRDone, \EfiveLate\ h after the open-route time, in both
-runs. Queuing behind the closure, as the brief's waiting rule alone would, holds SETTLE \EfiveNaiveLate\ h with 514
-launches. \textbf{Funded consequences:} nothing is suspended; the cost is \EfiveExtraUsdH\ extra locked \$-hours (the \$75{,}000 pledge $\times$ \EfiveLate\ h) and
-one quota packet; the table's \EfiveTotalUsdH\ is that on top of the open-route baseline of \EfiveBaseUsdH. Mirrored paths, margin rule and route give the two runs identical times and packet counts.
+\textbf{Tier 3: both directions.} R16 sees the closure before SETTLE is sent (h \EfiveRerouteAt), opens a fresh session via Relay B, and SETTLE is spendable at h \EfiveFRDone,
+\EfiveLate\ h after the open-route time, in both runs; queuing behind the closure, as the brief's waiting rule alone would, holds SETTLE \EfiveNaiveLate\ h with \EfiveNaiveLaunches\ launches.
+\textbf{Funded consequences:} nothing is suspended; the cost is \EfiveExtraUsdH\ extra locked \$-hours (the \$75{,}000 pledge $\times$ \EfiveLate\ h) and one quota packet; the table's
+\EfiveTotalUsdH\ is that on top of the open-route baseline of \EfiveBaseUsdH.
 \gen{e5_summary.tex}

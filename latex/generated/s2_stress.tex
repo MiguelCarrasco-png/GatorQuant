@@ -5,66 +5,22 @@ Lost service vs no incident (h) & --- & 70.9 & 70.9 & 79.5\\
 Extra \$-hours locked & --- & 5{,}321{,}043 & 5{,}321{,}043 & 5{,}966{,}021\\
 Backbone launches (failed) & 124 (0) & 274 (84) & 274 (84) & 331 (91)\\
 Quota packets; peak per Branch of 66 & 15; 2 & 36; 11 & 36; 11 & 41; 11\\
-Who waits, for what & none & FF: Callisto's \$17{,}500 refund; Ceres Iron paid at the print & FR: Callisto's \$132{,}500 (payoff and pledge) & FR: Callisto's \$132{,}500, three incidents\\
 \bottomrule
 \end{tabularx}
 
 \medskip
-\par\noindent\textbf{S2-FR: the FR run plus a 72 h isolation of Ceres, h 286--358 (from h 288)}\par
+\par\noindent\textbf{S2-FR: the FR run plus a 72 h isolation of Ceres, h 286--358 (from h 288). The stacked run S2-ST adds a Ceres endpoint reset at h 358 and a 6 h forced loss of Jupiter's links h 358--364}\par
 {\setlength{\tabcolsep}{3pt}
-\begin{xltabular}{\linewidth}{>{\raggedright\arraybackslash}p{1.75cm}>{\raggedright\arraybackslash\hsize=0.8\hsize}X>{\raggedright\arraybackslash\hsize=0.8\hsize}X>{\raggedright\arraybackslash\hsize=1.15\hsize}X>{\raggedright\arraybackslash\hsize=1.25\hsize}X}
+\begin{xltabular}{\linewidth}{>{\raggedright\arraybackslash}p{1.75cm}>{\raggedright\arraybackslash\hsize=0.75\hsize}X>{\raggedright\arraybackslash\hsize=0.7\hsize}X>{\raggedright\arraybackslash\hsize=0.9\hsize}X>{\raggedright\arraybackslash\hsize=1.65\hsize}X}
 \toprule
 Time (h), actor & Local knowledge & Action & Packet (BB = backbone); arrival & Financial state after\\
 \midrule
 \endhead
 \bottomrule
 \endlastfoot
-\mbox{288.0003}\newline Ceres Br. & Settling print h 288 = 123 by local access; clipped to 123 & Records the payoff (discharge); sends SETTLE once & BB Ceres $\to$ B $\to$ Jupiter; Ceres$\to$B h 364.1365; B$\to$Jupiter h 364.4765; arrives h 364.8258 & \$57{,}500 of Ceres Iron Works' margin $\to$ Jupiter Branch's account here; \$17{,}500 released to Ceres Iron Works\\
-\mbox{313.3784}\newline Jupiter and Ceres Br. & No SETTLE has reached Jupiter; repeats run h 313.4--359.0 & 20 LOCK resubmissions, one every 2.4 h; 2 endpoint retries; 1 repeats of the recorded SETTLE & BB; copies launched during the incident are lost & unchanged\\
+\mbox{288.0003}\newline Ceres Br. & Settling print h 288 = 123 by local access; clipped to 123 & Records the payoff (discharge); sends SETTLE once & BB Ceres $\to$ B $\to$ Jupiter; arrives h 364.8258 & \$57{,}500 of Ceres Iron Works' margin $\to$ Jupiter Branch's account here; \$17{,}500 released to Ceres Iron Works\\
+\mbox{313.3784}\newline Jupiter and Ceres Br. & No SETTLE has reached Jupiter; repeats run h 313.4--359.0 & 20 LOCK resubmissions, one every 2.4 h; 2 endpoint retries; 1 repeats of the recorded SETTLE & BB & unchanged\\
 \mbox{359.6367}\newline Jupiter Br. & SETTLE arrived: settling print 123, clipped 123 & Applies SETTLE &  & \$75{,}000 pledge returned to Callisto Foundry; plus \$57{,}500 credited (claim on Jupiter Branch backed by its holding at Ceres). All spendable. Pledge ended.\\
-\mbox{364.1362}\newline Jupiter and Ceres Br. & No SETTLE has reached Jupiter; repeats run h 364.1--364.1 & 1 endpoint retries & BB; copies launched during the incident are lost & unchanged\\
+\mbox{364.1362}\newline Jupiter and Ceres Br. & No SETTLE has reached Jupiter; repeats run h 364.1--364.1 & 1 endpoint retries & BB & unchanged\\
 \end{xltabular}
-}
-
-\medskip
-\par\noindent\textbf{S2-ST: the stacked incident (isolation of Ceres h 286--358, Ceres endpoint reset at h 358, 6 h forced loss of Jupiter's links h 358--364), from h 288}\par
-{\setlength{\tabcolsep}{3pt}
-\begin{xltabular}{\linewidth}{>{\raggedright\arraybackslash}p{1.75cm}>{\raggedright\arraybackslash\hsize=0.8\hsize}X>{\raggedright\arraybackslash\hsize=0.8\hsize}X>{\raggedright\arraybackslash\hsize=1.15\hsize}X>{\raggedright\arraybackslash\hsize=1.25\hsize}X}
-\toprule
-Time (h), actor & Local knowledge & Action & Packet (BB = backbone); arrival & Financial state after\\
-\midrule
-\endhead
-\bottomrule
-\endlastfoot
-\mbox{288.0003}\newline Ceres Br. & Settling print h 288 = 123 by local access; clipped to 123 & Records the payoff (discharge); sends SETTLE once & BB Ceres $\to$ B $\to$ Jupiter & \$57{,}500 of Ceres Iron Works' margin $\to$ Jupiter Branch's account here; \$17{,}500 released to Ceres Iron Works\\
-\mbox{313.3784}\newline Jupiter and Ceres Br. & No SETTLE has reached Jupiter; repeats run h 313.4--356.6 & 19 LOCK resubmissions, one every 2.4 h; 2 endpoint retries & BB; copies launched during the incident are lost & unchanged\\
-\mbox{358.0000}\newline Ceres Br. & Ceres Branch restarted: sessions lost; durable ledger, deal counter and decisions survive & Sends SYN toward Jupiter & Ceres $\to$ B $\to$ Jupiter & unchanged (reset)\\
-\mbox{358.9784}\newline Jupiter and Ceres Br. & No SETTLE has reached Jupiter; repeats run h 359.0--359.0 & 1 LOCK resubmissions, one every 2.4 h & BB; copies launched during the incident are lost & unchanged\\
-\mbox{361.3784}\newline Jupiter Br. & No established session to Ceres; lock still open & Sends SYN toward Ceres & Jupiter $\to$ B $\to$ Ceres & unchanged (fresh session)\\
-\mbox{361.3784}\newline Jupiter and Ceres Br. & No SETTLE has reached Jupiter; repeats run h 361.4--361.4 & 1 LOCK resubmissions, one every 2.4 h & BB; copies launched during the incident are lost & unchanged\\
-\mbox{363.7784}\newline Jupiter Br. & No established session to Ceres; lock still open & Sends SYN toward Ceres & Jupiter $\to$ B $\to$ Ceres & unchanged (fresh session)\\
-\mbox{363.7784}\newline Jupiter and Ceres Br. & No SETTLE has reached Jupiter; repeats run h 363.8--367.5 & 2 LOCK resubmissions, one every 2.4 h; 1 repeats of the recorded SETTLE & BB; copies launched during the incident are lost & unchanged\\
-\mbox{368.2364}\newline Jupiter Br. & SETTLE arrived: settling print 123, clipped 123 & Applies SETTLE &  & \$75{,}000 pledge returned to Callisto Foundry; plus \$57{,}500 credited (claim on Jupiter Branch backed by its holding at Ceres). All spendable. Pledge ended.\\
-\mbox{381.9573}\newline Jupiter and Ceres Br. & No SETTLE has reached Jupiter; repeats run h 382.0--432.7 & 3 endpoint retries; 1 repeats of the recorded SETTLE & BB; copies launched during the incident are lost & unchanged\\
-\end{xltabular}
-}
-
-\medskip
-\par\noindent\textbf{Alternative: Mars hub ledger vs home ledgers (same funding and guarantees; pairs are home / hub)}\par
-{\setlength{\tabcolsep}{3pt}
-\par\noindent
-\begin{tabular}{lrrrr}
-\toprule
-Terra at & Earth & Ceres & Venus & Uranus\\
-\midrule
-Complete h, home ledgers & 8.35 & 8.21 & 8.45 & 12.37\\
-Complete h, Mars hub & 8.23 & 8.23 & 8.23 & 8.23\\
-Backbone packets & 28 / 56 & 28 / 56 & 28 / 56 & 28 / 56\\
-Quota packets & 3 / 6 & 3 / 6 & 3 / 6 & 3 / 6\\
-Sessions to pre-open & 1 / 2 & 1 / 2 & 1 / 2 & 1 / 2\\
-\$-hours, home ledgers & 208{,}741 & 205{,}258 & 211{,}234 & 309{,}334\\
-\$-hours, Mars hub & 116{,}991 & 115{,}251 & 118{,}237 & 167{,}288\\
-Ares-hours & 835 / 1{,}646 & 821 / 1{,}646 & 845 / 1{,}646 & 1{,}237 / 1{,}646\\
-\bottomrule
-\end{tabular}\par
 }

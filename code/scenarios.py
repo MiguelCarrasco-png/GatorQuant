@@ -183,7 +183,8 @@ class Branch:
             return
         lk["probing"] = True
         sess = self.w.sim.sessions[(self.name, lk["peer"])]
-        if sess.state[self.name] != "established" and t - sess.opened >= self._interval(lk["peer"]) - 1e-6:
+        hs = max(self._interval(lk["peer"]), 2 * self.w.sim.geo.T0(sess.path(self.name), t) + 1.0)   # one handshake round trip
+        if sess.state[self.name] != "established" and t - sess.opened >= hs - 1e-6:
             # R8': the session is not up (a reset peer's handshake is stuck): the holder opens its own fresh one, 1 SYN
             route = self.w.sim.geo.pin_route(self.name, lk["peer"], t, t + 24.0)
             self.w.sessions.append((self.name, lk["peer"], route))
@@ -249,7 +250,7 @@ class Branch:
         self.decided_n[deal] = self.decided_n.get(deal, 0) + 1
         w.marks.setdefault("commit", t)
         w.send(t, self.name, peer, [ans], f"COMMIT {deal}",
-               know=f"Holds {off['owner']}'s firm offer {r['offer']}; LOCK terms match; before expiry h {off['expiry']:g}",
+               know=f"Holds {off['owner']}'s offer {r['offer']}; terms match; before expiry",
                action=f"Commits {deal}; records it durably, then replies",
                state=f"{r['shares']} Ares $\\to$ {lock_at} Branch's account here. {off['owner']} credited "
                      f"{money(r['cash'])}, spendable now (claim on {self.name} Branch backed by the lock at {lock_at})")
@@ -280,7 +281,7 @@ class Branch:
         w.position = dict(deal=deal, long=r["buyer"], short=off["owner"], holder=peer, opened=t)
         w.marks["open"] = t
         w.send(t, self.name, peer, [ans], f"COMMIT {deal}",
-               know=f"Holds Ceres Iron Works' offer (short {CONTRACTS} at entry {ENTRY:g}); LOCK matches; before freeze",
+               know="Holds Ceres Iron Works' offer; LOCK matches; before freeze",
                action="Records the position; replies COMMIT",
                state=f"Position open: long {CONTRACTS} {r['buyer']} / short {off['owner']}. Margins locked: "
                      f"{money(MARGIN)} at {peer} (pledged to Ceres) + {money(MARGIN)} here = {money(2 * MARGIN)}")
@@ -569,8 +570,7 @@ class World:
             rec = dict(type="LOCK", product="hub-offer" if hub else "share", side="buy", deal=deal, offer="O-1",
                        shares=VM_SHARES, price=VM_PRICE, cash=VM_CASH, buyer="Terra Capital", seller_branch=seller_at)
             self.send(t, buyer_at, "Mars" if hub else seller_at, [rec], f"LOCK {deal}",
-                      know="Terra's acceptance of O-1 (terms as advertised); free balance covers it; offer life "
-                           "covers a second attempt (R5); knows nothing of Neptune's state", action=f"Locks {money(VM_CASH)}; sends LOCK {deal}",
+                      know="Terra accepts O-1; free balance covers it; offer life passes R5; knows nothing of Neptune", action=f"Locks {money(VM_CASH)}; sends LOCK {deal}",
                       state=f"Terra {money(VM_CASH)} locked for {deal}")
             B.arm(t, deal, "Mars" if hub else seller_at, rec)
 
@@ -612,8 +612,7 @@ class World:
                             margin=MARGIN, buyer="Callisto Foundry")
             self.apps[J].arm(t, deal, C, lock_rec)
             self.send(t, J, C, [lock_rec], f"LOCK {deal}",
-                      know="Callisto's order (long 25, entry = h 0 print); free balance covers the max loss; offer life "
-                           "covers a second attempt (R5)",
+                      know="Callisto orders long 25 at the h 0 print; free balance covers the max loss; offer life passes R5",
                       action=f"Locks {money(MARGIN)} at home; sends LOCK {deal}",
                       state=f"Callisto {money(MARGIN)} locked (pledge at home)")
 

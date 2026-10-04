@@ -1,53 +1,5 @@
 [
  {
-  "S": 66,
-  "reserve": 10,
-  "admitted": 40,
-  "queued_events": 0,
-  "refused_r5": 0,
-  "blocked_resub": 0,
-  "open_at_end": 0,
-  "peak_earth_24h": 12,
-  "last_commit_h": 89.62597278246987,
-  "checks": 160
- },
- {
-  "S": 66,
-  "reserve": 0,
-  "admitted": 40,
-  "queued_events": 0,
-  "refused_r5": 0,
-  "blocked_resub": 0,
-  "open_at_end": 0,
-  "peak_earth_24h": 12,
-  "last_commit_h": 89.62597278246987,
-  "checks": 160
- },
- {
-  "S": 14,
-  "reserve": 10,
-  "admitted": 40,
-  "queued_events": 0,
-  "refused_r5": 0,
-  "blocked_resub": 0,
-  "open_at_end": 0,
-  "peak_earth_24h": 12,
-  "last_commit_h": 89.62597278246987,
-  "checks": 160
- },
- {
-  "S": 14,
-  "reserve": 0,
-  "admitted": 40,
-  "queued_events": 0,
-  "refused_r5": 0,
-  "blocked_resub": 0,
-  "open_at_end": 0,
-  "peak_earth_24h": 12,
-  "last_commit_h": 89.62597278246987,
-  "checks": 160
- },
- {
   "S": 12,
   "reserve": 10,
   "admitted": 40,
@@ -56,7 +8,7 @@
   "blocked_resub": 60,
   "open_at_end": 0,
   "peak_earth_24h": 12,
-  "last_commit_h": 89.35246585725187,
+  "last_commit_h": 89.3524658572519,
   "checks": 160
  },
  {

@@ -25,19 +25,15 @@ def main():
     fz = json.loads((OUT / "fuzz.json").read_text())
     S = fz["summary"]
     names = {"VM": "Value move (VM)", "FR": "Future, rising (FR)", "FF": "Future, falling (FF)"}
-    rows = []
-    for k in ("VM", "FR", "FF"):
-        s = S[k]
-        rows.append(" & ".join([names[k], num(s["runs"]), num(s["ledger_steps"]), num(s["launches"]), num(s["loss"]),
-                                num(s["dup"]), num(s["reorder"]), num(s["contradiction"]), num(s["reset"]),
-                                num(s["crash"]), num(s.get("withdraw", 0)), f"{s['committed']}/{s['declined']}",
-                                str(s["failures"])]))
     tot = lambda key: sum(S[k].get(key, 0) for k in S)
-    rows.append(B + "midrule Total & " + " & ".join(num(tot(k)) for k in
-                ("runs", "ledger_steps", "launches", "loss", "dup", "reorder", "contradiction", "reset", "crash", "withdraw"))
-                + f" & {tot('committed')}/{tot('declined')} & {tot('failures')}")
-    head = "Product & runs & ledger steps & launches & lost & dup. & reord. & contra. & resets & crashes & withdr. & commit/decl. & failed"
-    (GEN / "fuzz_summary.tex").write_text(tab("lrrrrrrrrrrrr", head, rows))
+    spec = [("Runs", "runs"), ("Ledger steps checked", "ledger_steps"), ("Launches lost", "loss"),
+            ("Duplicate batches", "dup"), ("Reordered batches", "reorder"), ("Contradictory LOCKs", "contradiction"),
+            ("Endpoint resets", "reset"), ("Crashes after a ledger step", "crash"), ("Offer withdrawals", "withdraw")]
+    rows = [lab + " & " + " & ".join(num(S[k].get(key, 0)) for k in ("VM", "FR", "FF")) + " & " + num(tot(key)) for lab, key in spec]
+    rows.append("Ended committed / declined & " + " & ".join(f"{S[k]['committed']} / {S[k]['declined']}" for k in ("VM", "FR", "FF"))
+                + f" & {tot('committed')} / {tot('declined')}")
+    rows.append("Invariant or liveness failures & " + " & ".join(str(S[k]["failures"]) for k in ("VM", "FR", "FF")) + f" & {tot('failures')}")
+    (GEN / "fuzz_summary.tex").write_text(tab("lrrrr", "& VM & FR & FF & Total", rows))
     M.update(FuzzRuns=num(tot("runs")), FuzzSteps=num(tot("ledger_steps")), FuzzFailures=str(tot("failures")),
              FuzzLaunches=num(tot("launches")), FuzzPerProduct=num(S["VM"]["runs"]))
     # ---- faulty Branch
@@ -71,7 +67,7 @@ def main():
     M["StackWorstH"] = f"{sc[0]['spendable']:.1f}"
     M["StackMedianH"] = f"{sorted(x['spendable'] for x in sc)[len(sc) // 2]:.1f}"
     rows = []
-    for x in sc[:4]:
+    for x in sc[:3]:
         fo = f"Jupiter links {x['forced'][1]:g}--{x['forced'][1] + 6:g}" if x["forced"] else "none"
         rows.append(" & ".join([f"{x['iso']:g}--{x['iso'] + 72:g}", f"{x['reset_node']} at h {x['iso'] + 72 + x['reset_after']:g}", fo,
                                 f"{x['spendable']:.1f}", f"{x['spendable'] - 288.6895:.1f}"]))
