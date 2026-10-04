@@ -25,19 +25,16 @@ falling 100, 97, 93, 89, 85, 82, 79, 76, 74, 75, 76, 76, \textbf{77}. Both move 
 margin rule (paper R11) was fixed before either path and both runs are identical up to the first interim print.
 
 \textbf{Exposure and capital.} VM: neither side can lose more than the price it chose (delivery versus payment);
-encumbered \$25{,}000 and 200 Ares (5\% of cash). Futures: each side's largest possible loss is \$75{,}000
-(cap $\times$ entry $\times$ multiplier $\times$ contracts), both locked from h 0.0003 (offer and acceptance) to
-settlement: \$150{,}000 = \SimFutUtil\% of all opening NeoDollars at one moment, which meets the 25\% scale
-requirement in FR, FF, FR-cap and S2. \textbf{Real constraint:} in FR-cap the print of 140 is clipped to 130 and the
-long receives exactly the short's whole lock; nothing beyond it is owed. Sized up instead, a 30-contract order by
-Ceres Iron Works needs \$90{,}000 of margin against \$85{,}000 free and is refused locally (R2, R11): nothing opens
-and nothing is locked.
+\$25{,}000 and 200 Ares encumbered (5\% of cash). Futures: each side's largest loss, \$75{,}000 (cap $\times$ entry
+$\times$ multiplier $\times$ contracts), is locked from h 0.0003 to settlement: \$150{,}000 = \SimFutUtil\% of all
+opening NeoDollars at once, meeting the 25\% scale requirement in FR, FF, FR-cap and S2. \textbf{Real constraint:}
+in FR-cap the print of 140 is clipped to 130 and the long receives exactly the short's whole lock. A 30-contract
+order by Ceres Iron Works needs \$90{,}000 of margin against \$85{,}000 free and is refused locally (R2, R11).
 
-\textbf{Settlement moments} (every settled position; brief s.6). Position open h \SimFutOpen\ (COMMIT recorded at
-Ceres). Discharge h 288.0003 (payoff recorded at the referee). Backed claim h 288.0003: in FR the payoff moves from
-the short's margin into Jupiter Branch's account at Ceres; in FF the short is credited at once against Callisto's
-pledge and may use it at Ceres. Spendable at the winner's settlement \emph{with the loser's encumbrance debited}:
-h \SimFutSpendable\ in FR, FF and FR-cap (SETTLE applied at Jupiter); h \SimSTwoSpendable\ in S2.
+\textbf{Settlement moments} (brief s.6). Position open h \SimFutOpen\ (COMMIT recorded at Ceres). Discharge and
+backed claim h 288.0003 (payoff recorded at the referee; in FR it moves from the short's margin into Jupiter Branch's
+account at Ceres; in FF the short is credited at once against Callisto's pledge). Spendable at the winner's
+settlement with the loser's encumbrance debited: h \SimFutSpendable\ in FR, FF, FR-cap; h \SimSTwoSpendable\ in S2.
 
 \gen{s1_summary.tex}
 \smallskip
@@ -48,45 +45,42 @@ all backbone launches / completed transactions (one per run). No run uses the di
 
 \section*{E2. Probability and traffic}
 
-\textbf{Direct service.} No rule uses it (paper R13): every client is at its own Branch's settlement and talks to
-it by local access, and prints reach remote Branches over the backbone. So no reported time depends on the direct
-service and there is no direct success probability to give. For comparison, a direct copy of a print from Ceres to
-Jupiter (4.06 AU at h 0) is lost with probability $1-e^{-0.08\times4.06} = 27.7\%$ with no retry; copies cannot be multiplied as
-independent under an isolation that hits them all.
+\textbf{Direct service.} No rule uses it (paper R13): clients use local access and prints cross on the backbone, so
+no reported time depends on it. For comparison, a direct Ceres$\to$Jupiter print copy (4.06 AU at h 0) is lost with
+probability $1-e^{-0.08\times4.06} = 27.7\%$; copies are not independent under an isolation that hits them all.
 
-\textbf{Backbone, per launch and per hop (exact per launch; bound per hop).} Every launch of every run uses
-$p = 1 - e^{-0.02d}$ from its own geometry. A hop is abandoned only if all four of its launches are lost; we bound
-this by $p_{\max}^4$ over all launches on that link.
+\textbf{Backbone, per launch (exact) and per hop (bound).} Each launch uses $p = 1 - e^{-0.02d}$ from its own
+geometry. A hop is abandoned only if all four launches are lost, bounded by $p_{\max}^4$ over the link's launches.
 \begin{center}\setlength{\tabcolsep}{4pt}\gen{e2_probabilities.tex}\end{center}
-An endpoint attempt is lost if any hop is abandoned; four attempts all lost leaves \emph{status unknown}. With no
-incident the attempts are more than 24 h apart and share no window or queue, so we multiply them; in S2 the
-isolation makes attempts 1--3 fail together, and we do not. \textbf{Financial effect of an abandoned hop:} none.
-The lock or pledge stays (R6), the endpoint retries, and status unknown triggers resubmission (R8).
+An endpoint attempt is lost if any hop is abandoned; four lost attempts leave \emph{status unknown}. With no incident
+attempts are over 24 h apart and share no window or queue, so we multiply them; in S2 the isolation makes attempts
+1--3 fail together, and we do not. \textbf{Financial effect of an abandoned hop:} none; the lock or pledge stays (R6),
+the endpoint retries, and status unknown triggers resubmission (R8).
 
-\textbf{Completion probability under random loss} (\texttt{code/e2\_latency.py}, $10^6$ Monte Carlo runs per row,
-no incident). Each launch is an independent trial; a failed launch costs one $R_h$; four failures abandon the
-attempt; attempts are enqueued every $R_e$; the deal commits on the first LOCK arrival before expiry.
+\textbf{Completion probability under random loss} (\texttt{code/e2\_latency.py}, $10^6$ runs per row, no incident).
+Each launch is an independent trial; a failed launch costs one $R_h$; four abandon the attempt; attempts are enqueued
+every $R_e$; the deal commits on the first LOCK arrival before expiry.
 \begin{center}\setlength{\tabcolsep}{4pt}\gen{e2_latency.tex}\end{center}
 The far trade completes at its no-loss time only \EtwoVMEarthNoLoss\% of the time, because the Neptune hop loses
 42.7\% of launches and each retry waits $R_h = 8.7$ h. It is declined (funded: the lock returns) in
 \EtwoVMEarthDecline\% of runs from Earth and \EtwoVMUranusDecline\% from Uranus under R5 (offer life 96 h).
 \textbf{Sensitivity to offer life:} the same deliveries against a 48 h offer are declined \EtwoVMEarthDeclineFortyEight\%
 (Earth) and \EtwoVMUranusDeclineFortyEight\% (Uranus); against 24 h, \EtwoVMEarthDeclineTwentyFour\% and
-\EtwoVMUranusDeclineTwentyFour\%. The future's links are
-short, so its settlement is spendable within 6 h of the no-loss time in \EtwoSettleSixH\% of runs.
+\EtwoVMUranusDeclineTwentyFour\%. The future's links are short: its settlement is spendable within 6 h of the
+no-loss time in \EtwoSettleSixH\% of runs.
 
-\textbf{Quota and capacity.} Peak use of the shared 600 is 2 per rolling 24 h; of one Branch's 66-packet slice, 2;
-no link queue ever holds more than 3 of its 10{,}000 packets; at most 2 of 64 data packets are unacknowledged. The one
-known wait is the h 240 print held 24 h by B--Ceres maintenance.
+\textbf{Quota and capacity.} Peak use per rolling 24 h: 2 of the shared 600 and 2 of one Branch's 66; no link queue
+holds more than 3 of 10{,}000; at most 2 of 64 data packets unacknowledged. The one known wait is the h 240 print,
+held 24 h by B--Ceres maintenance.
 
 \section*{E3. Balances and capital}
 
-Opening sheet (authoritative at h 0; source: declared; owner and location as listed; no liabilities; nothing
-encumbered). Below it, every ledger line that changes, in time order, with the balance after and what is encumbered
-and for which deal. A \emph{claim} line is a liability of the named Branch to its client, backed by that Branch's
-inter-Branch holding or by a recorded pending release. S2 is FF with the last line at h \SimSTwoSpendable\ instead of
-h 288.6895. After every step the simulator asserts: total NeoDollars and shares equal the opening totals; no balance
-is negative; encumbrance never exceeds balance (no asset serves two uses); every claim is covered by holdings plus
-pending releases; every pending release is backed by an encumbrance. \SimChecks\ checks over \SimRuns\ runs passed.
+Opening sheet (authoritative at h 0; source: declared; owner and location as listed; no liabilities or encumbrances),
+then every ledger line that changes, in time order, with the balance after and what is encumbered for which deal. A
+\emph{claim} line is a Branch's liability to its client, backed by its inter-Branch holding or a recorded pending
+release. S2 is FF with the last line at h \SimSTwoSpendable\ instead of h 288.6895. After every step the simulator
+asserts: NeoDollar and share totals equal the opening; no balance is negative; encumbrance never exceeds balance (no
+asset serves two uses); claims are covered by holdings plus pending releases; each pending release is backed by an
+encumbrance. \SimChecks\ checks over \SimRuns\ runs passed.
 
 \gen{e3_balances.tex}

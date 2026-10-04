@@ -1,34 +1,29 @@
 % Budget: 1.5 pages. Claim: Tier 3. Every number here comes from code/e4_scan.py via generated/e4_*.tex.
 \section*{E4. Long-horizon scan (Tier 3 claimed)}
 
-\textbf{What is scanned.} All 38 directed backbone links (19 two-way links, each direction separately, because the
-photon test uses the sender at emission and the receiver at arrival), for emission times $t_e \in [0, \EfourYears]$
-Julian years ($1{,}753{,}200$ h). For each link let $m(t_e)$ be the distance from the Sun to the straight segment
-from the sender at $t_e$ to the receiver at its light-time arrival $t_a$. The link is \emph{closed} iff $m < 0.10$ AU.
-Scheduled maintenance is one-time ($h<264$) and is handled in S1; the scan covers geometry only.
+\textbf{What is scanned.} All 38 directed backbone links (each direction separately: the photon test uses the sender
+at emission and the receiver at arrival), for $t_e \in [0, \EfourYears]$ Julian years ($1{,}753{,}200$ h). $m(t_e)$
+is the Sun's distance to the segment from the sender at $t_e$ to the receiver at its light-time arrival; the link is
+\emph{closed} iff $m < 0.10$ AU. Maintenance is one-time ($h<264$, handled in S1); the scan covers geometry only.
 
-\textbf{Step size and the shortest closure it could miss.} Base step $\Delta t = \EfourStep$ h. Each point of the
-segment is a fixed convex combination of its two endpoints, so if both endpoints move by at most $\varepsilon$, the
-segment moves by at most $\varepsilon$ and $m$ changes by at most $\varepsilon$. Hence $|dm/dt_e| \le L$, where $L$ is
-the larger endpoint speed (perihelion speed, with the factor $(1+v_{tx}/c)/(1-v_{rx}/c)$ for the stretch of $t_a$);
-the largest is $L=\EfourLmax$ AU/h (Mercury). On any interval $[a,b]$ with end values $m_a, m_b$,
+\textbf{Step size and the shortest closure it could miss.} Base step $\Delta t = \EfourStep$ h. Each segment point
+is a fixed convex combination of the endpoints, so if both move at most $\varepsilon$, $m$ changes at most
+$\varepsilon$: $|dm/dt_e| \le L$, the larger endpoint speed (perihelion, times $(1+v_{tx}/c)/(1-v_{rx}/c)$ for the
+stretch of $t_a$); the largest is $L=\EfourLmax$ AU/h (Mercury). On any $[a,b]$ with end values $m_a, m_b$,
 \[ \tfrac12\bigl(m_a+m_b-L(b-a)\bigr) \;\le\; m(t) \;\le\; \tfrac12\bigl(m_a+m_b+L(b-a)\bigr). \]
-A closure that falls entirely between two grid points must therefore have grid values within
-$L\Delta t/2 = \EfourMargin$ AU of the threshold, last less than 1 h, and be shallower than $\EfourMargin$ AU.
-We do not leave this to the grid: every interval whose bound straddles 0.10 AU is bisected until it is certified
-open, certified closed, or shorter than \EfourTolMs\ ms (\EfourEvals\ evaluations in all). The scan therefore misses
-no closure or reopening longer than \EfourTolMs\ ms. \EfourSlivers\ sub-millisecond intervals stay undetermined; all
-sit beside a located boundary. The shortest closure actually found lasts \EfourShortestH\ h (\EfourShortestLink),
-so a step of a few hours would already have been safe; the certificate makes that a proof within the model, not a hope.
+A closure between two grid points must have grid values within $L\Delta t/2 = \EfourMargin$ AU of the threshold,
+last under 1 h, and be shallower than $\EfourMargin$ AU. Every interval whose bound straddles 0.10 AU is bisected until
+certified open, certified closed, or shorter than \EfourTolMs\ ms (\EfourEvals\ evaluations), so the scan misses no
+closure or reopening longer than \EfourTolMs\ ms; \EfourSlivers\ sub-millisecond intervals, all beside a located
+boundary, stay undetermined. The shortest closure found lasts \EfourShortestH\ h (\EfourShortestLink): a step of a
+few hours would have been safe, and the certificate makes that a proof within the model.
 
-\textbf{Analytical bounds.} Relay A$\leftrightarrow$B: both relays ride one circle of radius $\sqrt8$ AU,
-$90^\circ$ apart, so their chord stays $\sqrt8\cos45^\circ = 2$ AU from the Sun; motion during the 33-min flight
-shifts it by under 0.01 AU. The link never closes (the scan agrees). A gateway's two relay links close only when
-that relay lies almost exactly behind the Sun from the gateway; the relays are $90^\circ$ apart, so both cannot be
-behind the Sun at once. The scan confirms it: the longest simultaneous closure of both relays at any settlement is
-\EfourBothClosedMaxH\ h. \textbf{Every settlement can always reach every other through a route of at most three
-links} (via the open relay and the never-closing A$\leftrightarrow$B link): geometric connectivity never fails in
-200 years (\EfourNeverCut).
+\textbf{Analytical bounds.} Relays A and B ride one circle of radius $\sqrt8$ AU, $90^\circ$ apart, so their chord
+stays $\sqrt8\cos45^\circ = 2$ AU from the Sun (flight motion shifts it under 0.01 AU): A$\leftrightarrow$B never
+closes. A gateway's relay link closes only when that relay is almost exactly behind the Sun, which cannot happen to
+both at once; the scan's longest simultaneous closure of both is \EfourBothClosedMaxH\ h. \textbf{Every settlement
+can always reach every other in at most three links} (open relay plus A$\leftrightarrow$B): geometric connectivity
+never fails in 200 years (\EfourNeverCut).
 
 \begin{table}[h]\centering
 \gen{e4_links.tex}
@@ -39,35 +34,28 @@ long-run fraction of emission times at which the link can launch; d = closure du
 \textbf{Refined boundary (Tier 2).} The first closure on an Earth link is \EfourBndLink. The 1 h grid brackets it in
 $[h\,\EfourBndLo, h\,\EfourBndHi]$ with $m = \EfourBndMlo$ and $\EfourBndMhi$ AU. After \EfourBndIter\ bisection steps
 the boundary is $t_e = h\,\EfourBndT$ to within \EfourBndWidthMs\ ms (tolerance \EfourTolMs\ ms, the same as the
-light-time solution). The closure lasts \EfourBndDays\ days. \emph{Effect on packets in flight:} the test applies at
-launch, so the last packet emitted before the boundary flies its full \EfourBndFlight\ min and arrives; nothing
-already in flight is lost to geometry. Its hop receipt goes back on \EfourBndRevLink, which closes
-\EfourBndOffsetMin\ min after the boundary (at $h\,\EfourBndRevStart$), so the receipt still launches (receipt
-blocked: \EfourBndReceiptBlocked). The two directions do not close together, and that creates the risky case in the
-\emph{other} direction: a packet launched on \EfourBndRevLink\ during those \EfourBndOffsetMin\ min arrives at the
-relay, but its receipt needs \EfourBndLink, which is already closed for \EfourBndDays\ days. The sender's hop timer
-($R_h \approx \EfourBndRh$ min) expires, its retry cannot launch, and it learns of delivery only after reopening. The
-relay keeps the packet ID, so a late retry is recognised as a duplicate and nothing is applied twice. Here the wait
-(\EfourBndDays\ days) fits inside the 30-day packet lifetime; at Mars, Jupiter, Saturn and Ceres the longest closures run longer than
-30 days, so a packet queued behind one would expire.
-Our rulebook therefore forbids launching on a link whose reverse direction the known geometry closes within one
-$R_h$ (paper R16), and re-routes any send that a known closure would hold more than 24 h.
+light-time solution). The closure lasts \EfourBndDays\ days. \emph{Packets in flight:} the test applies at launch,
+so the last packet emitted before the boundary flies its full \EfourBndFlight\ min and arrives. Its hop receipt goes
+back on \EfourBndRevLink, which closes \EfourBndOffsetMin\ min later (h \EfourBndRevStart), so it still launches
+(receipt blocked: \EfourBndReceiptBlocked). The risky case is the \emph{other} direction: a packet launched on
+\EfourBndRevLink\ in those \EfourBndOffsetMin\ min arrives, but its receipt needs \EfourBndLink, already closed for
+\EfourBndDays\ days. The sender's hop timer ($R_h \approx \EfourBndRh$ min) expires, its retry cannot launch, and it
+learns of delivery only after reopening; the relay keeps the packet ID, so a late retry is a recognised duplicate.
+This wait fits the 30-day packet lifetime, but at Mars, Jupiter, Saturn and Ceres the longest closures exceed it.
+Hence R16: never launch on a link whose reverse closes within one $R_h$, and re-route any send a known closure
+would hold more than 24 h.
 
 \begin{table}[h]\centering
 \gen{e4_settlements.tex}
-\caption{Route-delay ranges and worst 24 h availability per settlement over \EfourYears\ Julian years (hourly
-window starts, all four simple routes of at most three links). Delay is the empty-queue one-way delay of the fastest
-open route. \emph{Naive pin}: the fastest route at window start, pinned for 24 h. \emph{Foresight pin}: the route
-with the highest availability over the coming 24 h, which the published geometry lets a Branch compute in advance.}
+\caption{Fastest-open-route one-way delay (empty queues) and worst 24 h availability over \EfourYears\ Julian years
+(hourly starts, all four routes of $\le 3$ links). \emph{Naive pin}: fastest route at window start, held 24 h.
+\emph{Foresight pin}: route with the best availability over the next 24 h, computable from published geometry.}
 \end{table}
 
-\textbf{Poorest service (Tier 3).} By delay: \EfourWorstDelayPair, \EfourWorstDelay\ h one-way (window starting
-at hour \EfourWorstDelayAt). By availability: a naively pinned route can lose the whole window
-(\EfourWorstNaivePair, \EfourWorstNaive\% from hour \EfourWorstNaiveAt; every settlement has such windows), because
-the fastest route at $h$ can close minutes later, and closures last from \EfourShortestH\ h up to \EfourLongestD\ days
-(\EfourLongestLink), longer than the 30-day packet lifetime. With foresight pinning, every ordered pair of
-settlements keeps \EfourWorstFore\% availability in every 24 h window of the 200 years. Routes are therefore
-pinned by foresight, not by current speed (paper R15).
-
-\textbf{Limits.} Fixed Kepler ellipses are the common model, not a forever ephemeris: these are statements about the
-model. Random loss is excluded (E2 covers it); incidents are excluded (S2 covers one).
+\textbf{Poorest service (Tier 3).} By delay: \EfourWorstDelayPair, \EfourWorstDelay\ h one-way (window from hour
+\EfourWorstDelayAt). By availability: a naively pinned route can lose the whole window (\EfourWorstNaivePair,
+\EfourWorstNaive\% from hour \EfourWorstNaiveAt; every settlement has such windows), because the fastest route can
+close minutes later, for \EfourShortestH\ h up to \EfourLongestD\ days (\EfourLongestLink). With foresight pinning,
+every ordered pair keeps \EfourWorstFore\% availability in every 24 h window of the 200 years; hence R15.
+\textbf{Limits.} These are statements about the common Kepler model, not a forever ephemeris. Random loss (E2) and
+incidents (S2) are excluded.

@@ -145,26 +145,26 @@ def write_tex(R):
     extra = (r" & & \multicolumn{4}{c}{Value move, Earth--Neptune} & "
              r"\multicolumn{4}{c}{Ceres Iron future, Jupiter--Ceres (FR = FF)}\\" + "\n"
              r"\cmidrule(lr){3-6}\cmidrule(lr){7-10}")
-    t1 = (r"\par\noindent\textbf{Tier 1: shifted runs, no suspension at any offset (maintenance and S2 incident "
-          r"not replayed)}\par" + "\n" + r"\setlength{\tabcolsep}{3pt}" + "\n"
+    t1 = (r"\par\noindent\textbf{Tier 1: shifted runs, no suspension at any offset}\par" + "\n" + r"\setlength{\tabcolsep}{3pt}" + "\n"
           + tab("lrlrrrlrrr", head, rows, extra) + r"\normalsize" + "\n")
 
     hr = [
         ("Value move", route_txt(vm["route"]), h(vm["end"]), "0", str(vm["launches"]), num(vm["usd_h"]),
-         "none: route open throughout"),
-        ("FR (harder)", r"A $\to$ B", h(fr["end"]), str(len(fr["reroutes"])), str(fr["launches"]), num(fr["usd_h"]),
-         f"Callisto's {usd(pledge)} pledge and {usd(fr_pay)} payoff wait {h(late)} h extra"),
-        ("FF", r"A $\to$ B", h(ff["end"]), str(len(ff["reroutes"])), str(ff["launches"]), num(ff["usd_h"]),
-         f"Ceres Iron Works paid at h 288; Callisto's {usd(ff_refund)} refund waits {h(late)} h extra"),
+         "none: route open"),
+        ("FR (harder)", r"A$\to$B", h(fr["end"]), str(len(fr["reroutes"])), str(fr["launches"]), num(fr["usd_h"]),
+         f"{usd(pledge)} pledge, {usd(fr_pay)} payoff +{h(late)} h"),
+        ("FF", r"A$\to$B", h(ff["end"]), str(len(ff["reroutes"])), str(ff["launches"]), num(ff["usd_h"]),
+         f"short paid h 288; {usd(ff_refund)} refund +{h(late)} h"),
         ("FR, no re-route", "via A", h(naive["spendable"]), "0", str(naive["launches"]), "",
-         f"SETTLE stuck {num(naive_late)} h behind the closure, past the 30-day packet lifetime"),
+         f"SETTLE held {num(naive_late)} h $>$ 30-day lifetime"),
     ]
-    t2 = (r"\par\noindent\textbf{Tiers 2--3: difficult epoch h " + num(HARD_T) + " (" + hard["date"][:10]
-          + "): Jupiter--Relay A closed from h " + h(hard["closure"][0], 1) + " for " + num(hard["closure"][2])
+    t2 = (r"\par\noindent\textbf{Tiers 2--3: epoch h " + num(HARD_T) + " (" + hard["date"][:10]
+          + "); Jupiter--Relay A closed from run h " + h(hard["closure"][0], 1) + " for " + num(hard["closure"][2])
           + r" h}\par" + "\n" + r"\setlength{\tabcolsep}{3pt}" + "\n"
-          + tab(r"llrrrr>{\raggedright\arraybackslash}p{5.4cm}",
+          + tab(r"llrrrr>{\raggedright\arraybackslash}X",
                 r"Run & route & done h & re-routes & launches & \$-h locked & Funded consequence",
-                [" & ".join(x) for x in hr]) + r"\normalsize" + "\n")
+                [" & ".join(x) for x in hr]).replace(r"\begin{tabular}{", r"\begin{tabularx}{\linewidth}{")
+                                             .replace(r"\end{tabular}", r"\end{tabularx}") + "\n")
     (GEN / "e5_summary.tex").write_text(t1 + "\n" + r"\medskip" + "\n" + t2)
 
     m = {

@@ -1,28 +1,22 @@
 % Budget: 1 page. Claim: Tier 3.
 \section*{E5. Shifted epochs (Tier 3 claimed)}
 
-Each run starts at $t = k \times 365.25$ d with planets and relays advanced from the epoch and balances reset to the
-opening sheet; maintenance windows and the S2 incident are not replayed; print and maturity hours shift with the run
-(\texttt{code/e5\_epochs.py}, the same scenario code as S1). Sessions are opened 72 h ahead on the foresight route.
+Each run starts at $t = k \times 365.25$ d with planets and relays advanced and balances reset to the opening sheet;
+maintenance and the S2 incident are not replayed; prints and maturity shift with the run (\texttt{code/e5\_epochs.py},
+the S1 scenario code); sessions open 72 h ahead on the foresight route.
+\textbf{Tier 1.} At +1, +10 and +100 years both scenarios complete with no suspension. Delays move with geometry
+(value move 8.65--9.61 h; the future settles 0.76--1.46 h after its print); +100 y pins via Relay B.
 
-\textbf{Tier 1.} At +1, +10 and +100 years both scenarios complete with no suspension; routes, delays and
-availability over the run are in the table. Delays move with geometry (the value move takes 8.65--9.61 h; the future
-settles 0.76--1.46 h after its print), and +100 y pins the value move via Relay B instead of A.
+\textbf{Tier 2: the difficult epoch.} Of the 54 closures of a Jupiter or Ceres relay link in E4's 200 years, we placed
+a run so that one hits the future's pinned route between the last interim print and the settling print, making SETTLE
+the first message to meet it. The one closed longest after maturity starts at h \EfiveHardH\ (+\EfiveHardY\ y;
+\EfiveHardDate): Jupiter--Relay A closes at run hour \EfiveClosureStart, 6 h before the print, for
+\EfiveClosureDays\ days (\EfiveClosureH\ h, beyond the 30-day packet lifetime). \textbf{The rising run is harder:} the
+long, Callisto at Jupiter, is paid only when SETTLE crosses the closed link; in the falling run only its refund waits.
 
-\textbf{Tier 2: the difficult epoch.} From the E4 closure list we took all 54 closures of a Jupiter or Ceres relay
-link in 200 years and placed a run so that one falls on the future's pinned route after the last interim print and
-before the settling print; then SETTLE itself is the first message to meet it. The one that stays closed longest after
-maturity starts the run at h \EfiveHardH\ (+\EfiveHardY\ y; story date \EfiveHardDate): Jupiter--Relay A closes at
-run hour \EfiveClosureStart, 6 h before the settling print, for \EfiveClosureDays\ days (\EfiveClosureH\ h, longer
-than the 30-day packet lifetime). We ran the value move and the rising run there. \textbf{The rising run is harder} because
-the long, Callisto at Jupiter, wins: it is paid only when SETTLE crosses the closed link. In the falling run the
-short at Ceres is paid at the print locally and only Callisto's refund waits.
-
-\textbf{Tier 3: both directions.} We ran both. R16 sees the closure before SETTLE is sent (h \EfiveRerouteAt),
-opens a fresh session via Relay B, and SETTLE is spendable at h \EfiveFRDone, \EfiveLate\ h after the open-route
-time; the falling run settles at the same moment. Queuing behind the closure instead, as the brief's waiting rule
-alone would do, holds SETTLE \EfiveNaiveLate\ h, past the 30-day packet lifetime, with 514 launches. \textbf{Funded
-consequences:} nothing is suspended. The only cost is waiting with funds locked: \EfiveExtraUsdH\ extra \$-hours and
-one quota packet. The design is also symmetric (mirrored paths, the same margin rule and route), which the two runs
-confirm: identical times and packet counts.
+\textbf{Tier 3: both directions.} R16 sees the closure before SETTLE is sent (h \EfiveRerouteAt), opens a fresh
+session via Relay B, and SETTLE is spendable at h \EfiveFRDone, \EfiveLate\ h after the open-route time, in both
+runs. Queuing behind the closure, as the brief's waiting rule alone would, holds SETTLE \EfiveNaiveLate\ h with 514
+launches. \textbf{Funded consequences:} nothing is suspended; the cost is \EfiveExtraUsdH\ extra locked \$-hours and
+one quota packet. Mirrored paths, margin rule and route give the two runs identical times and packet counts.
 \gen{e5_summary.tex}
