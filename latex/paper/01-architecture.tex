@@ -197,10 +197,10 @@ Ceres Iron Works (Ceres) short 25, notional \$250{,}000.
 and sends LOCK; the referee decides it as in R7 against the local side's firm offer. \emph{Position open} = the COMMIT
 record at the referee (both margins encumbered, position recorded). The remote lock is not released by COMMIT; only
 SETTLE ends it. At the settling print the referee computes the clipped payoff $Y$, records it (\emph{discharge}) and
-sends SETTLE once. If the short wins, the referee credits it $Y$ at once as a claim backed by the remote pledge, and
+sends SETTLE (once at the application; transport retries it at $R_e$, R8). If the short wins, the referee credits it $Y$ at once as a claim backed by the remote pledge, and
 SETTLE tells the remote Branch to pay $Y$ from the pledge to the referee's inter-Branch account and return the rest.
 If the long wins, the referee moves $Y$ from the short's margin to the remote Branch's inter-Branch account and SETTLE
-tells the remote Branch to return the pledge and credit its client $Y$. The pull rule (R8) recovers a lost SETTLE.
+tells the remote Branch to return the pledge and credit its client $Y$. Resubmission (R8) recovers a lost SETTLE.
 \item[R11] \emph{The margin rule}, stated before either price path and identical in both: \emph{margin per side =
 cap $\times$ entry $\times$ multiplier $\times$ contracts} = \$3{,}000 per contract, \$75{,}000 for 25, locked in full
 before the position opens. An order is refused if free balance is below its margin. There are no margin calls, no

@@ -43,7 +43,7 @@ reserve cannot be eaten by new trade (R14). Once a packet can cross, the lock en
 to the peer, or on the first packet from it, plus a round trip: in S2 service resumed \SimSTwoFRSpendableAfter\ h after Ceres reconnected (h 358). The bound fails only
 while a \emph{handshake} is stuck: a reset peer's SYN lost to a second incident waits one $R_e$ (25 h); the worst stacked incident ends \SimStackAfter\ h after its last
 fault. A Branch gone for good is outside the baseline: its locks stay, every other claim stays covered, and no rule recovers them. On the model a settlement is never cut
-off: in 200 years every one reaches every other by at most three links (E4, \EfourNeverCut), and foresight pinning gives 100\% availability in every 24 h window. Random loss
+off: in 200 years every one reaches every other by at most three links (E4), and foresight pinning gives 100\% availability in every 24 h window. Random loss
 only delays: with no incident, endpoint attempts are over 24 h apart and independent, so $k$ attempts all fail on our worst pinned route with probability at most $p^k$,
 $p = \SimWorstAttemptLoss$.
 
